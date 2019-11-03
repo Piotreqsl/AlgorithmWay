@@ -5,7 +5,7 @@ import React from 'react';
 function App() {
   return (
     <div className="App">
-      123
+      <h1 className="palitko"></h1>
     </div>
 
 
