@@ -27,6 +27,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Home from '@material-ui/icons/Home';
 import Add from '@material-ui/icons/Add';
 import SignOut from '@material-ui/icons/ExitToApp';
+import LogIn from '@material-ui/icons/VpnKey';
+
 
 
 
@@ -216,7 +218,7 @@ export default function PrimarySearchAppBar() {
             <Add></Add>
           </Badge>
         </IconButton>
-        <p>Post</p>
+        <p>Create a post</p>
       </MenuItem>
       
 
@@ -234,6 +236,8 @@ export default function PrimarySearchAppBar() {
     </Menu>
 
   );
+
+
 //Wersja PC
   return (
     <div className={classes.grow}>
@@ -285,7 +289,7 @@ export default function PrimarySearchAppBar() {
          
 
           <div className={classes.sectionDesktop} >
-
+            
           <IconButton
               edge="end"
               aria-label="account of current user"
@@ -293,11 +297,20 @@ export default function PrimarySearchAppBar() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
-            >
-              <AccountCircle />
+            > 
+            
+                <AccountCircle />
             </IconButton>
+lub
+            <IconButton  color="inherit">
+          <Badge  color="secondary">
+          <LogIn />
+          </Badge>
+          </IconButton>
 
           </div>
+
+
           <div className={classes.marginLeft}>
 
           <IconButton color="inherit">

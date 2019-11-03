@@ -12,6 +12,7 @@ import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
 import upload from "./pages/upload";
+import profile from "./pages/profile";
 
 //Components: 
 import Navbar from './components/navbar';
@@ -30,6 +31,9 @@ const theme = createMuiTheme({
       light: '#8b8ba3',
     },
   },
+  typography: {
+    useNextVariants: true,
+  }
 
 })
 
@@ -46,7 +50,7 @@ function App() {
         <Route exact path="/login" component={login}/>
         <Route exact path="/signup" component={signup}/>
         <Route exact path="/upload" component={upload}/>
-       
+        <Route exact path="/your_profile" component={profile}/>
       </Switch>
 
      </Router>
