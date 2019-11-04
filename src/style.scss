@@ -1,13 +1,99 @@
 @import "variables.scss";
 
 
+
 body, html {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+background-color: rgb(252, 252, 252);
 }
 
 .main-content{
     margin-left: 8%;
     margin-right: 8%;
-    margin-top: 3%;
+    margin-top: 4%;
+    margin-bottom: 3%;
 }
+
+
+
+
+
+
+
+
+//for posts
+.post-margin{
+    margin-left: 14%;
+    margin-right: 14%;
+    margin-bottom: 1%;
+}
+
+.post-date {
+    color: #d8d8d8 !important;
+    
+    float: left;
+   
+    margin-top:20px;
+}
+//post-title color: primary-main
+.post-title{
+    text-decoration: none !important;
+    cursor: pointer;
+    float:left;
+    
+}
+.post-title:hover{
+    color: rgb(87, 87, 109);
+    transition: 0.2s;
+    
+}
+
+.post-langs{
+    float: right;
+   margin-top:4px; 
+}
+
+.post-userhandle {
+    float: right;
+   margin-top: 17px;
+    margin-bottom: 5px;    
+}
+
+.post-userhandle a {
+    cursor: pointer;
+    text-decoration: none !important;
+    color: rgb(100, 100, 128) !important;
+}
+
+.post-userhandle a:hover {
+    color: rgb(136, 136, 172) !important;
+    transition: 0.2s;
+}
+
+
+
+
+
+
+
+@media only screen and (max-width: 959px) {
+    //Tablet
+    .post-margin{
+        margin-left: 7%;
+        margin-right: 7%;
+        margin-bottom: 2%;
+    }
+
+  }
+
+
+  @media only screen and (max-width: 599px) {
+    //Phone
+    .post-margin{
+        margin-left: 4%;
+        margin-right: 4%;
+        margin-bottom: 2%;
+    }
+
+  }

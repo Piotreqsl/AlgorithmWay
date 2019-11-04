@@ -36,7 +36,9 @@ export class home extends Component {
 
 
                 <Grid item sm={9} xs={12}>
-                    {recentPostsMarkup}
+                   <div className="feed">
+                        {recentPostsMarkup}
+                    </div>
                 </Grid>
 
                 <Grid item sm={3} xs={12}>

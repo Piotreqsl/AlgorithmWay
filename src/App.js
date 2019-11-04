@@ -24,12 +24,15 @@ const theme = createMuiTheme({
       main: '#2E2E3A',
       dark: '#202028',
       light: '#575761',
+     
     },
     secondary: {
       main: '#6F6F8C',
       dark: '#4d4d62',
       light: '#8b8ba3',
     },
+
+    
   },
   typography: {
     useNextVariants: true,
