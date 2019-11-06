@@ -1,3 +1,4 @@
+## A L G O R I T H M  W A Y
 
 ## TO INSTALL
 
