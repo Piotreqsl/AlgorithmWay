@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 import Post from '../components/post';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export class home extends Component {
     state = {
@@ -25,8 +26,9 @@ export class home extends Component {
     render() {
 
         let recentPostsMarkup = this.state.posts ? (
-            this.state.posts.map((post) => <Post post={post}/>)
-        ) : (<p>Loading...</p>);
+            this.state.posts.map((post) => <Post key={post.postId} post={post}/>)
+        ) : (<div><center>
+                    <CircularProgress color="primary" /></center></div>);
 
         return (
            

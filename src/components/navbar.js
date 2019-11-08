@@ -28,6 +28,7 @@ import Home from '@material-ui/icons/Home';
 import Add from '@material-ui/icons/Add';
 import SignOut from '@material-ui/icons/ExitToApp';
 import LogIn from '@material-ui/icons/VpnKey';
+import { Link } from 'react-router-dom';
 
 
 
@@ -168,7 +169,7 @@ export default function PrimarySearchAppBar() {
         </MenuItem>
 
       <MenuItem onClick={handleMenuClose}>
-      <IconButton color="inherit">
+      <IconButton  color="inherit">
           <Badge badgeContent={0} color="secondary">
 
             <SignOut/>
@@ -202,7 +203,7 @@ export default function PrimarySearchAppBar() {
        
 
       <MenuItem>
-        <IconButton color="inherit">
+        <IconButton component={Link} to="/"  color="inherit">
           <Badge badgeContent={0} color="secondary">
             <Home/>
           </Badge>
@@ -213,7 +214,7 @@ export default function PrimarySearchAppBar() {
 
 
       <MenuItem>
-        <IconButton color="inherit">
+        <IconButton  component={Link} to="/upload" color="inherit">
           <Badge badgeContent={0} color="secondary">
             <Add></Add>
           </Badge>
@@ -267,14 +268,14 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.sectionDesktop}>
 
-            <IconButton className={classes.marginRight} color="inherit">
+            <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
               <Badge badgeContent={0} color='secondary'>
                 <Home />
               </Badge>
             </IconButton>
 
 
-            <IconButton  color="inherit">
+            <IconButton component={Link} to="/upload"  color="inherit">
               <Badge badgeContent={0} color="secondary">
                 <Add />
               </Badge>
@@ -302,7 +303,7 @@ export default function PrimarySearchAppBar() {
                 <AccountCircle />
             </IconButton>
 lub
-            <IconButton  color="inherit">
+            <IconButton component={Link} to="/login"  color="inherit">
           <Badge  color="secondary">
           <LogIn />
           </Badge>

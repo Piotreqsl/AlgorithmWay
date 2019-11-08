@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
-
+import Typography from '@material-ui/core/Typography'
 
 // Pages:
 import home from './pages/home';
@@ -17,7 +17,10 @@ import profile from "./pages/profile";
 //Components: 
 import Navbar from './components/navbar';
 
+const font =  "'Source Sans Pro', sans-serif"
 const theme = createMuiTheme({
+
+  
 
   palette: {
     primary: {
@@ -36,6 +39,8 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true,
+    fontFamily: font,
+    
   }
 
 })
@@ -53,7 +58,8 @@ function App() {
         <Route exact path="/login" component={login}/>
         <Route exact path="/signup" component={signup}/>
         <Route exact path="/upload" component={upload}/>
-        <Route exact path="/your_profile" component={profile}/>
+        <Route exact path="/user" component={profile}/>
+
       </Switch>
 
      </Router>
