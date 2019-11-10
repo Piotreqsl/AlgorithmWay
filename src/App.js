@@ -59,7 +59,7 @@ function App() {
         <Route exact path="/signup" component={signup}/>
         <Route exact path="/upload" component={upload}/>
         <Route exact path="/user" component={profile}/>
-
+//
       </Switch>
 
      </Router>

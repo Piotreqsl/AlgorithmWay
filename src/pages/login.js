@@ -149,7 +149,7 @@ export class login extends Component {
             </form>
             </Card>
             
-            <Typography component={Link} className={classes.crtAcc} variant="body1">
+            <Typography component={Link} className={classes.crtAcc} to="/signup" variant="body1">
             Create an account!
             </Typography>
 
