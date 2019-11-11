@@ -133,7 +133,7 @@ export class signup extends Component {
         var handleHelper;
         
         
-        if(!errors.handle) handleHelper = "Max 20";
+        if(!errors.handle) handleHelper = "Your nickname should be max 25 characters long";
         if(errors.handle) handleHelper = errors.handle;    
         
 
