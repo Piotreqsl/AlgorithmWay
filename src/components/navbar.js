@@ -29,6 +29,9 @@ import Add from '@material-ui/icons/Add';
 import SignOut from '@material-ui/icons/ExitToApp';
 import LogIn from '@material-ui/icons/VpnKey';
 import { Link } from 'react-router-dom';
+import {auth} from '../App';
+
+
 
 
 
@@ -36,6 +39,17 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   
+    toDi: {
+      
+        display: "none !important",
+        
+      
+    },
+
+    toN:{
+
+    },
+
     
 
     grow: {
@@ -202,8 +216,8 @@ export default function PrimarySearchAppBar() {
     >
        
 
-      <MenuItem>
-        <IconButton component={Link} to="/"  color="inherit">
+      <MenuItem onClick={handleMenuClose} component={Link} to="/">
+        <IconButton disableFocusRipple="true"   color="inherit" >
           <Badge badgeContent={0} color="secondary">
             <Home/>
           </Badge>
@@ -213,8 +227,8 @@ export default function PrimarySearchAppBar() {
 
 
 
-      <MenuItem>
-        <IconButton  component={Link} to="/upload" color="inherit">
+      <MenuItem component={Link} to="/upload" className={!auth ? classes.toDi : classes.toN} onClick={handleMenuClose}>
+        <IconButton disableRipple="true"  color="inherit">
           <Badge badgeContent={0} color="secondary">
             <Add></Add>
           </Badge>
@@ -223,7 +237,9 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
       
 
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem 
+      className={!auth ? classes.toDi : classes.toN}
+      onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -234,9 +250,38 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+    
+
+    <MenuItem component={Link} to="/login" onClick={handleMenuClose} className={auth ? classes.toDi : classes.toN}>
+    <IconButton 
+           
+           // disabled={auth} 
+              color="inherit">
+          
+          <Badge  color="secondary">
+          <LogIn />
+          </Badge>
+          </IconButton>
+          <p>Log in</p>
+    </MenuItem>
     </Menu>
 
   );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //Wersja PC
@@ -275,7 +320,7 @@ export default function PrimarySearchAppBar() {
             </IconButton>
 
 
-            <IconButton component={Link} to="/upload"  color="inherit">
+            <IconButton className={!auth ? classes.toDi : classes.toN} component={Link} to="/upload"  color="inherit">
               <Badge badgeContent={0} color="secondary">
                 <Add />
               </Badge>
@@ -292,6 +337,8 @@ export default function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop} >
             
           <IconButton
+              className={!auth ? classes.toDi : classes.toN}
+             // disabled={!auth}
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -302,8 +349,12 @@ export default function PrimarySearchAppBar() {
             
                 <AccountCircle />
             </IconButton>
-lub
-            <IconButton component={Link} to="/login"  color="inherit">
+
+            <IconButton
+           className={auth ? classes.toDi : classes.toN}
+           // disabled={auth} 
+            component={Link} to="/login"  color="inherit">
+          
           <Badge  color="secondary">
           <LogIn />
           </Badge>

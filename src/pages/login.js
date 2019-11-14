@@ -14,6 +14,10 @@ import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
+
 
 
 import axios from 'axios';
@@ -45,6 +49,8 @@ const styles = {
 
     button: {
         marginTop: "25px",
+        position: 'relative',
+        
     },
     custError: {
         color: 'red',
@@ -62,6 +68,11 @@ const styles = {
             transition: '0.2s',
           }
     },
+
+
+    progress: {
+        position: 'absolute'
+    }
     
 
 
@@ -78,16 +89,18 @@ export class login extends Component {
             password: '',
             loading: false,
             errors: {},
+            
         }
     }
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({
-            loading: true
+            loading: true,
         });
         const userData={
             email: this.state.email,
             password: this.state.password,
+            
         }
         axios.post('/login', userData)
         .then(res => {
@@ -100,7 +113,7 @@ export class login extends Component {
         .catch(err => {
             this.setState({
                 errors: err.response.data,
-                lodaing: false
+                loading: false,
             })
         })
 
@@ -142,8 +155,14 @@ export class login extends Component {
                 </Typography>
             )}
 
-            <Button type="submit" variant="contained" color="secondary" className={classes.button}>
+            <Button 
+             disabled={loading}
+             type="submit" variant="contained" color="secondary" className={classes.button}>
+             
              Log in
+                    {loading && (
+                        <CircularProgress size={30} className={classes.progress} />
+                    )}
             </Button>
 
             </form>

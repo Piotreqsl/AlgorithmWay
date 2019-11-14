@@ -14,7 +14,7 @@ import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import axios from 'axios';
 
@@ -44,9 +44,7 @@ const styles = {
         
     },
 
-    button: {
-        marginTop: "25px",
-    },
+  
     custError: {
         color: 'red',
         fontSize: '0.9rem'
@@ -63,6 +61,16 @@ const styles = {
             transition: '0.2s',
           }
     },
+
+    button: {
+        marginTop: "25px",
+        position: 'relative',
+        
+    },
+ progress: {
+        position: 'absolute'
+    }
+    
     
 
 
@@ -103,6 +111,9 @@ export class signup extends Component {
         axios.post('/signup', userData)
         .then(res => {
             console.log(res.data);
+            localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
+
+
             this.setState({
                 loading: false,
             });
@@ -111,7 +122,7 @@ export class signup extends Component {
         .catch(err => {
             this.setState({
                 errors: err.response.data,
-                lodaing: false
+                loading: false
                 
             })
         })
@@ -137,11 +148,7 @@ export class signup extends Component {
         if(errors.handle) handleHelper = errors.handle;    
         
 
-/*
-errory do length passwordow i nicname itd
-var na TextField helperTexty zeby na error sie zmienialy na error a normalnie podpowiedz odnosnie hasla nicku maila itds
 
- */
 
         return (
             
@@ -183,15 +190,21 @@ var na TextField helperTexty zeby na error sie zmienialy na error a normalnie po
                 </Typography>
             )}
 
-            <Button type="submit" variant="contained" color="secondary" className={classes.button}>
+            <Button 
+                disabled={loading}
+                type="submit" variant="contained" color="secondary" className={classes.button}>
              Sign up
+
+             {loading && (
+                        <CircularProgress size={30} className={classes.progress} />
+                    )}
             </Button>
 
             </form>
             </Card>
             
             <Typography component={Link} className={classes.crtAcc} to="/login" variant="body1">
-            Already have an account?
+            Already have an account? 
             </Typography>
 
 
