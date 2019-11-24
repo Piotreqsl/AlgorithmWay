@@ -7,6 +7,11 @@ import store from "./redux/store";
 
 
 
+import{SET_AUTHENTICATED } from './redux/types';
+import { logoutUser, getUserData} from './redux/actions/userActions';
+
+
+
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 import MuiThemeProvider from "@material-ui/styles/ThemeProvider";
@@ -24,6 +29,7 @@ import profile from "./pages/profile";
 
 //Components:
 import Navbar from "./components/navbar";
+import axios from "axios";
 
 const font = "'Source Sans Pro', sans-serif";
 
@@ -46,16 +52,23 @@ const theme = createMuiTheme({
   }
 });
 
-let auth;
-const token = localStorage.FBIdToken;
 
+const token = localStorage.FBIdToken;
+let UIauth;
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
     window.location.href = "/login";
-    auth = false;
+    store.dispatch(logoutUser())
+    UIauth = false;
   } else {
-    auth = true;
+    store.dispatch({type: SET_AUTHENTICATED});
+    
+    axios.defaults.headers.common['Authorization'] = token;
+
+    store.dispatch(getUserData());
+    UIauth = true;
+
   }
 }
 
@@ -68,8 +81,8 @@ function App() {
             <Navbar />
             <Switch>
               <Route exact path="/" component={home} />
-              <AuthRoute exact path="/login" component={login} auth={auth} />
-              <AuthRoute exact path="/signup" component={signup} auth={auth} />
+              <AuthRoute exact path="/login" component={login}  />
+              <AuthRoute exact path="/signup" component={signup}  />
               <Route exact path="/upload" component={upload} />
               <Route exact path="/user" component={profile} />
               //
@@ -81,5 +94,5 @@ function App() {
   );
 }
 
-export { auth };
+export { UIauth }; 
 export default App;

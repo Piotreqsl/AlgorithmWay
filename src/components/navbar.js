@@ -29,7 +29,9 @@ import Add from '@material-ui/icons/Add';
 import SignOut from '@material-ui/icons/ExitToApp';
 import LogIn from '@material-ui/icons/VpnKey';
 import { Link } from 'react-router-dom';
-import {auth} from '../App';
+
+
+//of auth
 
 
 
@@ -159,6 +161,10 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+
+
+
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -170,7 +176,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMenuClose} component={Link} to={'/user'}>
       <IconButton color="inherit">
           <Badge badgeContent={0} color="secondary">
 
@@ -198,12 +204,18 @@ export default function PrimarySearchAppBar() {
   );
 
 
+ 
+
+
+  
 
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
 
-   
+  
+  
+  
 
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -227,7 +239,9 @@ export default function PrimarySearchAppBar() {
 
 
 
-      <MenuItem component={Link} to="/upload" className={!auth ? classes.toDi : classes.toN} onClick={handleMenuClose}>
+      <MenuItem component={Link} to="/upload" 
+      //className={!auth ? classes.toDi : classes.toN} 
+      onClick={handleMenuClose}>
         <IconButton disableRipple="true"  color="inherit">
           <Badge badgeContent={0} color="secondary">
             <Add></Add>
@@ -238,7 +252,7 @@ export default function PrimarySearchAppBar() {
       
 
       <MenuItem 
-      className={!auth ? classes.toDi : classes.toN}
+      //className={!auth ? classes.toDi : classes.toN}
       onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -252,7 +266,12 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     
 
-    <MenuItem component={Link} to="/login" onClick={handleMenuClose} className={auth ? classes.toDi : classes.toN}>
+    <MenuItem component={Link} to="/login" onClick={handleMenuClose} 
+    
+    //className={auth ? classes.toDi : classes.toN}
+    
+    
+    >
     <IconButton 
            
            // disabled={auth} 
@@ -320,7 +339,11 @@ export default function PrimarySearchAppBar() {
             </IconButton>
 
 
-            <IconButton className={!auth ? classes.toDi : classes.toN} component={Link} to="/upload"  color="inherit">
+            <IconButton 
+            
+            //className={!auth ? classes.toDi : classes.toN} 
+            
+            component={Link} to="/upload"  color="inherit">
               <Badge badgeContent={0} color="secondary">
                 <Add />
               </Badge>
@@ -337,7 +360,7 @@ export default function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop} >
             
           <IconButton
-              className={!auth ? classes.toDi : classes.toN}
+              //className={!auth ? classes.toDi : classes.toN}
              // disabled={!auth}
               edge="end"
               aria-label="account of current user"
@@ -351,7 +374,7 @@ export default function PrimarySearchAppBar() {
             </IconButton>
 
             <IconButton
-           className={auth ? classes.toDi : classes.toN}
+           //className={auth ? classes.toDi : classes.toN}
            // disabled={auth} 
             component={Link} to="/login"  color="inherit">
           
@@ -396,5 +419,13 @@ export default function PrimarySearchAppBar() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
 
 

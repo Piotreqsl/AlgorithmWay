@@ -35,6 +35,18 @@ body, html {
     margin-bottom: 3%;
 }
 
+.main-content-squeezed{
+    width: 700px;
+   
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 4%;
+    margin-bottom: 3%;
+}
+
+
+
 
 
 .contCenter {
@@ -104,7 +116,35 @@ body, html {
 
 
 
+//avatar non-react
+//profile section
+.bigAvatar-scss  {
+    width: 150px !important;
+    height: 150px !important;
+}
 
+.profile-av{
+    display: flex;
+    width: 100%;
+    
+}
+
+
+.profile-ainfo {
+    margin-left: auto;
+    order: 2;
+    
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
+
+.profile-bio {
+    padding-top: 20px ;
+    display: block;
+    max-width: 300px;
+    
+   
+}
 
 
 @media only screen and (max-width: 959px) {
@@ -125,5 +165,22 @@ body, html {
         margin-right: 4%;
         margin-bottom: 2%;
     }
+
+
+    .main-content-squeezed{
+        margin-left: auto;
+        margin-right: auto;
+        width: 500px;
+        
+      
+    }
+
+
+    //avatar non-react
+.bigAvatar-scss  {
+    width: 100px !important;
+    height: 100px !important;
+}
+
 
   }

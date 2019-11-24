@@ -17,6 +17,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import axios from "axios";
 
+//redux
+
+import {connect} from 'react-redux';
+import {signupUser} from '../redux/actions/userActions';
+
 const styles = {
   form: {
     textAlign: "center",
@@ -72,11 +77,21 @@ export class signup extends Component {
       password: "",
       confirmPassword: "",
       handle: "",
-      loading: false,
+    
       errors: {}
     };
     this.nick = React.createRef();
   }
+
+  componentWillReceiveProps(nextProps) {
+  
+    if(nextProps.UI.errors) {
+      this.setState({errors: nextProps.UI.errors});
+  
+    }
+    
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     this.setState({
@@ -89,23 +104,9 @@ export class signup extends Component {
       handle: this.state.handle
     };
 
-    axios
-      .post("/signup", userData)
-      .then(res => {
-        console.log(res.data);
-        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
+    
+this.props.signupUser(userData, this.props.history);
 
-        this.setState({
-          loading: false
-        });
-        this.props.history.push("/");
-      })
-      .catch(err => {
-        this.setState({
-          errors: err.response.data,
-          loading: false
-        });
-      });
   };
   handleChange = event => {
     this.setState({
@@ -114,8 +115,8 @@ export class signup extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const { classes, UI: {loading} } = this.props;
+    const { errors } = this.state;
     var handleHelper;
 
     if (!errors.handle)
@@ -232,6 +233,16 @@ export class signup extends Component {
   }
 }
 signup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired,
+
 };
-export default withStyles(styles)(signup);
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+})
+
+export default connect(mapStateToProps, { signupUser })(withStyles(styles)(signup));

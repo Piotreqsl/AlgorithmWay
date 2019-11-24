@@ -72,7 +72,7 @@ const styles = {
   }
 };
 
-//https://youtu.be/m_u6P5k0vP0?list=WL&t=23941
+
 
 export class login extends Component {
   constructor() {
@@ -84,6 +84,16 @@ export class login extends Component {
       errors: {}
     };
   }
+
+componentWillReceiveProps(nextProps) {
+  
+  if(nextProps.UI.errors) {
+    this.setState({errors: nextProps.UI.errors});
+
+  }
+  
+}
+
   handleSubmit = event => {
     event.preventDefault();
    
