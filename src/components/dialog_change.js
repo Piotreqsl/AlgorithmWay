@@ -33,27 +33,44 @@ export default function FormDialog() {
 
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Change your profile</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+            This is the place where you can change information about your profile.
           </DialogContentText>
           <TextField
-            autoFocus
+            variant="outlined"
+            
             margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
+            id="bio"
+            label="Bio"
+            type="text"
             fullWidth
+            multiline="true"
+            defaultValue="bio stare"
+
+           
+
+          />
+
+            <TextField
+             variant="outlined"
+            
+            margin="dense"
+            id="location"
+            label="Location"
+            type="text"
+            fullWidth
+            multiline="true"
+            defaultValue="location stare"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button variant="contained" onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
+          <Button variant="contained" onClick={handleClose} color="primary">
+            Save changes
           </Button>
         </DialogActions>
       </Dialog>

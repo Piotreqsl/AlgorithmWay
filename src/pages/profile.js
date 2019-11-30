@@ -119,7 +119,7 @@ export class profile extends Component {
 
                 <Typography className={classes.left} variant="body2">
                   {" "}
-                  <Tooltip title="User since" placement="left">
+                  <Tooltip title="Account created" placement="left">
                     <EventIcon color="primary"></EventIcon>
                   </Tooltip>{" "}
                   <div className={classes.icoMargin} />{" "}
