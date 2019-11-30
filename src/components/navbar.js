@@ -31,6 +31,7 @@ import LogIn from '@material-ui/icons/VpnKey';
 import { Link } from 'react-router-dom';
 
 
+import { StickyContainer, Sticky } from 'react-sticky';
 //of auth
 
 
@@ -305,8 +306,10 @@ export default function PrimarySearchAppBar() {
 
 //Wersja PC
   return (
+
+   
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           
           
@@ -332,7 +335,7 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.sectionDesktop}>
 
-            <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
+            <IconButton  component={Link} to="/" className={classes.marginRight} color="inherit">
               <Badge badgeContent={0} color='secondary'>
                 <Home />
               </Badge>
@@ -417,6 +420,8 @@ export default function PrimarySearchAppBar() {
       {renderMobileMenu}
       {renderMenu}
     </div>
+    
+
   );
 }
 

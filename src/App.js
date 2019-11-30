@@ -11,7 +11,6 @@ import{SET_AUTHENTICATED } from './redux/types';
 import { logoutUser, getUserData} from './redux/actions/userActions';
 
 
-
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 import MuiThemeProvider from "@material-ui/styles/ThemeProvider";
@@ -49,7 +48,8 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: font
-  }
+  },
+  
 });
 
 
@@ -78,7 +78,12 @@ function App() {
       <Provider store={store}>
         <div className="App">
           <Router>
-            <Navbar />
+          
+          <Navbar />
+          
+          
+            
+
             <Switch>
               <Route exact path="/" component={home} />
               <AuthRoute exact path="/login" component={login}  />

@@ -31,21 +31,26 @@ body, html {
 .main-content{
     margin-left: 8%;
     margin-right: 8%;
-    margin-top: 4%;
+    margin-top: 8%;
     margin-bottom: 3%;
 }
 
 .main-content-squeezed{
-    width: 700px;
+    width: 870px;
    
     margin-left: auto;
     margin-right: auto;
 
-    margin-top: 4%;
+    margin-top: 8%;
     margin-bottom: 3%;
 }
 
-
+.main-content-squeezed .post-margin{
+    width: 870px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
 
 
 
@@ -130,12 +135,33 @@ body, html {
 }
 
 
+.editIco {
+    
+    
+    height: 20px !important; 
+  
+    margin-top: -17px !important;
+    float: right !important;
+}
+
+.editIco:hover{
+    color: rgb(117, 117, 148) !important;
+    transition: 0.3s;
+}
+
+.sticky {
+    position: sticky;
+}
+
+
+
 .profile-ainfo {
     margin-left: auto;
     order: 2;
     
     padding-bottom: 10px;
     padding-top: 5px;
+    
 }
 
 .profile-bio {
@@ -146,6 +172,10 @@ body, html {
    
 }
 
+//tooltip
+.MuiTooltip-popper {
+    margin: -10px;
+}
 
 @media only screen and (max-width: 959px) {
     //Tablet
@@ -155,25 +185,49 @@ body, html {
         margin-bottom: 2%;
     }
 
+    .main-content-squeezed{
+        margin-left: 25px;
+        margin-right: 25px;
+        width: auto;
+        
+      
+    }
+
+
+
+    .main-content-squeezed .post-margin{
+        width: auto;
+       
+        
+    }
+
   }
 
 
   @media only screen and (max-width: 599px) {
     //Phone
+
+    .MuiTooltip-popper {
+        display: none;
+        //tooltip turnedoff whilst on mobile
+    }
+
     .post-margin{
         margin-left: 4%;
         margin-right: 4%;
         margin-bottom: 2%;
     }
 
-
     .main-content-squeezed{
+        
+        width: 470px;
         margin-left: auto;
         margin-right: auto;
-        width: 500px;
         
       
     }
+
+   
 
 
     //avatar non-react
