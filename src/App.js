@@ -5,11 +5,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-
-
-import{SET_AUTHENTICATED } from './redux/types';
-import { logoutUser, getUserData} from './redux/actions/userActions';
-
+import { SET_AUTHENTICATED } from "./redux/types";
+import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
@@ -25,6 +22,7 @@ import login from "./pages/login";
 import signup from "./pages/signup";
 import upload from "./pages/upload";
 import profile from "./pages/profile";
+import admin from "./pages/admin";
 
 //Components:
 import Navbar from "./components/navbar";
@@ -48,10 +46,8 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: font
-  },
-  
+  }
 });
-
 
 const token = localStorage.FBIdToken;
 let UIauth;
@@ -59,16 +55,15 @@ if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
     window.location.href = "/login";
-    store.dispatch(logoutUser())
+    store.dispatch(logoutUser());
     UIauth = false;
   } else {
-    store.dispatch({type: SET_AUTHENTICATED});
-    
-    axios.defaults.headers.common['Authorization'] = token;
+    store.dispatch({ type: SET_AUTHENTICATED });
+
+    axios.defaults.headers.common["Authorization"] = token;
 
     store.dispatch(getUserData());
     UIauth = true;
-
   }
 }
 
@@ -78,18 +73,15 @@ function App() {
       <Provider store={store}>
         <div className="App">
           <Router>
-          
-          <Navbar />
-          
-          
-            
+            <Navbar />
 
             <Switch>
               <Route exact path="/" component={home} />
-              <AuthRoute exact path="/login" component={login}  />
-              <AuthRoute exact path="/signup" component={signup}  />
+              <AuthRoute exact path="/login" component={login} />
+              <AuthRoute exact path="/signup" component={signup} />
               <Route exact path="/upload" component={upload} />
               <Route exact path="/user" component={profile} />
+              <Route exact path="/admin" component={admin} />
               //
             </Switch>
           </Router>
@@ -99,5 +91,5 @@ function App() {
   );
 }
 
-export { UIauth }; 
+export { UIauth };
 export default App;
