@@ -23,6 +23,15 @@ const styles = {
     marginTop: "2px"
   },
   custError: {
+    color: "green",
+    fontSize: "0.9rem"
+  },
+  button: {
+    marginTop: "25px",
+    position: "relative"
+  },
+  info: {
+    textAlign: "center",
     color: "red",
     fontSize: "0.9rem"
   }
@@ -33,9 +42,9 @@ class admin extends Component {
     super();
     this.state = {
       email: "",
-      loading: false,
+      loadingLocal: false,
       errors: {},
-      success: {}
+      success: ""
     };
   }
 
@@ -48,9 +57,9 @@ class admin extends Component {
   handleSubmit = event => {
     event.preventDefault();
     this.setState({
-      loading: true,
+      loadingLocal: true,
       errors: {},
-      success: {}
+      success: ""
     });
     console.log(this.state.email);
 
@@ -62,69 +71,91 @@ class admin extends Component {
       .post("/admin/add", userData)
       .then(res => {
         this.setState({
-          loading: false,
+          loadingLocal: false,
           errors: {},
-          success: "Privileges added"
+          success: "Privileges added successfully!"
         });
+
+        console.log(this.state.success);
       })
       .catch(err => {
         console.log(err.response.data);
         this.setState({
           errors: err.response.data,
-          loading: false
+          loadingLocal: false
         });
       });
   };
 
   render() {
-    const { classes } = this.props;
-    const { errors, loading, success } = this.state;
+    const {
+      classes,
+      user: { adminPrivileges, loading }
+    } = this.props;
+    const { errors, loadingLocal, success } = this.state;
+
+
 
     return (
       <div className="main-content">
-        <Grid container spacing={16}>
-          <Grid item sm={9} xs={12}>
-            <h1> Unapproved posts: </h1>
-            <div className="feed"> Test </div>
-          </Grid>
 
-          <Grid item sm={3} xs={12}>
-            <h1> Admin tools : </h1>
-            <h3> Make admin: </h3>
-            <form noValidate onSubmit={this.handleSubmit}>
-              <TextField
-                id="email"
-                name="email"
-                type="email"
-                label="Email"
-                helperText={errors.general}
-                error={errors.general ? true : false}
-                className={classes.TextField}
-                value={this.state.email}
-                onChange={this.handleChange}
-                fullWidth
-              />
 
-              <Button
-                type="submit"
-                disabled={loading}
-                variant="contained"
-                color="primary"
-                className={classes.button}
-              >
-                Submit
-                {loading && (
-                  <CircularProgress size={30} className={classes.progress} />
-                )}
-              </Button>
-              {success.general && (
-                <Typography className={classes.custError}>
-                  {success.general}
-                </Typography>
-              )}
-            </form>
-          </Grid>
-        </Grid>
+        {(!loading ? (
+          adminPrivileges ? (
+            // Tu zacząć jakieś komponenty 
+            <Grid container spacing={16}>
+              <Grid item sm={9} xs={12}>
+                <h1> Unapproved posts: </h1>
+                <div className="feed"> Test </div>
+              </Grid>
+
+              <Grid item sm={3} xs={12}>
+                <h1> Admin tools : </h1>
+                <h3> Make admin: </h3>
+                <form noValidate onSubmit={this.handleSubmit}>
+                  <TextField
+                    id="email"
+                    name="email"
+                    type="email"
+                    label="Email"
+                    helperText={errors.general}
+                    error={errors.general ? true : false}
+                    className={classes.TextField}
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    fullWidth
+                  />
+
+                  <Button
+                    type="submit"
+                    disabled={loadingLocal}
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                  >
+                    Submit
+                  {loadingLocal && (
+                      <CircularProgress size={30} className={classes.progress} />
+                    )}
+                  </Button>
+                  {success.length > 0 && (
+                    <Typography className={classes.custError}>
+                      {this.state.success}
+                    </Typography>
+                  )}
+                </form>
+              </Grid>
+            </Grid>
+
+          ) : (
+              <Typography className={classes.info}>
+                Admin privileges required
+          </Typography>
+            )) : <div>
+            <center>
+              <CircularProgress color="primary" />
+            </center>
+          </div>)}
       </div>
     );
   }
