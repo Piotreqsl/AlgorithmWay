@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
+import Post from '../components/post';
 // MUI Stuff
 
 import { Typography } from "@material-ui/core";
@@ -44,9 +45,32 @@ class admin extends Component {
       email: "",
       loadingLocal: false,
       errors: {},
-      success: ""
+      success: "",
+      posts: null
     };
   }
+
+  componentDidMount() {
+    axios.get('/posts')
+      .then(res => {
+
+        let filtered = [];
+
+
+        res.data.forEach(req => {
+          if (req.verified === false) {
+            filtered.push(req);
+          }
+
+        })
+
+        this.setState({
+          posts: filtered
+        })
+      })
+      .catch(err => console.log(err));
+  }
+
 
   handleChange = event => {
     this.setState({
@@ -95,6 +119,12 @@ class admin extends Component {
     const { errors, loadingLocal, success } = this.state;
 
 
+    let recentPostsMarkup = this.state.posts ? (
+      this.state.posts.map((post) => <Post key={post.postId} post={post} />)
+    ) : (<div><center>
+      <CircularProgress color="primary" /></center></div>);
+
+
 
     return (
       <div className="main-content">
@@ -106,13 +136,13 @@ class admin extends Component {
             <Grid container spacing={16}>
               <Grid item sm={9} xs={12}>
                 <h1> Unapproved posts: </h1>
-                <div className="feed"> Test </div>
+                {recentPostsMarkup}
               </Grid>
 
               <Grid item sm={3} xs={12}>
                 <h1> Admin tools : </h1>
                 <h3> Make admin: </h3>
-                <form noValidate onSubmit={this.handleSubmit}>
+                <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
                   <TextField
                     id="email"
                     name="email"
