@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Post from '../components/post';
 import EditRequestList from '../components/editRequestList';
+import Paper from "@material-ui/core/Paper";
+import List from "@material-ui/core/List";
+
 // MUI Stuff
 
 import ListItem from '@material-ui/core/ListItem';
@@ -196,7 +199,16 @@ class admin extends Component {
                 </form>
 
                 <h3> Pending edit requests: </h3>
-                {editRequests}
+
+
+
+
+                <div style={{ maxHeight: 350, overflow: 'auto' }}>
+                  <List>
+                    {editRequests}
+                  </List>
+                </div>
+
 
 
 
