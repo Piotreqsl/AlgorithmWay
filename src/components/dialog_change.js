@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,12 +9,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import EditIcon from "@material-ui/icons/Edit";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Tooltip from '@material-ui/core/Tooltip'
+import { extend } from 'dayjs';
 
-export default function FormDialog() {
+
+
+export default function FormDialog(value) {
   
  
- 
+  const val = value;
   
+
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -24,6 +29,8 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  //console.log(bio);
 
   return (
     <div>
@@ -47,8 +54,8 @@ export default function FormDialog() {
             type="text"
             fullWidth
             multiline="true"
-            defaultValue="bio stare"
-
+           defaultValue={val.bio}
+           inputProps={{ maxLength: 150 }}
            
 
           />
@@ -62,7 +69,9 @@ export default function FormDialog() {
             type="text"
             fullWidth
             multiline="true"
-            defaultValue="location stare"
+            defaultValue={val.location}
+            inputProps={{ maxLength: 20 }}
+            
           />
         </DialogContent>
         <DialogActions>

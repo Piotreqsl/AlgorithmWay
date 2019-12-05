@@ -54,23 +54,6 @@ const styles = {
 };
 
 export class profile extends Component {
-  state = {
-    posts: null
-  };
-
-  componentDidMount() {
-    axios
-      .get(`/users/piotreqsl`)
-      .then(res => {
-        console.log(res.data.posts);
-
-        this.setState({
-          posts: res.data.posts
-        });
-      })
-      .catch(err => console.log(err));
-  }
-
   render() {
     dayjs.extend(theTime);
 
@@ -99,13 +82,7 @@ export class profile extends Component {
           <Paper className={classes.paper}>
             <div className="profile-av">
               <Avatar alt={handle} src={imageUrl} className="bigAvatar-scss" />
-              <Typography variant="h5">
-                {" "}
-                {handle}
-               
-              </Typography>
-              
-              
+              <Typography variant="h5"> {handle}</Typography>
 
               <div className="profile-ainfo">
                 <Typography className={classes.left} variant="body2">
@@ -142,9 +119,8 @@ export class profile extends Component {
               {" "}
               {bio}{" "}
             </Typography>
-            
-            <Dialog />
-            
+
+            <Dialog bio={bio} location={location} test="test" />
           </Paper>
 
           <div className={classes.profilePosts}>{recentPostsMarkup}</div>
@@ -157,6 +133,23 @@ export class profile extends Component {
     );
 
     return profileMarkup;
+  }
+
+  state = {
+    posts: null
+  };
+
+  componentDidMount() {
+    axios
+      .get(`/users/${this.props.user.credentials.handle}`)
+      .then(res => {
+        console.log("Hello " + this.props.user.credentials.handle + "!");
+
+        this.setState({
+          posts: res.data.posts
+        });
+      })
+      .catch(err => console.log("PER POST: " + err));
   }
 }
 
