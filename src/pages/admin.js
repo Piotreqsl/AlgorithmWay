@@ -6,7 +6,15 @@ import { Link } from "react-router-dom";
 
 import axios from "axios";
 import Post from '../components/post';
+import EditRequestList from '../components/editRequestList';
+import Paper from "@material-ui/core/Paper";
+import List from "@material-ui/core/List";
+
 // MUI Stuff
+
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
 
 import { Typography } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
@@ -46,7 +54,8 @@ class admin extends Component {
       loadingLocal: false,
       errors: {},
       success: "",
-      posts: null
+      posts: null,
+      editReq: null
     };
   }
 
@@ -69,6 +78,15 @@ class admin extends Component {
         })
       })
       .catch(err => console.log(err));
+
+    axios.get("/getEditRequests").then(res => {
+      console.log(res.data);
+      this.setState({
+        editReq: res.data
+
+      })
+
+    })
   }
 
 
@@ -124,6 +142,11 @@ class admin extends Component {
     ) : (<div><center>
       <CircularProgress color="primary" /></center></div>);
 
+    let editRequests = this.state.editReq ? (
+      this.state.editReq.map((req) => <EditRequestList key={req.id} post={req} />)
+    ) : (<div><center>
+      <CircularProgress color="primary" /></center></div>);
+
 
 
     return (
@@ -174,6 +197,23 @@ class admin extends Component {
                     </Typography>
                   )}
                 </form>
+
+                <h3> Pending edit requests: </h3>
+
+
+
+
+                <div style={{ maxHeight: 350, overflow: 'auto' }}>
+                  <List>
+                    {editRequests}
+                  </List>
+                </div>
+
+
+
+
+
+
               </Grid>
             </Grid>
 
