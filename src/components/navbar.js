@@ -16,7 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 import Avatar from '@material-ui/core/Avatar';
-
+import PropTypes from 'prop-types'
 //Icons
 
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
@@ -32,9 +32,10 @@ import Add from '@material-ui/icons/Add';
 import SignOut from '@material-ui/icons/ExitToApp';
 import LogIn from '@material-ui/icons/VpnKey';
 import { Link } from 'react-router-dom';
-
+import {logoutUser} from '../redux/actions/userActions'
 
 import { StickyContainer, Sticky } from 'react-sticky';
+import { connect } from 'react-redux';
 //of auth
 
 
@@ -143,7 +144,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function PrimarySearchAppBar() {
+ function PrimarySearchAppBar() {
 
 
 
@@ -175,6 +176,8 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  
+
 
 
 
@@ -202,7 +205,7 @@ export default function PrimarySearchAppBar() {
 
       </MenuItem>
 
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={this.props.logoutUser()}>
         <IconButton color="inherit">
           <Badge badgeContent={0} color="secondary">
 
@@ -254,7 +257,7 @@ export default function PrimarySearchAppBar() {
 
 
       <MenuItem component={Link} to="/upload"
-        //className={!auth ? classes.toDi : classes.toN} 
+      className={!authenticated ? classes.toDi : classes.toN} 
         onClick={handleMenuClose}>
         <IconButton disableRipple="true" color="inherit">
           <Badge badgeContent={0} color="secondary">
@@ -266,7 +269,7 @@ export default function PrimarySearchAppBar() {
 
 
       <MenuItem
-        //className={!auth ? classes.toDi : classes.toN}
+        className={!authenticated ? classes.toDi : classes.toN}
         onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -357,7 +360,7 @@ export default function PrimarySearchAppBar() {
 
             <IconButton
 
-              //className={!auth ? classes.toDi : classes.toN} 
+              className={!authenticated ? classes.toDi : classes.toN} 
 
               component={Link} to="/upload" color="inherit">
               <Badge badgeContent={0} color="secondary">
@@ -390,7 +393,7 @@ export default function PrimarySearchAppBar() {
 
             <IconButton
               className={!authenticated ? classes.toDi : classes.toN}
-              disabled={!authenticated}
+              //disabled={!authenticated}
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -404,7 +407,7 @@ export default function PrimarySearchAppBar() {
 
             <IconButton
               className={authenticated ? classes.toDi : classes.toN}
-              disabled={authenticated}
+              //disabled={authenticated}
               component={Link} to="/login" color="inherit">
 
               <Badge color="secondary">
@@ -417,7 +420,10 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.marginLeft}>
 
-            <IconButton color="inherit">
+            <IconButton
+            
+            className={!authenticated ? classes.toDi : classes.toN} 
+            color="inherit">
               <Badge badgeContent={1} color="secondary">
                 <NotificationsIcon />
               </Badge>
@@ -450,7 +456,15 @@ export default function PrimarySearchAppBar() {
 
   );
 }
+const mapStateToProps = (state) => ({
+  user: state.user,
+})
+const mapActionsToProps = {logoutUser};
+PrimarySearchAppBar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+}
 
+export default connect(mapStateToProps,mapActionsToProps)(PrimarySearchAppBar);
 
 
 

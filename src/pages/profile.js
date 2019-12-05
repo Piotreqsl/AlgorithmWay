@@ -17,6 +17,10 @@ import theTime from "dayjs/plugin/advancedFormat";
 
 import Dialog from "../components/dialog_change";
 
+
+import Snackbar from '../components/snackbar';
+
+
 //icons
 import Location from "@material-ui/icons/LocationOn";
 import EventIcon from "@material-ui/icons/Event";
@@ -120,7 +124,8 @@ export class profile extends Component {
               {bio}{" "}
             </Typography>
 
-            <Dialog bio={bio} location={location} test="test" />
+            <Dialog/>
+            
           </Paper>
 
           <div className={classes.profilePosts}>{recentPostsMarkup}</div>
