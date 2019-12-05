@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { shallowEqual, useSelector } from 'react-redux';
+
 //Material-UI 
 
 
@@ -40,22 +42,23 @@ import { StickyContainer, Sticky } from 'react-sticky';
 
 
 
+
 const useStyles = makeStyles(theme => ({
-  
-    toDi: {
-      
-        display: "none !important",
-        
-      
-    },
 
-    toN:{
+  toDi: {
 
-    },
+    display: "none !important",
 
-    
 
-    grow: {
+  },
+
+  toN: {
+
+  },
+
+
+
+  grow: {
     flexGrow: 1,
   },
   menuButton: {
@@ -64,11 +67,12 @@ const useStyles = makeStyles(theme => ({
 
   marginLeft: {
     marginLeft: theme.spacing(2),
-   
+
   },
   marginRight: {
-      marginRight: theme.spacing(1),},
-//for logo
+    marginRight: theme.spacing(1),
+  },
+  //for logo
   bigAvatar: {
     margin: 10,
     width: 60,
@@ -114,13 +118,13 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create('width'),
     width: '100%',
-    
+
     [theme.breakpoints.up('md')]: {
       width: 300,
     },
   },
   sectionDesktop: {
-      marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(2),
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
@@ -137,10 +141,17 @@ const useStyles = makeStyles(theme => ({
 
 
 
+
 export default function PrimarySearchAppBar() {
+
+
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const authenticated = useSelector(state => state.user.authenticated, shallowEqual);
+  console.log(authenticated);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -178,45 +189,45 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose} component={Link} to={'/user'}>
-      <IconButton color="inherit">
+        <IconButton color="inherit">
           <Badge badgeContent={0} color="secondary">
 
-            <AccountCircle/>
+            <AccountCircle />
 
           </Badge>
         </IconButton>
         <p>My profile</p>
-          
-        </MenuItem>
+
+      </MenuItem>
 
       <MenuItem onClick={handleMenuClose}>
-      <IconButton  color="inherit">
+        <IconButton color="inherit">
           <Badge badgeContent={0} color="secondary">
 
-            <SignOut/>
+            <SignOut />
 
           </Badge>
         </IconButton>
         <p>Log out</p>
-          
-         </MenuItem>
+
+      </MenuItem>
 
     </Menu>
   );
 
 
- 
 
 
-  
+
+
 
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
 
-  
-  
-  
+
+
+
 
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -227,12 +238,12 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-       
+
 
       <MenuItem onClick={handleMenuClose} component={Link} to="/">
-        <IconButton disableFocusRipple="true"   color="inherit" >
+        <IconButton disableFocusRipple="true" color="inherit" >
           <Badge badgeContent={0} color="secondary">
-            <Home/>
+            <Home />
           </Badge>
         </IconButton>
         <p>Home</p>
@@ -240,21 +251,21 @@ export default function PrimarySearchAppBar() {
 
 
 
-      <MenuItem component={Link} to="/upload" 
-      //className={!auth ? classes.toDi : classes.toN} 
-      onClick={handleMenuClose}>
-        <IconButton disableRipple="true"  color="inherit">
+      <MenuItem component={Link} to="/upload"
+        //className={!auth ? classes.toDi : classes.toN} 
+        onClick={handleMenuClose}>
+        <IconButton disableRipple="true" color="inherit">
           <Badge badgeContent={0} color="secondary">
             <Add></Add>
           </Badge>
         </IconButton>
         <p>Create a post</p>
       </MenuItem>
-      
 
-      <MenuItem 
-      //className={!auth ? classes.toDi : classes.toN}
-      onClick={handleProfileMenuOpen}>
+
+      <MenuItem
+        //className={!auth ? classes.toDi : classes.toN}
+        onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -265,25 +276,25 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-    
 
-    <MenuItem component={Link} to="/login" onClick={handleMenuClose} 
-    
-    //className={auth ? classes.toDi : classes.toN}
-    
-    
-    >
-    <IconButton 
-           
-           // disabled={auth} 
-              color="inherit">
-          
-          <Badge  color="secondary">
-          <LogIn />
+
+      <MenuItem component={Link} to="/login" onClick={handleMenuClose}
+
+        className={authenticated ? classes.toDi : classes.toN}
+
+
+      >
+        <IconButton
+
+          // disabled={auth} 
+          color="inherit">
+
+          <Badge color="secondary">
+            <LogIn />
           </Badge>
-          </IconButton>
-          <p>Log in</p>
-    </MenuItem>
+        </IconButton>
+        <p>Log in</p>
+      </MenuItem>
     </Menu>
 
   );
@@ -304,16 +315,16 @@ export default function PrimarySearchAppBar() {
 
 
 
-//Wersja PC
+  //Wersja PC
   return (
 
-   
+
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Toolbar>
-          
-          
-          
+
+
+
           <Avatar className={classes.bigAvatar} src="logo192.png"></Avatar>
 
           <div className={classes.search}>
@@ -330,23 +341,23 @@ export default function PrimarySearchAppBar() {
             />
           </div>
 
-          
+
 
 
           <div className={classes.sectionDesktop}>
 
-            <IconButton  component={Link} to="/" className={classes.marginRight} color="inherit">
+            <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
               <Badge badgeContent={0} color='secondary'>
                 <Home />
               </Badge>
             </IconButton>
 
 
-            <IconButton 
-            
-            //className={!auth ? classes.toDi : classes.toN} 
-            
-            component={Link} to="/upload"  color="inherit">
+            <IconButton
+
+              //className={!auth ? classes.toDi : classes.toN} 
+
+              component={Link} to="/upload" color="inherit">
               <Badge badgeContent={0} color="secondary">
                 <Add />
               </Badge>
@@ -355,52 +366,52 @@ export default function PrimarySearchAppBar() {
           </div>
 
 
-        <div className={classes.grow}/>
+          <div className={classes.grow} />
 
-          
-         
+
+
 
           <div className={classes.sectionDesktop} >
-            
-          <IconButton
-              //className={!auth ? classes.toDi : classes.toN}
-             // disabled={!auth}
+
+            <IconButton
+              className={!authenticated ? classes.toDi : classes.toN}
+              disabled={!authenticated}
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
-            > 
-            
-                <AccountCircle />
+            >
+
+              <AccountCircle />
             </IconButton>
 
             <IconButton
-           //className={auth ? classes.toDi : classes.toN}
-           // disabled={auth} 
-            component={Link} to="/login"  color="inherit">
-          
-          <Badge  color="secondary">
-          <LogIn />
-          </Badge>
-          </IconButton>
+              className={authenticated ? classes.toDi : classes.toN}
+              disabled={authenticated}
+              component={Link} to="/login" color="inherit">
+
+              <Badge color="secondary">
+                <LogIn />
+              </Badge>
+            </IconButton>
 
           </div>
 
 
           <div className={classes.marginLeft}>
 
-          <IconButton color="inherit">
-          <Badge badgeContent={1} color="secondary">
-          <NotificationsIcon />
-          </Badge>
-          </IconButton>
+            <IconButton color="inherit">
+              <Badge badgeContent={1} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
           </div>
 
-          
-          
-         
+
+
+
 
 
 
@@ -420,7 +431,7 @@ export default function PrimarySearchAppBar() {
       {renderMobileMenu}
       {renderMenu}
     </div>
-    
+
 
   );
 }

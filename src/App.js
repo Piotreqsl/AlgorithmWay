@@ -82,7 +82,7 @@ function App() {
               <Route exact path="/upload" component={upload} />
               <Route exact path="/user" component={profile} />
               <Route exact path="/admin" component={admin} />
-              //
+
             </Switch>
           </Router>
         </div>

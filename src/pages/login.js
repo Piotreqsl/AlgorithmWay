@@ -16,11 +16,12 @@ import Card from "@material-ui/core/Card";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
+import PrimarySearchAppBar from "../components/navbar";
+
 //Redux
 
-import {connect} from 'react-redux';
-import {loginUser} from '../redux/actions/userActions'
-
+import { connect } from 'react-redux';
+import { loginUser } from '../redux/actions/userActions'
 
 
 import axios from "axios";
@@ -80,30 +81,32 @@ export class login extends Component {
     this.state = {
       email: "",
       password: "",
-    
+
       errors: {}
     };
   }
 
-componentWillReceiveProps(nextProps) {
-  
-  if(nextProps.UI.errors) {
-    this.setState({errors: nextProps.UI.errors});
+  componentWillReceiveProps(nextProps) {
+
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+
+    }
 
   }
-  
-}
 
   handleSubmit = event => {
     event.preventDefault();
-   
+
+
     const userData = {
       email: this.state.email,
       password: this.state.password
     };
 
     this.props.loginUser(userData, this.props.history);
-    
+
+
   };
   handleChange = event => {
     this.setState({
@@ -195,7 +198,7 @@ login.propTypes = {
 
   loginUser: PropTypes.func.isRequired,
 
-  user:PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
 };
 
