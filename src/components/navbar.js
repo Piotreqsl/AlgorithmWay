@@ -19,6 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 //Icons
 
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -152,6 +153,7 @@ export default function PrimarySearchAppBar() {
 
   const authenticated = useSelector(state => state.user.authenticated, shallowEqual);
   console.log(authenticated);
+  const admin = useSelector(state => state.user.adminPrivileges, shallowEqual)
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -374,6 +376,19 @@ export default function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop} >
 
             <IconButton
+              className={!admin ? classes.toDi : classes.toN}
+              disabled={!admin}
+              aria-label="Admin functions"
+              component={Link}
+              to="/admin"
+              color="inherit">
+              <SupervisedUserCircleIcon />
+            </IconButton>
+
+
+
+
+            <IconButton
               className={!authenticated ? classes.toDi : classes.toN}
               disabled={!authenticated}
               edge="end"
@@ -430,7 +445,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </div >
 
 
   );

@@ -15,7 +15,9 @@ const initialState = {
     credentials: {},
     loading: false,
     likes: [],
-    notifications: []
+    notifications: [],
+    adminPrivileges: false,
+    userPrivileges: false
 };
 export default function (state = initialState, action) {
     switch (action.type) {
