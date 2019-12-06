@@ -176,7 +176,11 @@ const useStyles = makeStyles(theme => ({
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  
+  const handleLogout = () => {
+
+    logoutUser
+
+  }
 
 
 
@@ -205,7 +209,7 @@ const useStyles = makeStyles(theme => ({
 
       </MenuItem>
 
-      <MenuItem onClick={this.props.logoutUser()}>
+      <MenuItem onClick={handleLogout}>
         <IconButton color="inherit">
           <Badge badgeContent={0} color="secondary">
 
@@ -456,15 +460,8 @@ const useStyles = makeStyles(theme => ({
 
   );
 }
-const mapStateToProps = (state) => ({
-  user: state.user,
-})
-const mapActionsToProps = {logoutUser};
-PrimarySearchAppBar.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-}
 
-export default connect(mapStateToProps,mapActionsToProps)(PrimarySearchAppBar);
+export default PrimarySearchAppBar;
 
 
 
