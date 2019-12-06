@@ -27,6 +27,7 @@ import admin from "./pages/admin";
 //Components:
 import Navbar from "./components/navbar";
 import axios from "axios";
+import { SnackbarProvider } from 'notistack';
 
 const font = "'Source Sans Pro', sans-serif";
 
@@ -71,21 +72,23 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <div className="App">
-          <Router>
-            <Navbar />
+        <SnackbarProvider maxSnack={3}>
+          <div className="App">
+            <Router>
+              <Navbar />
 
-            <Switch>
-              <Route exact path="/" component={home} />
-              <AuthRoute exact path="/login" component={login} />
-              <AuthRoute exact path="/signup" component={signup} />
-              <Route exact path="/upload" component={upload} />
-              <Route exact path="/user" component={profile} />
-              <Route exact path="/admin" component={admin} />
+              <Switch>
+                <Route exact path="/" component={home} />
+                <AuthRoute exact path="/login" component={login} />
+                <AuthRoute exact path="/signup" component={signup} />
+                <Route exact path="/upload" component={upload} />
+                <Route exact path="/user" component={profile} />
+                <Route exact path="/admin" component={admin} />
 
-            </Switch>
-          </Router>
-        </div>
+              </Switch>
+            </Router>
+          </div>
+        </SnackbarProvider>
       </Provider>
     </MuiThemeProvider>
   );

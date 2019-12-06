@@ -4,7 +4,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 //Material-UI 
 
-
+import Tooltip from "@material-ui/core/Tooltip";
 import { fade, makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,7 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 import Avatar from '@material-ui/core/Avatar';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 //Icons
 
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
@@ -33,7 +33,8 @@ import SignOut from '@material-ui/icons/ExitToApp';
 import LogIn from '@material-ui/icons/VpnKey';
 import { Link } from 'react-router-dom';
 
-import { logoutUser } from '../redux/actions/userActions'
+import { logoutUser } from '../redux/actions/userActions';
+import { useSnackbar } from 'notistack';
 
 //of auth
 
@@ -157,8 +158,10 @@ function PrimarySearchAppBar() {
   console.log(authenticated);
   const admin = useSelector(state => state.user.adminPrivileges, shallowEqual);
 
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
+
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -184,8 +187,9 @@ function PrimarySearchAppBar() {
     dispatch(logoutUser());
     setAnchorEl(null);
     setMobileMoreAnchorEl(null);
-
-
+    enqueueSnackbar('Successfully logged out!', {
+      variant: "success"
+    });
 
 
   }
@@ -363,6 +367,7 @@ function PrimarySearchAppBar() {
 
           <div className={classes.sectionDesktop}>
 
+
             <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
               <Badge badgeContent={0} color='secondary'>
                 <Home />
@@ -371,7 +376,6 @@ function PrimarySearchAppBar() {
 
 
             <IconButton
-
               className={!authenticated ? classes.toDi : classes.toN}
 
               component={Link} to="/upload" color="inherit">
@@ -379,6 +383,7 @@ function PrimarySearchAppBar() {
                 <Add />
               </Badge>
             </IconButton>
+
 
           </div>
 
@@ -390,32 +395,35 @@ function PrimarySearchAppBar() {
 
           <div className={classes.sectionDesktop} >
 
-            <IconButton
-              className={!admin ? classes.toDi : classes.toN}
-              disabled={!admin}
-              aria-label="Admin functions"
-              component={Link}
-              to="/admin"
-              color="inherit">
-              <SupervisedUserCircleIcon />
-            </IconButton>
+            <Tooltip title="Admin panel" placement="bottom">
+              <IconButton
+                className={!admin ? classes.toDi : classes.toN}
+                disabled={!admin}
+                aria-label="Admin functions"
+                component={Link}
+                to="/admin"
+                color="inherit">
+                <SupervisedUserCircleIcon />
+              </IconButton>
+
+            </Tooltip>
 
 
+            <Tooltip title="My account" placement="bottom">
+              <IconButton
+                className={!authenticated ? classes.toDi : classes.toN}
+                //disabled={!authenticated}
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
 
-
-            <IconButton
-              className={!authenticated ? classes.toDi : classes.toN}
-              //disabled={!authenticated}
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-
-              <AccountCircle />
-            </IconButton>
+                <AccountCircle />
+              </IconButton>
+            </Tooltip>
 
             <IconButton
               className={authenticated ? classes.toDi : classes.toN}

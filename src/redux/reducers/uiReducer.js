@@ -2,15 +2,22 @@ import {
     SET_ERRORS,
     CLEAR_ERRORS,
     LOADING_UI,
-    LOADING_SIMPLE
+    LOADING_SIMPLE,
+    ENQUEUE_SNACKBAR,
+    CLOSE_SNACKBAR,
+    REMOVE_SNACKBAR
+
+
 } from '../types';
 const initialState = {
     loading: false,
     errors: null,
+
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
+
 
         case SET_ERRORS:
             return {

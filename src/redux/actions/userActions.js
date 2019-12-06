@@ -5,14 +5,20 @@ import {
   LOADING_UI,
   SET_UNAUTHENTICATED,
   LOADING_USER,
-  load
+
+
 
 } from "../types";
 import axios from "axios";
+import { useSnackbar } from 'notistack';
+
+
 
 
 
 export const loginUser = (userData, history) => dispatch => {
+
+
   dispatch({
     type: LOADING_UI
   });
@@ -27,6 +33,7 @@ export const loginUser = (userData, history) => dispatch => {
         type: CLEAR_ERRORS
       });
       history.push("/");
+
 
     })
     .catch(err => {
@@ -80,13 +87,15 @@ export const signupUser = (newUserData, history) => dispatch => {
 
 
 export const editUserDetails = (userDetails) => (dispatch) => {
-  dispatch({type: LOADING_USER});
+  dispatch({
+    type: LOADING_USER
+  });
   axios.post('/user', userDetails)
-  .then(() => {
-    dispatch(getUserData());
-    
-  })
-  .catch(err => console.log(err));
+    .then(() => {
+      dispatch(getUserData());
+
+    })
+    .catch(err => console.log(err));
 }
 
 
@@ -104,5 +113,3 @@ export const logoutUser = () => dispatch => {
     type: SET_UNAUTHENTICATED
   });
 };
-
-

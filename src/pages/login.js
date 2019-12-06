@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 
 import { Link } from "react-router-dom";
+import { withSnackbar } from 'notistack';
 
 //mui
 
@@ -80,17 +81,26 @@ export class login extends Component {
     this.state = {
       email: "",
       password: "",
-
       errors: {}
     };
   }
 
   componentWillReceiveProps(nextProps) {
 
+    console.log(nextProps);
+
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
-
     }
+    if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false) {
+      console.log("odpaloni")
+      this.props.enqueueSnackbar('Successfully logged in', {
+        preventDuplicate: true,
+        variant: "success"
+
+      });
+    }
+
 
   }
 
@@ -210,4 +220,4 @@ const mapActionsToProps = {
   loginUser
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(login));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(withSnackbar(login)));
