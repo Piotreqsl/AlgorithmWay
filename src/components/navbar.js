@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 //Material-UI 
 
@@ -32,11 +32,12 @@ import Add from '@material-ui/icons/Add';
 import SignOut from '@material-ui/icons/ExitToApp';
 import LogIn from '@material-ui/icons/VpnKey';
 import { Link } from 'react-router-dom';
-import {logoutUser} from '../redux/actions/userActions'
 
-import { StickyContainer, Sticky } from 'react-sticky';
-import { connect } from 'react-redux';
+import { logoutUser } from '../redux/actions/userActions'
+
 //of auth
+
+
 
 
 
@@ -144,7 +145,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
- function PrimarySearchAppBar() {
+function PrimarySearchAppBar() {
 
 
 
@@ -154,7 +155,10 @@ const useStyles = makeStyles(theme => ({
 
   const authenticated = useSelector(state => state.user.authenticated, shallowEqual);
   console.log(authenticated);
-  const admin = useSelector(state => state.user.adminPrivileges, shallowEqual)
+  const admin = useSelector(state => state.user.adminPrivileges, shallowEqual);
+
+
+  const dispatch = useDispatch();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -177,8 +181,12 @@ const useStyles = makeStyles(theme => ({
   };
 
   const handleLogout = () => {
+    dispatch(logoutUser());
+    setAnchorEl(null);
+    setMobileMoreAnchorEl(null);
 
-    logoutUser
+
+
 
   }
 
@@ -209,7 +217,7 @@ const useStyles = makeStyles(theme => ({
 
       </MenuItem>
 
-      <MenuItem onClick={handleLogout}>
+      <MenuItem onClick={() => handleLogout()}>
         <IconButton color="inherit">
           <Badge badgeContent={0} color="secondary">
 
@@ -261,7 +269,7 @@ const useStyles = makeStyles(theme => ({
 
 
       <MenuItem component={Link} to="/upload"
-      className={!authenticated ? classes.toDi : classes.toN} 
+        className={!authenticated ? classes.toDi : classes.toN}
         onClick={handleMenuClose}>
         <IconButton disableRipple="true" color="inherit">
           <Badge badgeContent={0} color="secondary">
@@ -364,7 +372,7 @@ const useStyles = makeStyles(theme => ({
 
             <IconButton
 
-              className={!authenticated ? classes.toDi : classes.toN} 
+              className={!authenticated ? classes.toDi : classes.toN}
 
               component={Link} to="/upload" color="inherit">
               <Badge badgeContent={0} color="secondary">
@@ -425,9 +433,9 @@ const useStyles = makeStyles(theme => ({
           <div className={classes.marginLeft}>
 
             <IconButton
-            
-            className={!authenticated ? classes.toDi : classes.toN} 
-            color="inherit">
+
+              className={!authenticated ? classes.toDi : classes.toN}
+              color="inherit">
               <Badge badgeContent={1} color="secondary">
                 <NotificationsIcon />
               </Badge>

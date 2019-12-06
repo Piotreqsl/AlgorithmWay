@@ -16,7 +16,6 @@ import Card from "@material-ui/core/Card";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-import PrimarySearchAppBar from "../components/navbar";
 
 //Redux
 
