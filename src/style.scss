@@ -165,14 +165,19 @@ html {
     position: sticky;
 }
 
+.resetDialog {
+   
+    min-width: 400px;
+}
+
 .frgtPassword {
     text-decoration: none;
     color: #4d4d62;
     float: right;
     display: block;
     position: fixed;
-    textAlign:right;
-    marginTop: -10px;
+    text-align:right;
+    margin-top: -10px !important;
     
   }
 

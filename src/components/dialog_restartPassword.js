@@ -53,7 +53,7 @@ class FormDialog extends Component {
   componentWillReceiveProps(nextProps) {
 
     console.log(nextProps);
-    if(nextProps.UI.success && !nextProps.UI.errors) {
+    if(nextProps.UI.loading === false && nextProps.UI.success && !nextProps.UI.errors && !nextProps.UI.general) {
         
         this.props.enqueueSnackbar('Recovery email sent', {
             preventDuplicate: true,
@@ -122,7 +122,7 @@ class FormDialog extends Component {
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
-          className="resetDialog"
+          
         >
           <DialogTitle id="form-dialog-title">Reset your password</DialogTitle>
           <form> 
@@ -144,6 +144,8 @@ class FormDialog extends Component {
               
               inputProps={{ maxLength: 50 }}
             />
+
+<div className="resetDialog"></div>
 
             
           </DialogContent>

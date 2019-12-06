@@ -43,6 +43,15 @@ export const loginUser = (userData, history) => dispatch => {
         payload: err.response.data
       });
     });
+
+    dispatch({
+      type: CLEAR_SUCCESS
+    }); 
+    dispatch({
+      type: CLEAR_ERRORS
+    }); 
+
+
 };
 
 export const resetPassword = (resetPassword) => dispatch =>{

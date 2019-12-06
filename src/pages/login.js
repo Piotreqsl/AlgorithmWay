@@ -179,7 +179,7 @@ export class login extends Component {
               >
                 
               </TextField>
-             <Dialog />
+              <Dialog /> <br></br>
 
               {errors.general && ( //if <= this then print => html
                 <Typography variant="body2" className={classes.custError}>
