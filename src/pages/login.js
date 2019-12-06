@@ -63,14 +63,14 @@ const styles = {
   crtAcc: {
     textDecoration: "none",
     color: "#4d4d62",
-   
+
     "&:hover": {
       color: "#8b8ba3",
       transition: "0.2s"
     }
   },
 
-  
+
 
   progress: {
     position: "absolute"
@@ -97,16 +97,6 @@ export class login extends Component {
       this.setState({ errors: nextProps.UI.errors });
     }
 
-    if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false) {
-      
-      this.props.enqueueSnackbar('Successfully logged in', {
-        preventDuplicate: true,
-        variant: "success",
-        autoHideDuration: 3000,
-
-      });
-    }
-
 
   }
 
@@ -123,7 +113,7 @@ export class login extends Component {
 
 
   };
-  
+
 
   handleChange = event => {
     this.setState({
@@ -164,7 +154,7 @@ export class login extends Component {
               ></TextField>
 
               <TextField
-               inputProps={{ maxLength: 25 }}
+                inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 type="password"
                 id="password"
@@ -177,7 +167,7 @@ export class login extends Component {
                 onChange={this.handleChange}
                 fullWidth
               >
-                
+
               </TextField>
               <Dialog /> <br></br>
 
@@ -200,7 +190,7 @@ export class login extends Component {
                 )}
               </Button>
             </form>
-            
+
           </Card>
           <Typography
             component={Link}
