@@ -35,6 +35,7 @@ import { Link } from 'react-router-dom';
 
 import { logoutUser } from '../redux/actions/userActions';
 import { useSnackbar } from 'notistack';
+import { useHistory } from "react-router-dom";
 
 //of auth
 
@@ -149,7 +150,7 @@ const useStyles = makeStyles(theme => ({
 function PrimarySearchAppBar() {
 
 
-
+  let history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -187,11 +188,12 @@ function PrimarySearchAppBar() {
     dispatch(logoutUser());
     setAnchorEl(null);
     setMobileMoreAnchorEl(null);
-   
+
     enqueueSnackbar('Successfully logged out!', {
       variant: "success",
-     autoHideDuration: 1000,
+      autoHideDuration: 1000,
     });
+    history.push("/");
 
 
   }
