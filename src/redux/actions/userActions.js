@@ -6,7 +6,7 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   SET_SUCCESS,
-
+CLEAR_SUCCESS,
 
 
 } from "../types";
@@ -56,6 +56,8 @@ export const resetPassword = (resetPassword) => dispatch =>{
         type: SET_SUCCESS,
         payload: res.data
       });
+
+     
     })
       
       .catch(err => {
@@ -64,9 +66,18 @@ dispatch({
         type: SET_ERRORS,
         payload: err.response.data
       });
+      
+      
 
       });
   
+      dispatch({
+        type: CLEAR_SUCCESS
+      }); 
+      dispatch({
+        type: CLEAR_ERRORS
+      }); 
+
 }
 
 export const getUserData = () => dispatch => {

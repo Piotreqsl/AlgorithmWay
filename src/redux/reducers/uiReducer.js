@@ -7,6 +7,7 @@ import {
     CLOSE_SNACKBAR,
     REMOVE_SNACKBAR,
     SET_SUCCESS,
+    CLEAR_SUCCESS,
 
 
 } from '../types';
@@ -34,6 +35,13 @@ export default function (state = initialState, action) {
                 loading: false,
                     success: action.payload,
             };
+
+            case CLEAR_SUCCESS: 
+            return {
+                ...state,
+                loading: false,
+                    success: null,
+            }; 
 
         case CLEAR_ERRORS:
             return {

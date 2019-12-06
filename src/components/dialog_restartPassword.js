@@ -53,18 +53,8 @@ class FormDialog extends Component {
   componentWillReceiveProps(nextProps) {
 
     console.log(nextProps);
-
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
-      this.props.enqueueSnackbar('Invalid email', {
-        preventDuplicate: true,
-        variant: "error",
-        autoHideDuration: 2000,
-
-      });
-    }
-
-    if(nextProps.UI.success) {
+    if(nextProps.UI.success && !nextProps.UI.errors) {
+        
         this.props.enqueueSnackbar('Recovery email sent', {
             preventDuplicate: true,
             variant: "success",
@@ -72,6 +62,22 @@ class FormDialog extends Component {
     
           });
     }
+    if(nextProps.UI.errors != null) {
+    const err = nextProps.UI.errors;
+    console.log(err + "err.error: " + err.error);
+    if (err.error === "Email not found" && !nextProps.UI.success) {
+        
+      this.props.enqueueSnackbar('Invalid email', {
+        preventDuplicate: true,
+        variant: "error",
+        autoHideDuration: 2000,
+
+      });
+      
+    }
+        }
+
+    
 
    
 

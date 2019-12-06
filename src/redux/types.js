@@ -15,4 +15,5 @@ export const SET_ERRORS = 'SET_ERRORS';
 export const LOADING_UI = "LOADING_UI";
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const SET_SUCCESS = 'SET_SUCCESS'
+export const CLEAR_SUCCESS = 'CLEAR_SUCCESS'
 //Data reducer types
