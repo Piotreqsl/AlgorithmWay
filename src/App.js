@@ -13,9 +13,9 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import MuiThemeProvider from "@material-ui/styles/ThemeProvider";
 import Typography from "@material-ui/core/Typography";
 import jwtDecode from "jwt-decode";
-
+import withStyles from '@material-ui/core/styles/withStyles'
 import AuthRoute from "./utils/AuthRoute";
-
+import PropTypes from 'prop-types'
 // Pages:
 import home from "./pages/home";
 import login from "./pages/login";
@@ -50,6 +50,8 @@ const theme = createMuiTheme({
   }
 });
 
+
+
 const token = localStorage.FBIdToken;
 let UIauth;
 if (token) {
@@ -67,12 +69,29 @@ if (token) {
     UIauth = true;
   }
 }
+const styles = {
+  success: { backgroundColor: '#2E2E3A' },
+  error: { backgroundColor: '#202028' },
+  warning: { backgroundColor: 'red' },
+  info: { backgroundColor: '#4d4d62' },
+};
 
-function App() {
+function App(props) {
+  const { classes } = props;
+  
+ 
   return (
+    
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <SnackbarProvider maxSnack={3}>
+        <SnackbarProvider
+        classes={{
+          variantSuccess: classes.success,
+          variantError: classes.error,
+          variantWarning: classes.warning,
+          variantInfo: classes.info,
+      }}
+        maxSnack={3}>
           <div className="App">
             <Router>
               <Navbar />
@@ -93,6 +112,10 @@ function App() {
     </MuiThemeProvider>
   );
 }
-
+App.propTypes = {
+ 
+  classes: PropTypes.object.isRequired,
+ 
+};
 export { UIauth };
-export default App;
+export default withStyles(styles)(App);

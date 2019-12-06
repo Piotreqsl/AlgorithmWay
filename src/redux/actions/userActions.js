@@ -5,6 +5,7 @@ import {
   LOADING_UI,
   SET_UNAUTHENTICATED,
   LOADING_USER,
+  SET_SUCCESS,
 
 
 
@@ -43,6 +44,30 @@ export const loginUser = (userData, history) => dispatch => {
       });
     });
 };
+
+export const resetPassword = (resetPassword) => dispatch =>{
+  
+    dispatch({
+      type: LOADING_USER
+    });
+    axios.post('/passwordReset', resetPassword)
+    .then(res => {
+      dispatch({
+        type: SET_SUCCESS,
+        payload: res.data
+      });
+    })
+      
+      .catch(err => {
+
+dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      });
+
+      });
+  
+}
 
 export const getUserData = () => dispatch => {
   dispatch({

@@ -165,6 +165,21 @@ html {
     position: sticky;
 }
 
+.frgtPassword {
+    text-decoration: none;
+    color: #4d4d62;
+    float: right;
+    display: block;
+    position: fixed;
+    textAlign:right;
+    marginTop: -10px;
+    
+  }
+
+  .frgtPassword:hover {
+    color: #8b8ba3;
+    transition: 0.2s;
+  }
 
 
 .profile-ainfo {

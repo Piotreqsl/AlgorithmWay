@@ -18,9 +18,10 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 
 //redux
-
+import { withSnackbar } from 'notistack';
 import {connect} from 'react-redux';
 import {signupUser} from '../redux/actions/userActions';
+import { width } from "@material-ui/system";
 
 const styles = {
   form: {
@@ -49,7 +50,8 @@ const styles = {
   },
   formCard: {
     padding: "20px 20px 20px 20px",
-    marginBottom: "30px"
+    marginBottom: "30px",
+    width: "440px"
   },
   crtAcc: {
     textDecoration: "none",
@@ -89,6 +91,17 @@ export class signup extends Component {
       this.setState({errors: nextProps.UI.errors});
   
     }
+
+    if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false) {
+     
+      this.props.enqueueSnackbar('Successfully signed up', {
+        preventDuplicate: true,
+        variant: "success",
+        autoHideDuration: 3000,
+
+      });
+    }
+
     
   }
 
@@ -137,6 +150,7 @@ this.props.signupUser(userData, this.props.history);
           <Card className={classes.formCard}>
             <form noValidate onSubmit={this.handleSubmit}>
               <TextField
+              inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 ref={this.nick}
                 color="primary"
@@ -153,6 +167,7 @@ this.props.signupUser(userData, this.props.history);
               ></TextField>
 
               <TextField
+              inputProps={{ maxLength: 50 }}
                 variant="outlined"
                 color="primary"
                 type="text"
@@ -168,6 +183,7 @@ this.props.signupUser(userData, this.props.history);
               ></TextField>
 
               <TextField
+              inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 type="password"
                 id="password"
@@ -185,6 +201,7 @@ this.props.signupUser(userData, this.props.history);
               ></TextField>
 
               <TextField
+              inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 type="password"
                 id="confirmPassword"
@@ -245,4 +262,4 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 })
 
-export default connect(mapStateToProps, { signupUser })(withStyles(styles)(signup));
+export default connect(mapStateToProps, { signupUser })(withStyles(styles)(withSnackbar((signup))));

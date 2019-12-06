@@ -187,8 +187,10 @@ function PrimarySearchAppBar() {
     dispatch(logoutUser());
     setAnchorEl(null);
     setMobileMoreAnchorEl(null);
+   
     enqueueSnackbar('Successfully logged out!', {
-      variant: "success"
+      variant: "success",
+     autoHideDuration: 1000,
     });
 
 

@@ -5,13 +5,15 @@ import {
     LOADING_SIMPLE,
     ENQUEUE_SNACKBAR,
     CLOSE_SNACKBAR,
-    REMOVE_SNACKBAR
+    REMOVE_SNACKBAR,
+    SET_SUCCESS,
 
 
 } from '../types';
 const initialState = {
     loading: false,
     errors: null,
+    success: null,
 
 };
 
@@ -24,6 +26,13 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: false,
                     errors: action.payload,
+            };
+
+            case SET_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                    success: action.payload,
             };
 
         case CLEAR_ERRORS:

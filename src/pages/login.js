@@ -15,7 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import Dialog from "../components/dialog_restartPassword"
 
 
 //Redux
@@ -57,16 +57,20 @@ const styles = {
   },
   formCard: {
     padding: "20px 20px 20px 20px",
-    marginBottom: "30px"
+    marginBottom: "30px",
+    width: "440px"
   },
   crtAcc: {
     textDecoration: "none",
     color: "#4d4d62",
+   
     "&:hover": {
       color: "#8b8ba3",
       transition: "0.2s"
     }
   },
+
+  
 
   progress: {
     position: "absolute"
@@ -92,11 +96,13 @@ export class login extends Component {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
+
     if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false) {
-      console.log("odpaloni")
+      
       this.props.enqueueSnackbar('Successfully logged in', {
         preventDuplicate: true,
-        variant: "success"
+        variant: "success",
+        autoHideDuration: 3000,
 
       });
     }
@@ -117,6 +123,8 @@ export class login extends Component {
 
 
   };
+  
+
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
@@ -146,6 +154,7 @@ export class login extends Component {
                 id="email"
                 name="email"
                 label="Email"
+                inputProps={{ maxLength: 50 }}
                 className={classes.textField}
                 value={this.state.email}
                 helperText={errors.email}
@@ -155,6 +164,7 @@ export class login extends Component {
               ></TextField>
 
               <TextField
+               inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 type="password"
                 id="password"
@@ -166,7 +176,10 @@ export class login extends Component {
                 error={errors.password ? true : false}
                 onChange={this.handleChange}
                 fullWidth
-              ></TextField>
+              >
+                
+              </TextField>
+             <Dialog />
 
               {errors.general && ( //if <= this then print => html
                 <Typography variant="body2" className={classes.custError}>
@@ -187,6 +200,7 @@ export class login extends Component {
                 )}
               </Button>
             </form>
+            
           </Card>
           <Typography
             component={Link}
