@@ -6,7 +6,7 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   SET_SUCCESS,
-CLEAR_SUCCESS,
+  CLEAR_SUCCESS,
 
 
 } from "../types";
@@ -23,17 +23,28 @@ export const loginUser = (userData, history) => dispatch => {
   dispatch({
     type: LOADING_UI
   });
+  dispatch({
+    type: CLEAR_SUCCESS
+  });
   axios
     .post("/login", userData)
     .then(res => {
       setAuthorizationHeader(res.data.token);
-
 
       dispatch(getUserData());
       dispatch({
         type: CLEAR_ERRORS
       });
       history.push("/");
+
+
+    }).then(() => {
+      dispatch({
+        type: CLEAR_SUCCESS
+      });
+      dispatch({
+        type: CLEAR_ERRORS
+      });
 
 
     })
@@ -44,48 +55,43 @@ export const loginUser = (userData, history) => dispatch => {
       });
     });
 
-    dispatch({
-      type: CLEAR_SUCCESS
-    }); 
-    dispatch({
-      type: CLEAR_ERRORS
-    }); 
+
 
 
 };
 
-export const resetPassword = (resetPassword) => dispatch =>{
-  
-    dispatch({
-      type: LOADING_USER
-    });
-    axios.post('/passwordReset', resetPassword)
+export const resetPassword = (resetPassword) => dispatch => {
+
+  dispatch({
+    type: LOADING_USER
+  });
+  axios.post('/passwordReset', resetPassword)
     .then(res => {
       dispatch({
         type: SET_SUCCESS,
         payload: res.data
       });
 
-     
-    })
-      
-      .catch(err => {
 
-dispatch({
+    })
+
+    .catch(err => {
+
+      dispatch({
         type: SET_ERRORS,
         payload: err.response.data
       });
-      
-      
 
-      });
-  
-      dispatch({
-        type: CLEAR_SUCCESS
-      }); 
-      dispatch({
-        type: CLEAR_ERRORS
-      }); 
+
+
+    });
+
+  dispatch({
+    type: CLEAR_SUCCESS
+  });
+  dispatch({
+    type: CLEAR_ERRORS
+  });
 
 }
 

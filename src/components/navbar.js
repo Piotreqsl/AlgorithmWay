@@ -39,6 +39,8 @@ import { useHistory } from "react-router-dom";
 
 //of auth
 
+import { useLocation } from "react-router";
+
 
 
 
@@ -149,6 +151,9 @@ const useStyles = makeStyles(theme => ({
 
 function PrimarySearchAppBar() {
 
+  let location = useLocation();
+  console.log(location.pathname);
+
 
   let history = useHistory();
   const classes = useStyles();
@@ -193,7 +198,8 @@ function PrimarySearchAppBar() {
       variant: "success",
       autoHideDuration: 1000,
     });
-    history.push("/");
+
+    if (location.pathname !== "/") history.push("/");
 
 
   }
@@ -372,11 +378,17 @@ function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop}>
 
 
-            <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
+            {location.pathname !== "/" ? <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
               <Badge badgeContent={0} color='secondary'>
                 <Home />
               </Badge>
-            </IconButton>
+            </IconButton> : <IconButton className={classes.marginRight} color="inherit">
+                <Badge badgeContent={0} color='secondary'>
+                  <Home />
+                </Badge>
+              </IconButton>}
+
+
 
 
             <IconButton
