@@ -17,7 +17,7 @@ import theTime from "dayjs/plugin/advancedFormat";
 
 import Dialog from "../components/dialog_change";
 
-
+import {logoutUser, uploadImage} from '../redux/actions/userActions';
 import Snackbar from '../components/snackbar';
 
 
@@ -26,6 +26,9 @@ import Location from "@material-ui/icons/LocationOn";
 import EventIcon from "@material-ui/icons/Event";
 import FireplaceIcon from "@material-ui/icons/Fireplace";
 import EditIcon from "@material-ui/icons/Edit";
+import PublishIcon from '@material-ui/icons/Publish';
+
+import { LinearProgress } from '@material-ui/core';
 
 import Tooltip from "@material-ui/core/Tooltip";
 import { height } from "@material-ui/system";
@@ -58,6 +61,19 @@ const styles = {
 };
 
 export class profile extends Component {
+  handleImageChange = (event) => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image, image.name);
+    this.props.uploadImage(formData);
+  }
+
+  handleEditPicture = () => {
+    const fileInput = document.getElementById('imageInput');
+    fileInput.click();
+  }
+  
+  
   render() {
     dayjs.extend(theTime);
 
@@ -85,7 +101,23 @@ export class profile extends Component {
         <div class="main-content-squeezed">
           <Paper className={classes.paper}>
             <div className="profile-av">
-              <Avatar alt={handle} src={imageUrl} className="bigAvatar-scss" />
+
+
+              <div className="container1">
+
+               <Avatar alt={handle} src={imageUrl} className="bigAvatar-scss" />
+
+               <div className="overlay1">
+               
+                <IconButton  onClick={this.handleEditPicture} className="icon1" >
+                <PublishIcon fontSize="large" color="primary"   />
+                </IconButton>
+                <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange} />
+                </div>
+              </div>
+
+
+
               <Typography variant="h5"> {handle}</Typography>
 
               <div className="profile-ainfo">
@@ -134,7 +166,10 @@ export class profile extends Component {
         <p>not urs prof</p>
       )
     ) : (
-      <p> loading... </p>
+
+      <div class="main-content-squeezed">
+      <LinearProgress color="primary" />
+      </div>
     );
 
     return profileMarkup;
@@ -162,9 +197,13 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
+const mapActionsToProps = {logoutUser, uploadImage}
+
 profile.propTypes = {
   user: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(profile));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(profile));

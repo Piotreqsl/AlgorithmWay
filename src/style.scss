@@ -133,6 +133,9 @@ html {
 
 
 
+
+
+
 //avatar non-react
 //profile section
 .bigAvatar-scss {
@@ -202,6 +205,55 @@ html {
     max-width: 300px;
 
 
+}
+
+
+//onHover Upload Profile Picture
+
+/* Container needed to position the overlay. Adjust the width as needed */
+.container1 {
+    position: relative;
+    width: 150px !important;
+    height: 150px !important;
+  }
+  
+  /* Make the image to responsive */
+ 
+  
+  /* The overlay effect (full height and width) - lays on top of the container and over the image */
+  .overlay1 {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 150px !important;
+    height: 150px !important;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: rgba(0, 0, 0, 0.192);
+    border-radius: 50%;
+  }
+  
+  /* When you mouse over the container, fade in the overlay icon*/
+  .container1:hover .overlay1 {
+    opacity: 1;
+  }
+
+  .icon1 {
+    //color: white;
+    width: 150px !important;
+    height: 150px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+.icon1 svg {
+    color: white;
 }
 
 //tooltip
@@ -290,3 +342,6 @@ html {
 
 
 }
+
+
+
