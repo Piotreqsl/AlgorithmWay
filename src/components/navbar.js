@@ -35,8 +35,11 @@ import { Link } from 'react-router-dom';
 
 import { logoutUser } from '../redux/actions/userActions';
 import { useSnackbar } from 'notistack';
+import { useHistory } from "react-router-dom";
 
 //of auth
+
+import { useLocation } from "react-router";
 
 
 
@@ -148,8 +151,11 @@ const useStyles = makeStyles(theme => ({
 
 function PrimarySearchAppBar() {
 
+  let location = useLocation();
+  console.log(location.pathname);
 
 
+  let history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -187,11 +193,13 @@ function PrimarySearchAppBar() {
     dispatch(logoutUser());
     setAnchorEl(null);
     setMobileMoreAnchorEl(null);
-   
+
     enqueueSnackbar('Successfully logged out!', {
       variant: "success",
-     autoHideDuration: 1000,
+      autoHideDuration: 1000,
     });
+
+    if (location.pathname !== "/") history.push("/");
 
 
   }
@@ -211,7 +219,8 @@ function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} component={Link} to={'/user'}>
+
+      {location.pathname !== "/user" ? <MenuItem onClick={handleMenuClose} component={Link} to={'/user'}>
         <IconButton color="inherit">
           <Badge badgeContent={0} color="secondary">
 
@@ -220,8 +229,17 @@ function PrimarySearchAppBar() {
           </Badge>
         </IconButton>
         <p>My profile</p>
+      </MenuItem> : <MenuItem onClick={handleMenuClose} >
+          <IconButton color="inherit">
+            <Badge badgeContent={0} color="secondary">
 
-      </MenuItem>
+              <AccountCircle />
+
+            </Badge>
+          </IconButton>
+          <p>My profile</p>
+        </MenuItem>}
+
 
       <MenuItem onClick={() => handleLogout()}>
         <IconButton color="inherit">
@@ -370,21 +388,37 @@ function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop}>
 
 
-            <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
+            {/* Home  button */}
+            {location.pathname !== "/" ? <IconButton component={Link} to="/" className={classes.marginRight} color="inherit">
               <Badge badgeContent={0} color='secondary'>
                 <Home />
               </Badge>
-            </IconButton>
+            </IconButton> : <IconButton className={classes.marginRight} color="inherit">
+                <Badge badgeContent={0} color='secondary'>
+                  <Home />
+                </Badge>
+              </IconButton>}
 
 
-            <IconButton
+
+
+            {/* Add post button */}
+            {location.pathname !== "/upload" ? <IconButton
               className={!authenticated ? classes.toDi : classes.toN}
 
               component={Link} to="/upload" color="inherit">
               <Badge badgeContent={0} color="secondary">
                 <Add />
               </Badge>
-            </IconButton>
+            </IconButton> : <IconButton
+              className={!authenticated ? classes.toDi : classes.toN}
+              color="inherit">
+                <Badge badgeContent={0} color="secondary">
+                  <Add />
+                </Badge>
+              </IconButton>}
+
+
 
 
           </div>
@@ -397,7 +431,9 @@ function PrimarySearchAppBar() {
 
           <div className={classes.sectionDesktop} >
 
-            <Tooltip title="Admin panel" placement="bottom">
+
+            {/* Admin button */}
+            {location.pathname !== "/admin" ? <Tooltip title="Admin panel" placement="bottom">
               <IconButton
                 className={!admin ? classes.toDi : classes.toN}
                 disabled={!admin}
@@ -407,9 +443,20 @@ function PrimarySearchAppBar() {
                 color="inherit">
                 <SupervisedUserCircleIcon />
               </IconButton>
+            </Tooltip> : <Tooltip title="Admin panel" placement="bottom">
+                <IconButton
+                  className={!admin ? classes.toDi : classes.toN}
+                  disabled={!admin}
+                  aria-label="Admin functions"
+                  color="inherit">
+                  <SupervisedUserCircleIcon />
+                </IconButton>
+              </Tooltip>}
 
-            </Tooltip>
 
+
+
+            {/* My account  button */}
 
             <Tooltip title="My account" placement="bottom">
               <IconButton
@@ -422,20 +469,29 @@ function PrimarySearchAppBar() {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-
                 <AccountCircle />
               </IconButton>
             </Tooltip>
 
-            <IconButton
+
+            {/* Login   button */}
+            {location.pathname !== "/login" ? <IconButton
               className={authenticated ? classes.toDi : classes.toN}
               //disabled={authenticated}
               component={Link} to="/login" color="inherit">
-
               <Badge color="secondary">
                 <LogIn />
               </Badge>
-            </IconButton>
+            </IconButton> : <IconButton
+              className={authenticated ? classes.toDi : classes.toN}
+              //disabled={authenticated}
+              color="inherit">
+
+                <Badge color="secondary">
+                  <LogIn />
+                </Badge>
+              </IconButton>}
+
 
           </div>
 

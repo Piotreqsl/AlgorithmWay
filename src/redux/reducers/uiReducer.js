@@ -29,19 +29,18 @@ export default function (state = initialState, action) {
                     errors: action.payload,
             };
 
-            case SET_SUCCESS:
+        case SET_SUCCESS:
             return {
                 ...state,
                 loading: false,
                     success: action.payload,
             };
 
-            case CLEAR_SUCCESS: 
+        case CLEAR_SUCCESS:
             return {
                 ...state,
-                loading: false,
-                    success: null,
-            }; 
+                success: null
+            };
 
         case CLEAR_ERRORS:
             return {
