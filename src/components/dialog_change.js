@@ -58,10 +58,11 @@ class FormDialog extends Component {
   };
 
   componentDidMount() {
-    const { credentials } = this.props;
+    const { credentials} = this.props;
     this.mapUserDetailsToState(credentials);
   }
 
+  
   
 
   render() {
@@ -152,10 +153,12 @@ onBioChange(value){
 
 FormDialog.propTypes = {
   editUserDetails: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+ 
 };
 const mapStateToProps = state => ({
-  credentials: state.user.credentials
+  credentials: state.user.credentials,
+  
 });
 
 export default connect(mapStateToProps, { editUserDetails })(FormDialog);

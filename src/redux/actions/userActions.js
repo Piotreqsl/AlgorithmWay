@@ -102,10 +102,12 @@ export const getUserData = () => dispatch => {
   axios
     .get("/user")
     .then(res => {
+      
       dispatch({
         type: SET_USER,
         payload: res.data
       });
+      
     })
     .catch(err => console.log(err));
 };
@@ -144,6 +146,7 @@ export const editUserDetails = (userDetails) => (dispatch) => {
   axios.post('/user', userDetails)
     .then(() => {
       dispatch(getUserData());
+      
 
     })
     .catch(err => console.log(err));

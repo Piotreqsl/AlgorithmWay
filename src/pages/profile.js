@@ -32,6 +32,9 @@ import { LinearProgress } from '@material-ui/core';
 
 import Tooltip from "@material-ui/core/Tooltip";
 import { height } from "@material-ui/system";
+import { withSnackbar } from 'notistack';
+
+
 
 const styles = {
   paper: {
@@ -65,7 +68,38 @@ export class profile extends Component {
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append('image', image, image.name);
-    this.props.uploadImage(formData);
+    console.log(image.type);
+    const isType = (image.type);
+    if(isType === "image/png" || isType === "image/jpg" || isType === "image/jpeg" || isType === "image/bmp") {
+      
+    
+
+    if(image.size < 5000000 ) {
+    
+      this.props.uploadImage(formData);
+      
+    } else {
+
+      this.props.enqueueSnackbar(`Selected file is too big (Max. 5MB)`, {
+        preventDuplicate: true,
+        variant: "error",
+        autoHideDuration: 5000,
+
+    });
+
+    }
+  } else {
+
+    this.props.enqueueSnackbar(`Invalid file type`, {
+      preventDuplicate: true,
+      variant: "error",
+      autoHideDuration: 3000,
+
+  });
+
+  }
+
+
   }
 
   handleEditPicture = () => {
@@ -73,10 +107,16 @@ export class profile extends Component {
     fileInput.click();
   }
   
-  
+  componentWillReceiveProps(props) {
+
+    console.log(props);
+
+    
+  }
+
   render() {
     dayjs.extend(theTime);
-
+    
     let recentPostsMarkup = this.state.posts ? (
       this.state.posts.map(post => <Post key={post.postId} post={post} />)
     ) : (
@@ -194,7 +234,8 @@ export class profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  UI: state.ui,
 });
 
 const mapActionsToProps = {logoutUser, uploadImage}
@@ -204,6 +245,7 @@ profile.propTypes = {
   classes: PropTypes.object.isRequired,
   logoutUser: PropTypes.func.isRequired,
   uploadImage: PropTypes.func.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(profile));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(withSnackbar(profile)));
