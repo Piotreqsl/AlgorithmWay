@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import { withSnackbar } from 'notistack';
 
+
+import {getPosts} from '../redux/actions/dataActions'
+
 export class home extends Component {
     state = {
         posts: null
@@ -28,22 +31,18 @@ export class home extends Component {
     }
 
     componentDidMount() {
-        axios.get('/posts')
-            .then(res => {
+       
+this.props.getPosts();
 
-                console.log(res.data)
 
-                this.setState({
-                    posts: res.data
-                })
-            })
-            .catch(err => console.log(err));
     }
     render() {
+        const { posts, loading} = this.props.data;
+
         console.log(this.props.user.authenticated);
 
-        let recentPostsMarkup = this.state.posts ? (
-            this.state.posts.map((post) => <Post key={post.postId} post={post} />)
+        let recentPostsMarkup = !loading ? (
+            posts.map((post) => <Post key={post.postId} post={post} />)
         ) : (<div><center>
             <CircularProgress color="primary" /></center></div>);
 
@@ -73,7 +72,8 @@ export class home extends Component {
 
 // eslint-disable-next-line react/no-typos
 home.PropTypes = {
-
+    getPosts: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
@@ -82,8 +82,9 @@ home.PropTypes = {
 const mapStateToProps = (state) => ({
     user: state.user,
     UI: state.UI,
+    data: state.data,
 
 });
 
 
-export default connect(mapStateToProps)(withSnackbar(home));
+export default connect(mapStateToProps, {getPosts})(withSnackbar(home));

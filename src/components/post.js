@@ -8,11 +8,26 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-
+import IconButton from '@material-ui/core/IconButton'
 import relativeTime from "dayjs/plugin/relativeTime";
 import Tooltip from "@material-ui/core/Tooltip";
 
+
+
 import dayjs from "dayjs";
+
+
+
+
+import {connect} from 'react-redux'
+import {likePost, unlikePost} from '../redux/actions/dataActions'
+import PropTypes from 'prop-types'
+
+
+
+//icons
+import LikedIcon from '@material-ui/icons/Favorite';
+import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
 const styles = {
   card: {
@@ -21,6 +36,22 @@ const styles = {
 };
 
 class post extends Component {
+
+likedPost = () => {
+  if(this.props.user.likes && this.props.user.likes.find(like => like.postId === this.props.post.postId)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+likePost = () => {
+  this.props.likePost(this.props.post.postId);
+}
+unlikePost = () => {
+  this.props.unlikePost(this.props.post.postId);
+}
+
 
 
   render() {
@@ -39,9 +70,36 @@ class post extends Component {
         postId,
         java,
         python,
-        cpp
+        cpp,
+        likeCount,
+        commentCount,
+      },
+      user: {
+        authenticated,
       }
     } = this.props;
+
+
+
+    const likeButton = !authenticated ? (
+      <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }} component={Link} to="/login" >
+        <LikeIcon color="primary" />
+      </IconButton>
+    ) : (
+      this.likedPost() ? (
+        <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }}  onClick={this.unlikePost} >
+        <LikedIcon  color="primary" />
+      </IconButton>
+      ) : (
+
+        <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }}  onClick={this.likePost} >
+        <LikeIcon color="primary" />
+      </IconButton>
+
+      )
+    )
+
+
 
     var j_src;
     var p_src;
@@ -93,6 +151,11 @@ class post extends Component {
               <Typography variant="caption" color="inherit">
                 {dayjs(createdAt).fromNow()}
               </Typography>
+
+            {likeButton}  <Typography variant="caption" color="inherit">
+                  {likeCount}
+              </Typography>
+
             </div>
             <div className="post-userhandle">
               <Typography
@@ -114,4 +177,24 @@ class post extends Component {
   }
 }
 
-export default withStyles(styles)(post);
+
+post.propTypes = {
+  likePost: PropTypes.func.isRequired,
+  unlikePost: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  user: state.user
+})
+
+
+const mapActionsToProps = {
+  likePost,
+  unlikePost,
+
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(post));
