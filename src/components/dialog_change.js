@@ -11,11 +11,15 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Tooltip from "@material-ui/core/Tooltip";
 import { extend } from "dayjs";
 import axios from "axios";
-
+import IconButton from '@material-ui/core/IconButton'
 import { connect } from "react-redux";
 import { editUserDetails } from "../redux/actions/userActions";
 
 import PropTypes from "prop-types";
+
+import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
+
 
 class FormDialog extends Component {
   state = {
@@ -123,16 +127,17 @@ class FormDialog extends Component {
           </DialogContent>
           </form>
           <DialogActions>
-            <Button
+            <IconButton
               variant="contained"
               onClick={this.handleClose}
               color="primary"
             >
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={this.submit} color="primary">
-              Save changes
-            </Button>
+             <CloseIcon></CloseIcon>
+            </IconButton>
+
+            <IconButton variant="contained" onClick={this.submit} color="primary">
+              <DoneIcon></DoneIcon>
+            </IconButton>
           </DialogActions>
         </Dialog>
       </div>

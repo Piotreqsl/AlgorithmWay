@@ -22,6 +22,10 @@ import { editUserDetails } from "../redux/actions/userActions";
 
 import PropTypes from "prop-types";
 
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
+import SendIcon from '@material-ui/icons/Send';
 class FormDialog extends Component {
   state = {
     email: "",
@@ -151,16 +155,16 @@ class FormDialog extends Component {
           </DialogContent>
           </form>
           <DialogActions>
-            <Button
+            <IconButton
               variant="contained"
               onClick={this.handleClose}
               color="primary"
             >
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={this.submit} color="primary">
-              Reset password
-            </Button>
+              <CloseIcon></CloseIcon>
+            </IconButton>
+            <IconButton variant="contained" onClick={this.submit} color="primary">
+             <DoneIcon></DoneIcon>
+            </IconButton>
           </DialogActions>
         </Dialog>
       </div>

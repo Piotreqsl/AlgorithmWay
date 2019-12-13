@@ -17,7 +17,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import dayjs from "dayjs";
 
 
-
+import DeletePost from './delete_post'
 
 import {connect} from 'react-redux'
 import {likePost, unlikePost} from '../redux/actions/dataActions'
@@ -75,7 +75,7 @@ unlikePost = () => {
         commentCount,
       },
       user: {
-        authenticated,
+        authenticated, credentials: {handle}
       }
     } = this.props;
 
@@ -98,6 +98,13 @@ unlikePost = () => {
 
       )
     )
+
+
+    const deleteButton = authenticated && userHandle === handle ? (
+
+      <DeletePost postId={postId} />
+
+    ) : null
 
 
 
@@ -155,7 +162,7 @@ unlikePost = () => {
             {likeButton}  <Typography variant="caption" color="inherit">
                   {likeCount}
               </Typography>
-
+              {deleteButton}
             </div>
             <div className="post-userhandle">
               <Typography
