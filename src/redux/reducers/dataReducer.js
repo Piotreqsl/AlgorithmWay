@@ -32,8 +32,8 @@ case SET_POSTS:
         }
 
         case DELETE_POST:
-            index = state.posts.findIndex(post => post.postId === action.payload);
-            state.posts.splice(index, 1);
+           let index1 = state.posts.findIndex(post => post.postId === action.payload);
+            state.posts.splice(index1, 1);
             return {
                 ...state
             };
