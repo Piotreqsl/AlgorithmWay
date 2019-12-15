@@ -1,4 +1,4 @@
-import {SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, DELETE_POST} from '../types'
+import {SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, DELETE_POST, UPLOAD_POST} from '../types'
 
 const initialState = {
     posts: [],
@@ -37,6 +37,15 @@ case SET_POSTS:
             return {
                 ...state
             };
+
+            case UPLOAD_POST:
+                return {
+                    ...state,
+                    screams :[
+                        action.payload,
+                        ...state.screams
+                    ]
+                }
 
 default: return state;
 
