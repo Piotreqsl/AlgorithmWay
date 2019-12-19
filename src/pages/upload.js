@@ -6,23 +6,177 @@ import { connect } from "react-redux";
 import {postPost} from '../redux/actions/dataActions'
 
 
+//mui
+import Paper from "@material-ui/core/Paper";
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+
+
+
+import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
+import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
+import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
+import FormatBoldIcon from '@material-ui/icons/FormatBold';
+import FormatItalicIcon from '@material-ui/icons/FormatItalic';
+import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
+import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+
+import Grid from '@material-ui/core/Grid';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+
+
+const styles = theme => ({
+paper: {
+padding: "25px",
+
+},
+
+head1: {
+    marginBottom: "25px",
+},
+input: {
+    marginBottom: "15px"
+},
+blackBox: {
+    backgroundColor: "#000000",
+    color: "#FFFFFF",
+},
+
+
+});
+
 export class upload extends Component {
     state = {
         body: '',
         errors: {},
-    };
-    
-    render() {
+        alignment: "js",
 
-            const { errors } = this.state;
-            const {classes, UI: {loading}} = this.props;
+    };
+     
+    handleAlignment = (event) => {
+        this.setState({alignment: event.currentTarget.value});
+        
+    }
+
+    handleChange = (event) => {
+        this.setState({
+          [event.target.name]: event.target.value,
+          
+        });
+
+            
+        event.target.parentElement.parentElement.querySelector('p').innerHTML = event.target.value.toString().length + "/" + event.target.maxLength;
+      };
+
+     
+
+    render() {
+        const { errors } = this.state;
+        const {classes, UI: {loading}} = this.props;
+           
             
 
 
         return (
+
+            
+
             <div className="main-content-squeezed">
 
-            </div>
+           <Paper className={classes.paper}>
+
+               <Typography className={classes.head1} variant="h4" color="primary">
+                   Create a post
+               </Typography>
+               <form>
+                   <TextField 
+                   name="title"
+                   type="text"
+                   label="Post title*"
+                   variant="outlined"
+                   error={errors.body ? true : false}
+                   fullWidth
+                   helperText="0/50"
+                   onChange={this.handleChange}
+                   inputProps={{ maxLength: 50 }}
+                    className={classes.input}
+                   />
+
+                   <TextField 
+                   name="shortDesc"
+                   type="text"
+                   label="Short description*"
+                   variant="outlined"
+                   error={errors.body ? true : false}
+                   fullWidth
+                   helperText="0/250"
+                   onChange={this.handleChange}
+                   inputProps={{ maxLength: 250 }}
+                   className={classes.input}
+                   multiline="true"
+                   rows="3"
+
+                   />
+                   <TextField 
+                   name="shortDesc"
+                   type="text"
+                   label="Description"
+                   variant="outlined"
+                   error={errors.body ? true : false}
+                   fullWidth
+                   helperText="0/750"
+                   onChange={this.handleChange}
+                   inputProps={{ maxLength: 750 }}
+                   className={classes.input}
+                   multiline="true"
+                   rows="7"
+
+                   />
+
+<Grid container spacing={1}>
+        <Grid item sm={12} md={6}>
+        <div className="">
+          <ToggleButtonGroup
+            value={this.state.alignment}
+            exclusive
+            onChange={this.handleAlignment}
+            
+          >
+            <ToggleButton value="js" >
+              <img draggable="false" src={"java_logo.png"} height="24px" />
+            </ToggleButton>
+            <ToggleButton value="py" >
+              <img draggable="false" src={"python_logo.png"} height="24px" />
+            </ToggleButton>
+            <ToggleButton value="cpp" >
+              <img draggable="false" src={"cpp_logo.png"} height="24px" />
+            </ToggleButton>
+            
+          </ToggleButtonGroup>
+        </div>
+      </Grid> </Grid>
+
+
+                    <div className="codeInputs">
+                   <textarea onChange={this.handleChange} type="text" className="blackBox"
+                   
+                   
+                   
+                  
+                   />
+                   </div>
+
+           
+                  
+               </form>
+
+           </Paper>
+
+
+            </div>  
         )
     }
 }
@@ -33,8 +187,8 @@ upload.propTypes = {
 
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     UI: state.UI,
 });
 
-export default connect((mapStateToProps, {postPost}))(withStyles(upload));
+export default connect(mapStateToProps, {postPost})(withStyles(styles)(upload));

@@ -208,6 +208,25 @@ html {
 }
 
 
+.blackBox  {
+
+    color: #ffffff !important;
+    background-color: #000000 !important;
+    resize: none;
+    
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 400px;
+    padding: 15px;
+    box-sizing: border-box;
+    
+    
+
+}
+
+
+
 //onHover Upload Profile Picture
 
 /* Container needed to position the overlay. Adjust the width as needed */
@@ -297,6 +316,12 @@ html {
         width: auto;
 
 
+    }
+
+    .blackBox {
+        width: 100% !important;
+        padding: 15px;
+        box-sizing: border-box;
     }
 
 }
