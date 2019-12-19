@@ -19,8 +19,8 @@ import dayjs from "dayjs";
 
 import DeletePost from './delete_post'
 
-import {connect} from 'react-redux'
-import {likePost, unlikePost} from '../redux/actions/dataActions'
+import { connect } from 'react-redux'
+import { likePost, unlikePost } from '../redux/actions/dataActions'
 import PropTypes from 'prop-types'
 
 
@@ -37,20 +37,20 @@ const styles = {
 
 class post extends Component {
 
-likedPost = () => {
-  if(this.props.user.likes && this.props.user.likes.find(like => like.postId === this.props.post.postId)) {
-    return true;
-  } else {
-    return false;
+  likedPost = () => {
+    if (this.props.user.likes && this.props.user.likes.find(like => like.postId === this.props.post.postId)) {
+      return true;
+    } else {
+      return false;
+    }
   }
-}
 
-likePost = () => {
-  this.props.likePost(this.props.post.postId);
-}
-unlikePost = () => {
-  this.props.unlikePost(this.props.post.postId);
-}
+  likePost = () => {
+    this.props.likePost(this.props.post.postId);
+  }
+  unlikePost = () => {
+    this.props.unlikePost(this.props.post.postId);
+  }
 
 
 
@@ -75,7 +75,7 @@ unlikePost = () => {
         commentCount,
       },
       user: {
-        authenticated, credentials: {handle}
+        authenticated, credentials: { handle }
       }
     } = this.props;
 
@@ -86,21 +86,21 @@ unlikePost = () => {
         <LikeIcon color="primary" />
       </IconButton>
     ) : (
-      this.likedPost() ? (
-        <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }}  onClick={this.unlikePost} >
-        <LikedIcon  color="primary" />
-      </IconButton>
-      ) : (
+        this.likedPost() ? (
+          <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }} onClick={this.unlikePost} >
+            <LikedIcon color="primary" />
+          </IconButton>
+        ) : (
 
-        <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }}  onClick={this.likePost} >
-        <LikeIcon color="primary" />
-      </IconButton>
+            <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }} onClick={this.likePost} >
+              <LikeIcon color="primary" />
+            </IconButton>
 
+          )
       )
-    )
 
 
-    const deleteButton = authenticated && userHandle === handle ? (
+    const deleteButton = (authenticated && userHandle === handle) || (authenticated && this.props.user.adminPrivileges) ? (
 
       <DeletePost postId={postId} />
 
@@ -111,17 +111,11 @@ unlikePost = () => {
     var j_src;
     var p_src;
     var c_src;
-    if (java !== "") {
-      j_src = "java_logo.png";
-    }
+    j_src = "java_logo.png";
+    p_src = "python_logo.png";
 
-    if (python !== "") {
-      p_src = "python_logo.png";
-    }
+    c_src = "cpp_logo.png";
 
-    if (cpp !== "") {
-      c_src = "cpp_logo.png";
-    }
 
     return (
 
@@ -140,17 +134,20 @@ unlikePost = () => {
               {title}
             </Typography>
             <div className="post-langs">
-              <Tooltip title="Java" placement="top">
+              {java !== undefined && java !== "" && java !== null ? <Tooltip title="Java" placement="top">
                 <img draggable="false" src={j_src} height="24px" />
-              </Tooltip>
+              </Tooltip> : null}
 
-              <Tooltip title="Python" placement="top">
+
+              {python !== undefined && python !== "" && python !== null ? <Tooltip title="Python" placement="top">
                 <img draggable="false" src={p_src} height="24px" />
-              </Tooltip>
+              </Tooltip> : null}
 
-              <Tooltip title="C++" placement="top">
-                <img draggable="false" src={c_src} height="24px" />
-              </Tooltip>
+
+              {cpp !== undefined && cpp !== "" && cpp !== null ?
+                <Tooltip title="C++" placement="top">
+                  <img draggable="false" src={c_src} height="24px" />
+                </Tooltip> : null}
             </div>
             <br /> <br />
             <Typography variant="body2">{shortDesc}</Typography>
@@ -159,8 +156,8 @@ unlikePost = () => {
                 {dayjs(createdAt).fromNow()}
               </Typography>
 
-            {likeButton}  <Typography variant="caption" color="inherit">
-                  {likeCount}
+              {likeButton}  <Typography variant="caption" color="inherit">
+                {likeCount}
               </Typography>
               {deleteButton}
             </div>
