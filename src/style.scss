@@ -56,7 +56,45 @@ html {
 
 }
 
+.filtersButton {
+    width: calc(100% - 14%);
+    margin-bottom: 1% !important;
 
+}
+
+.filtersButton>.MuiButton-label {
+    text-align: left;
+    display: block !important;
+}
+
+.filtersDiv {
+    max-height: 0px;
+    transition: 0.5s;
+    display: block;
+    overflow: hidden;
+    width: calc(100% - 14%);
+}
+
+.formGroup {
+    float: left;
+    margin: 0 auto !important;
+    width: 50%;
+}
+
+
+
+.isOpen {
+    max-height: 600px;
+}
+
+.formWrapper {
+    width: 100%;
+    display: inline;
+}
+
+.clearer {
+    clear: both;
+}
 
 .contCenter {
     justify-content: center !important;
@@ -67,11 +105,13 @@ html {
 
 
 
+
 //for posts
 .post-margin {
     //margin-left: 14%;
     margin-right: 14%;
     margin-bottom: 1%;
+    transition: 1s;
 }
 
 .post-margin-edit {
@@ -169,7 +209,7 @@ html {
 }
 
 .resetDialog {
-   
+
     min-width: 400px;
 }
 
@@ -179,15 +219,15 @@ html {
     float: right;
     display: block;
     position: fixed;
-    text-align:right;
+    text-align: right;
     margin-top: -10px !important;
-    
-  }
 
-  .frgtPassword:hover {
+}
+
+.frgtPassword:hover {
     color: #8b8ba3;
     transition: 0.2s;
-  }
+}
 
 
 .profile-ainfo {
@@ -234,13 +274,17 @@ html {
     position: relative;
     width: 150px !important;
     height: 150px !important;
-  }
-  
-  /* Make the image to responsive */
- 
-  
-  /* The overlay effect (full height and width) - lays on top of the container and over the image */
-  .overlay1 {
+}
+
+.feed {
+    transition: 0.3 ease;
+}
+
+/* Make the image to responsive */
+
+
+/* The overlay effect (full height and width) - lays on top of the container and over the image */
+.overlay1 {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -252,14 +296,14 @@ html {
     transition: .3s ease;
     background-color: rgba(0, 0, 0, 0.192);
     border-radius: 50%;
-  }
-  
-  /* When you mouse over the container, fade in the overlay icon*/
-  .container1:hover .overlay1 {
-    opacity: 1;
-  }
+}
 
-  .icon1 {
+/* When you mouse over the container, fade in the overlay icon*/
+.container1:hover .overlay1 {
+    opacity: 1;
+}
+
+.icon1 {
     //color: white;
     width: 150px !important;
     height: 150px !important;
@@ -269,7 +313,7 @@ html {
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     text-align: center;
-  }
+}
 
 .icon1 svg {
     color: white;
@@ -287,14 +331,12 @@ html {
 
     //Tablet
     .post-margin {
-        margin-left: 7%;
-        margin-right: 7%;
+
         margin-bottom: 2%;
     }
 
     .post-margin-edit {
-        margin-left: 7%;
-        margin-right: 7%;
+
         margin-bottom: 2%;
     }
 
@@ -302,13 +344,29 @@ html {
         margin-left: 25px;
         margin-right: 25px;
         width: auto;
-
-
     }
 
 
-   
-    
+    .filtersButton {
+        margin-left: 7%;
+        margin-right: 7%;
+
+    }
+
+    .filtersDiv {
+        margin: 0 !important;
+    }
+
+    .filtersDiv {
+
+        transition: 0.5s;
+        display: block;
+        overflow: hidden;
+        margin-left: 7%;
+        margin-right: 7%;
+    }
+
+
 
 
 
@@ -357,6 +415,26 @@ html {
     }
 
 
+    .filtersButton {
+        margin-left: 4% !important;
+
+        width: 92% !important;
+
+    }
+
+    .filtersDiv {
+        margin-left: 4% !important;
+    }
+
+    .filtersDiv {
+
+        transition: 0.5s;
+        display: block;
+        overflow: hidden;
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+
 
 
     //avatar non-react
@@ -367,6 +445,3 @@ html {
 
 
 }
-
-
-

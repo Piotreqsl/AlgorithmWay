@@ -17,7 +17,7 @@ import theTime from "dayjs/plugin/advancedFormat";
 
 import Dialog from "../components/dialog_change";
 
-import {logoutUser, uploadImage} from '../redux/actions/userActions';
+import { logoutUser, uploadImage } from '../redux/actions/userActions';
 import Snackbar from '../components/snackbar';
 
 
@@ -70,34 +70,34 @@ export class profile extends Component {
     formData.append('image', image, image.name);
     console.log(image.type);
     const isType = (image.type);
-    if(isType === "image/png" || isType === "image/jpg" || isType === "image/jpeg" || isType === "image/bmp") {
-      
-    
+    if (isType === "image/png" || isType === "image/jpg" || isType === "image/jpeg" || isType === "image/bmp") {
 
-    if(image.size < 5000000 ) {
-    
-      this.props.uploadImage(formData);
-      
+
+
+      if (image.size < 5000000) {
+
+        this.props.uploadImage(formData);
+
+      } else {
+
+        this.props.enqueueSnackbar(`Selected file is too big (Max. 5MB)`, {
+          preventDuplicate: true,
+          variant: "error",
+          autoHideDuration: 5000,
+
+        });
+
+      }
     } else {
 
-      this.props.enqueueSnackbar(`Selected file is too big (Max. 5MB)`, {
+      this.props.enqueueSnackbar(`Invalid file type`, {
         preventDuplicate: true,
         variant: "error",
-        autoHideDuration: 5000,
+        autoHideDuration: 3000,
 
-    });
+      });
 
     }
-  } else {
-
-    this.props.enqueueSnackbar(`Invalid file type`, {
-      preventDuplicate: true,
-      variant: "error",
-      autoHideDuration: 3000,
-
-  });
-
-  }
 
 
   }
@@ -106,26 +106,26 @@ export class profile extends Component {
     const fileInput = document.getElementById('imageInput');
     fileInput.click();
   }
-  
+
   componentWillReceiveProps(props) {
 
     console.log(props);
 
-    
+
   }
 
   render() {
     dayjs.extend(theTime);
-    
+
     let recentPostsMarkup = this.state.posts ? (
       this.state.posts.map(post => <Post key={post.postId} post={post} />)
     ) : (
-      <div>
-        <center>
-          <CircularProgress color="primary" />
-        </center>
-      </div>
-    );
+        <div>
+          <center>
+            <CircularProgress color="primary" />
+          </center>
+        </div>
+      );
 
     const {
       classes,
@@ -145,14 +145,14 @@ export class profile extends Component {
 
               <div className="container1">
 
-               <Avatar alt={handle} src={imageUrl} className="bigAvatar-scss" />
+                <Avatar alt={handle} src={imageUrl} className="bigAvatar-scss" />
 
-               <div className="overlay1">
-               
-                <IconButton  onClick={this.handleEditPicture} className="icon1" >
-                <PublishIcon fontSize="large" color="primary"   />
-                </IconButton>
-                <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange} />
+                <div className="overlay1">
+
+                  <IconButton onClick={this.handleEditPicture} className="icon1" >
+                    <PublishIcon fontSize="large" color="primary" />
+                  </IconButton>
+                  <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange} />
                 </div>
               </div>
 
@@ -174,10 +174,7 @@ export class profile extends Component {
                   {" "}
                   <Tooltip title="Account created" placement="left">
                     <EventIcon color="primary"></EventIcon>
-                  </Tooltip>{" "}
-                  <div className={classes.icoMargin} />{" "}
-                  {dayjs(createdAt).format("DD-MM-YYYY")},{" "}
-                  {dayjs(createdAt).fromNow()}{" "}
+                  </Tooltip>
                 </Typography>
                 <br></br>
 
@@ -196,21 +193,21 @@ export class profile extends Component {
               {bio}{" "}
             </Typography>
 
-            <Dialog/>
-            
+            <Dialog />
+
           </Paper>
 
           <div className={classes.profilePosts}>{recentPostsMarkup}</div>
         </div>
       ) : (
-        <p>not urs prof</p>
-      )
+          <p>not urs prof</p>
+        )
     ) : (
 
-      <div class="main-content-squeezed">
-      <LinearProgress color="primary" />
-      </div>
-    );
+        <div class="main-content-squeezed">
+          <LinearProgress color="primary" />
+        </div>
+      );
 
     return profileMarkup;
   }
@@ -238,7 +235,7 @@ const mapStateToProps = state => ({
   UI: state.ui,
 });
 
-const mapActionsToProps = {logoutUser, uploadImage}
+const mapActionsToProps = { logoutUser, uploadImage }
 
 profile.propTypes = {
   user: PropTypes.object.isRequired,
