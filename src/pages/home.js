@@ -50,10 +50,23 @@ export class home extends Component {
 
             });
         }
+
+        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined) {
+            this.setState({
+                data: this.props.data.posts,
+            });
+
+            var lastId = this.props.data.posts[this.props.data.posts.length - 1].postId;
+
+
+            this.setState({
+                lastid: lastId
+            });
+
+
+
+        }
     }
-
-
-
 
 
 
@@ -82,10 +95,10 @@ export class home extends Component {
 
 
     render() {
-        const { posts, loading } = this.props.data;
+        const { loading } = this.props.data;
 
         let recentPostsMarkup = !loading ? (
-            posts.map((post) => <Post key={post.postId} post={post} />)
+            this.state.data.map((post) => <Post key={post.postId} post={post} />)
         ) : (<div><center>
             <CircularProgress color="primary" /></center></div>);
 
@@ -140,7 +153,7 @@ export class home extends Component {
 
 
                                     <FormGroup className="formGroup" column style={{ marginLeft: 10, marginTop: 5, }}>
-                                    <Typography color="primary" variant="button"> Kutafiarz: </Typography>
+                                        <Typography color="primary" variant="button"> Kutafiarz: </Typography>
                                         <FormControlLabel
                                             control={
                                                 <Checkbox checked={this.state.categories.string} onChange={this.handleChange('string')} value="string" />
@@ -172,16 +185,16 @@ export class home extends Component {
                                 </div>
 
 
-                                <Tooltip placement="left" title="Save"> 
-                                <IconButton
-                                    disabled={loading}
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className="filterBtn"                
-                                >
-                                    <SaveIcon />
-                                </IconButton>
+                                <Tooltip placement="left" title="Save">
+                                    <IconButton
+                                        disabled={loading}
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        className="filterBtn"
+                                    >
+                                        <SaveIcon />
+                                    </IconButton>
                                 </Tooltip>
 
                             </form>
