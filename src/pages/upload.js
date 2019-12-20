@@ -26,7 +26,8 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-
+import CropFreeIcon from '@material-ui/icons/CropFree';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
 paper: {
@@ -56,6 +57,7 @@ export class upload extends Component {
         javaCode: " ",
         pythonCode: " ",
         cppCode: " ",
+        expanded: false,
 
 
     };
@@ -112,6 +114,19 @@ export class upload extends Component {
         
       }
 
+      }
+
+      handleExpand = () => {
+        console.log(this.state.expanded);
+        if(this.state.expanded == false) {
+        document.getElementById("codeBoxing").classList.add("blackBoxExpanded");
+        this.setState({expanded: true});
+        } 
+        if(this.state.expanded == true) {
+          document.getElementById("codeBoxing").classList.remove("blackBoxExpanded");
+         
+          this.setState({expanded: false});
+        }
       }
      
 
@@ -198,11 +213,16 @@ export class upload extends Component {
             </ToggleButton>
             
           </ToggleButtonGroup>
+          <IconButton onClick={this.handleExpand} className="codeBoxingCrop">
+        <CropFreeIcon />
+      </IconButton>
         </div>
+        
       </Grid> 
       
       
       </Grid>
+      
 
 
                     <div className="codeInputs">
