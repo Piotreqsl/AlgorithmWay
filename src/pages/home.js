@@ -18,9 +18,11 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-
-import ReactPaginate from 'react-paginate';
-
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import SaveIcon from '@material-ui/icons/Save';
+//import ReactPaginate from 'react-paginate';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { getPosts } from '../redux/actions/dataActions'
 
@@ -96,7 +98,7 @@ export class home extends Component {
 
                     <Grid item sm={9} xs={12}>
 
-                        <Button variant="contained" className="filtersButton" color="secondary" disabled={this.props.user.loading ? true : false} onClick={this.toggleClass}>
+                        <Button variant="contained" className="filtersButton" color="primary" disabled={this.props.user.loading ? true : false} onClick={this.toggleClass}>
                             Filters
                         </Button>
 
@@ -105,7 +107,7 @@ export class home extends Component {
                                 <div className="formWrapper">
 
                                     <FormGroup className="formGroup" column style={{ marginLeft: 10, marginTop: 5 }}>
-                                        <h2>Categories:</h2>
+                                        <Typography color="primary" variant="button"> Categories: </Typography>
                                         <FormControlLabel
                                             control={
                                                 <Checkbox checked={this.state.categories.string} onChange={this.handleChange('string')} value="string" />
@@ -138,7 +140,7 @@ export class home extends Component {
 
 
                                     <FormGroup className="formGroup" column style={{ marginLeft: 10, marginTop: 5, }}>
-                                        <h2 style={{ minHeight: 31 }}> </h2>
+                                    <Typography color="primary" variant="button"> Kutafiarz: </Typography>
                                         <FormControlLabel
                                             control={
                                                 <Checkbox checked={this.state.categories.string} onChange={this.handleChange('string')} value="string" />
@@ -170,18 +172,21 @@ export class home extends Component {
                                 </div>
 
 
-
-                                <Button
+                                <Tooltip placement="left" title="Save"> 
+                                <IconButton
                                     disabled={loading}
                                     type="submit"
                                     variant="contained"
-                                    color="secondary"
-
-                                >Filter</Button>
-
+                                    color="primary"
+                                    className="filterBtn"                
+                                >
+                                    <SaveIcon />
+                                </IconButton>
+                                </Tooltip>
 
                             </form>
                         </div>
+                        <br />
 
 
 

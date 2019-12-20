@@ -73,6 +73,18 @@ html {
     display: block;
     overflow: hidden;
     width: calc(100% - 14%);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 31px -9px rgba(0, 0, 0, 0.356);
+    border-radius: 5px;
+    padding-left: 5px;
+    
+    box-sizing: border-box;
+    
+}
+.filterBtn {
+    float: right;
+    right: 3%;
+    
 }
 
 .formGroup {
@@ -85,15 +97,18 @@ html {
 
 .isOpen {
     max-height: 600px;
+   
 }
 
 .formWrapper {
     width: 100%;
     display: inline;
+    
 }
 
 .clearer {
     clear: both;
+   
 }
 
 .contCenter {
@@ -424,6 +439,7 @@ html {
 
     .filtersDiv {
         margin-left: 4% !important;
+        margin-right: 4% !important;
     }
 
     .filtersDiv {
@@ -431,8 +447,8 @@ html {
         transition: 0.5s;
         display: block;
         overflow: hidden;
-        margin-left: 4%;
-        margin-right: 4%;
+        width: auto;
+       
     }
 
 
