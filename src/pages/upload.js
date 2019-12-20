@@ -53,12 +53,35 @@ export class upload extends Component {
         body: '',
         errors: {},
         alignment: "js",
+        javaCode: " ",
+        pythonCode: " ",
+        cppCode: " ",
+
 
     };
      
     handleAlignment = (event) => {
         this.setState({alignment: event.currentTarget.value});
         
+        if(event.currentTarget.value == "js") {
+          
+          
+          document.getElementById("codeBoxing").value = this.state.javaCode;
+          //console.log(this.state.javaCode);
+        }
+
+        if(event.currentTarget.value == "py") {
+          
+          document.getElementById("codeBoxing").value = this.state.pythonCode;
+         // console.log(this.state.pythonCode);
+        }
+
+        if(event.currentTarget.value == "cpp") 
+      {
+        
+          document.getElementById("codeBoxing").value = this.state.cppCode;
+         // console.log(this.state.cppCode);
+      }
     }
 
     handleChange = (event) => {
@@ -66,11 +89,30 @@ export class upload extends Component {
           [event.target.name]: event.target.value,
           
         });
+        
 
             
         event.target.parentElement.parentElement.querySelector('p').innerHTML = event.target.value.toString().length + "/" + event.target.maxLength;
       };
+      handleCodeChange = (event) => {
+        
+        if(this.state.alignment == "js") {
+          this.setState({javaCode: event.target.value});
+          
+        }
 
+        if(this.state.alignment == "py") {
+          this.setState({pythonCode: event.target.value});
+          
+        }
+
+        if(this.state.alignment == "cpp") 
+      {
+        this.setState({cppCode: event.target.value});
+        
+      }
+
+      }
      
 
     render() {
@@ -157,16 +199,19 @@ export class upload extends Component {
             
           </ToggleButtonGroup>
         </div>
-      </Grid> </Grid>
+      </Grid> 
+      
+      
+      </Grid>
 
 
                     <div className="codeInputs">
-                   <textarea onChange={this.handleChange} type="text" className="blackBox"
+                   <textarea id="codeBoxing" onChange={this.handleCodeChange} type="text" className="blackBox"/>
                    
                    
                    
                   
-                   />
+                   
                    </div>
 
            
