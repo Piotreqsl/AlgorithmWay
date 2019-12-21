@@ -31,7 +31,7 @@ export const getPosts = () => dispatch => {
     });
 };
 
-export const postPost = newPost => dispatch => {
+export const postPost = (newPost, history) => dispatch => {
   dispatch({ type: LOADING_UI });
   axios
     .post("/post", newPost)
@@ -43,13 +43,26 @@ export const postPost = newPost => dispatch => {
       dispatch({
         type: CLEAR_ERRORS
       });
+     
     })
     .catch(err => {
+      if(err.response) {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data
-      });
+        payload: err.response.data,
+        
+      
+      }); } else {
+        history.push("/");
+        dispatch({
+          type: CLEAR_ERRORS
+        });
+        
+      }
+
+      
     });
+    
 };
 
 export const likePost = postId => dispatch => {

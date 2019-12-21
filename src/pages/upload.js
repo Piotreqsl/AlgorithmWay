@@ -28,6 +28,11 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import CropFreeIcon from '@material-ui/icons/CropFree';
 import IconButton from '@material-ui/core/IconButton';
+import PublishIcon from '@material-ui/icons/Publish';
+import Tooltip from '@material-ui/core/Tooltip';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import { withSnackbar } from 'notistack';
 
 const styles = theme => ({
 paper: {
@@ -46,6 +51,11 @@ blackBox: {
     color: "#FFFFFF",
 },
 
+progress: {
+  position: "absolute",
+  
+},
+
 
 });
 
@@ -54,9 +64,9 @@ export class upload extends Component {
         body: '',
         errors: {},
         alignment: "js",
-        javaCode: " ",
-        pythonCode: " ",
-        cppCode: " ",
+        javaCode: "",
+        pythonCode: "",
+        cppCode: "",
         expanded: false,
 
 
@@ -96,6 +106,37 @@ export class upload extends Component {
             
         event.target.parentElement.parentElement.querySelector('p').innerHTML = event.target.value.toString().length + "/" + event.target.maxLength;
       };
+
+      componentWillReceiveProps(nextProps){
+        if(nextProps.UI.errors && !nextProps.UI.loading) {
+          console.log(nextProps.UI.errors);
+          this.props.enqueueSnackbar('Fatal error occurred', {
+            preventDuplicate: true,
+            variant: "error",
+            autoHideDuration: 3000,
+
+        });
+
+        
+
+        }
+      }
+
+      handleSubmit = (event) => {
+      event.preventDefault();
+      const postStruct = {
+        title: this.state.title,
+        shortDesc: this.state.shortDesc,
+        desc: this.state.desc,
+        java: this.state.javaCode,
+        python: this.state.pythonCode,
+        cpp: this.state.cppCode,
+
+
+      }
+      this.props.postPost(postStruct, this.props.history);
+      }
+
       handleCodeChange = (event) => {
         
         if(this.state.alignment == "js") {
@@ -133,7 +174,7 @@ export class upload extends Component {
     render() {
         const { errors } = this.state;
         const {classes, UI: {loading}} = this.props;
-           
+          
             
 
 
@@ -178,7 +219,7 @@ export class upload extends Component {
 
                    />
                    <TextField 
-                   name="shortDesc"
+                   name="desc"
                    type="text"
                    label="Description"
                    variant="outlined"
@@ -194,8 +235,8 @@ export class upload extends Component {
                    />
 
 <Grid container spacing={1}>
-        <Grid item sm={12} md={6}>
-        <div className="">
+        <Grid item sm={12} md={12}>
+        <div className="codeBoxNav">
           <ToggleButtonGroup
             value={this.state.alignment}
             exclusive
@@ -237,7 +278,15 @@ export class upload extends Component {
            
                   
                </form>
-
+            <Tooltip placement="left" title="Upload">
+            <IconButton onClick={this.handleSubmit} type="submit" style={{ backgroundColor: '#ebebeb', float: "right", marginTop: "5px"}} disabled={loading}>
+              <PublishIcon color="primary"/>
+              {loading && (
+                <CircularProgress  size={50} className={classes.progress} />
+              )}
+            </IconButton>
+            </Tooltip>
+            <div style={{clear: "both"}}></div>
            </Paper>
 
 
@@ -256,4 +305,4 @@ const mapStateToProps = state => ({
     UI: state.UI,
 });
 
-export default connect(mapStateToProps, {postPost})(withStyles(styles)(upload));
+export default connect(mapStateToProps, {postPost})(withStyles(styles)(withSnackbar(upload)));
