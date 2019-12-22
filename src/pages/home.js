@@ -24,9 +24,13 @@ import SaveIcon from '@material-ui/icons/Save';
 //import ReactPaginate from 'react-paginate';
 import Tooltip from '@material-ui/core/Tooltip';
 
+
+import { Waypoint } from 'react-waypoint';
 import { getPosts } from '../redux/actions/dataActions'
 
 export class home extends Component {
+
+
     state = {
         data: [],
         active: false,
@@ -41,7 +45,7 @@ export class home extends Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.user.authenticated !== this.props.user.authenticated && this.props.user.authenticated === true) {
-            console.log("change");
+
 
             this.props.enqueueSnackbar('Successfully logged in', {
                 preventDuplicate: true,
@@ -72,12 +76,49 @@ export class home extends Component {
 
     componentDidMount() {
         this.props.getPosts();
+
     }
+
+
+
+
+    loadMorePosts = () => {
+        var link = "/posts/next/" + this.state.lastid;
+        axios.get(link).then(res => {
+
+
+            this.setState({
+                data: this.state.data.concat(res.data)
+            })
+
+            this.setState({
+                lastid: res.data[res.data.length - 1].postId
+            })
+
+        })
+
+
+
+    }
+
+
+    renderWaypoint = () => {
+        if (this.props.user.loading === false && this.state.data.length > 0) {
+            return (
+                <Waypoint
+                    onEnter={this.loadMorePosts}
+
+                />
+            )
+
+        }
+    }
+
 
     toggleClass = () => {
         var currentState = this.state.active;
         this.setState({ ...this.state, active: !currentState });
-        console.log(this.state)
+
 
     };
 
@@ -87,7 +128,7 @@ export class home extends Component {
 
     handleSubmitFilters = (event) => {
         event.preventDefault();
-        console.log("submitted");
+
         this.toggleClass();
         /// tu filtrować 
 
@@ -99,13 +140,16 @@ export class home extends Component {
 
         let recentPostsMarkup = !loading ? (
             this.state.data.map((post) => <Post key={post.postId} post={post} />)
+
         ) : (<div><center>
             <CircularProgress color="primary" /></center></div>);
+
+
 
         return (
 
 
-            <div className="main-content">
+            <div className="main-content" >
                 <Grid container spacing={16}>
 
 
@@ -203,9 +247,16 @@ export class home extends Component {
 
 
 
-                        <div className="feed">
+                        <div className="feed" >
                             {recentPostsMarkup}
+                            <div className="infinite-scroll-example__waypoint">
+                                {this.renderWaypoint()}
+                                No more posts found...
+          </div>
+
                         </div>
+
+
                     </Grid>
 
                     <Grid item sm={3} xs={12}>
@@ -226,6 +277,8 @@ home.PropTypes = {
     classes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
+    onEnter: PropTypes.func, // function called when waypoint enters viewport
+    onLeave: PropTypes.func, // function called when waypoint leaves viewport
 }
 
 const mapStateToProps = (state) => ({

@@ -77,14 +77,15 @@ html {
     box-shadow: 0px 2px 31px -9px rgba(0, 0, 0, 0.356);
     border-radius: 5px;
     padding-left: 5px;
-    
+
     box-sizing: border-box;
-    
+
 }
+
 .filterBtn {
     float: right;
     right: 3%;
-    
+
 }
 
 .formGroup {
@@ -97,18 +98,18 @@ html {
 
 .isOpen {
     max-height: 600px;
-   
+
 }
 
 .formWrapper {
     width: 100%;
     display: inline;
-    
+
 }
 
 .clearer {
     clear: both;
-   
+
 }
 
 .contCenter {
@@ -121,8 +122,9 @@ html {
     width: 100%;
     margin: 0px;
 }
+
 .codeBoxingCrop {
-   float:right;
+    float: right;
 
 }
 
@@ -271,12 +273,12 @@ html {
 }
 
 
-.blackBox  {
+.blackBox {
 
     color: #ffffff !important;
     background-color: #000000 !important;
     resize: none;
-    
+
     border: none;
     outline: none;
     width: 100%;
@@ -284,13 +286,13 @@ html {
     padding: 15px;
     box-sizing: border-box;
     color: #ebebeb;
-    
+
 
 }
 
 
 .blackBoxExpanded {
-    height: 800px; 
+    height: 800px;
 }
 
 
@@ -306,6 +308,11 @@ html {
 
 .feed {
     transition: 0.3 ease;
+    overflow-y: scroll;
+    position: relative;
+    height: 70vh;
+    scroll-behavior: initial;
+
 }
 
 /* Make the image to responsive */
@@ -461,7 +468,7 @@ html {
         display: block;
         overflow: hidden;
         width: auto;
-       
+
     }
 
 
