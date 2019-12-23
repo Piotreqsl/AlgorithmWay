@@ -231,7 +231,7 @@ export class home extends Component {
         let recentPostsMarkup = (!loading && this.state.data.length > 0) ? (
             this.state.data.map((post) => <Post key={post.postId} post={post} />)
 
-        ) : (<div><center>
+        ) : (<div className="post-margin"><center>
             <CircularProgress color="primary" /> </center></div>);
 
 
@@ -349,8 +349,8 @@ export class home extends Component {
                             <div className="infinite-scroll-example__waypoint">
                                 {this.renderWaypoint()}
 
-                                {!loading ? this.state.noMore ? null : (<div><center>
-                                    <LinearProgress color="primary" style={{ maxWidth: 200 }} /></center></div>) : null}
+                                {!loading ? this.state.noMore ? null : (<div className="post-margin"><center>
+                                    <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
 
 
                             </div>
