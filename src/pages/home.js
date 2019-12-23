@@ -7,7 +7,7 @@ import Post from '../components/post';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-
+import { LinearProgress } from '@material-ui/core';
 import PropTypes from "prop-types";
 import { withSnackbar } from 'notistack';
 
@@ -41,6 +41,7 @@ export class home extends Component {
             char: true,
         },
         offset: 0,
+        noMore: false,
 
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -95,6 +96,17 @@ export class home extends Component {
                 lastid: res.data[res.data.length - 1].postId
             })
 
+
+
+        }).catch(err => {
+
+
+            if ((err.response.status) === 404) {
+                this.setState({
+                    noMore: true
+                })
+
+            }
         })
 
 
@@ -142,7 +154,7 @@ export class home extends Component {
             this.state.data.map((post) => <Post key={post.postId} post={post} />)
 
         ) : (<div><center>
-            <CircularProgress color="primary" /></center></div>);
+            <CircularProgress color="primary" /> </center></div>);
 
 
 
@@ -251,8 +263,12 @@ export class home extends Component {
                             {recentPostsMarkup}
                             <div className="infinite-scroll-example__waypoint">
                                 {this.renderWaypoint()}
-                                No more posts found...
-          </div>
+
+                                {!loading ? this.state.noMore ? <p>No more posts found...</p> : (<div><center>
+                                    <LinearProgress color="primary" style={{ maxWidth: 200 }} /></center></div>) : null}
+
+
+                            </div>
 
                         </div>
 
