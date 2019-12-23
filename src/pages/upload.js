@@ -33,6 +33,8 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
+import ImageIcon from "@material-ui/icons/Image";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { withSnackbar } from "notistack";
 
 const styles = theme => ({
@@ -65,14 +67,8 @@ export class upload extends Component {
     pythonCode: "",
     cppCode: "",
     expanded: false,
-    categories: [
-    //  string: false,
-     // int: false,
-    //  array: false,
-    //  char: false,
-    ],
-    
-
+    categories: [],
+    images: []
   };
 
   handleAlignment = event => {
@@ -104,29 +100,24 @@ export class upload extends Component {
   };
 
   handleFormChange = name => event => {
-    if(event.target.checked == true) {
-    this.setState({
-      
-      categories: [ ...this.state.categories, event.target.value ]
-    });
-    
-  }
-
-  if(event.target.checked == false && this.state.categories.includes(event.target.value)) {
-    console.log("need to delete " + event.target.value);
-    var arr = [...this.state.categories]
-    var index = arr.indexOf(event.target.value);
-    if(index !== -1 ) {
-      arr.splice(index, 1);
-      this.setState({categories: arr});
+    if (event.target.checked == true) {
+      this.setState({
+        categories: [...this.state.categories, event.target.value]
+      });
     }
 
-    
-  }
-
-
-
-    
+    if (
+      event.target.checked == false &&
+      this.state.categories.includes(event.target.value)
+    ) {
+      console.log("need to delete " + event.target.value);
+      var arr = [...this.state.categories];
+      var index = arr.indexOf(event.target.value);
+      if (index !== -1) {
+        arr.splice(index, 1);
+        this.setState({ categories: arr });
+      }
+    }
   };
 
   componentWillReceiveProps(nextProps) {
@@ -143,9 +134,6 @@ export class upload extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    
-
-
     const postStruct = {
       title: this.state.title,
       shortDesc: this.state.shortDesc,
@@ -154,12 +142,7 @@ export class upload extends Component {
       python: this.state.pythonCode,
       cpp: this.state.cppCode,
       //categories
-      categories: this.state.categories,
-     
-
-        
-      
-      
+      categories: this.state.categories
     };
     this.props.postPost(postStruct, this.props.history);
   };
@@ -248,109 +231,107 @@ export class upload extends Component {
               multiline="true"
               rows="7"
             />
+            <div>
+              <div> Categories: </div>
+              <FormGroup
+                className="formGroup"
+                column
+                style={{ marginLeft: 10, marginTop: 5 }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.string}
+                      onChange={this.handleFormChange("string")}
+                      value="string"
+                    />
+                  }
+                  label="Strings"
+                  style={{ paddingLeft: 10 }}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.int}
+                      onChange={this.handleFormChange("int")}
+                      value="int"
+                    />
+                  }
+                  label="Integers"
+                  style={{ paddingLeft: 10 }}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.array}
+                      onChange={this.handleFormChange("array")}
+                      value="array"
+                    />
+                  }
+                  label="Arrays"
+                  style={{ paddingLeft: 10 }}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.char}
+                      onChange={this.handleFormChange("char")}
+                      value="char"
+                    />
+                  }
+                  label="Characters"
+                  style={{ paddingLeft: 10 }}
+                />
+              </FormGroup>
 
-<div> Categories: </div>
-            <FormGroup
-              className="formGroup"
-              column
-              style={{ marginLeft: 10, marginTop: 5 }}
-            >
-              
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.string}
-                    onChange={this.handleFormChange("string")}
-                    value="string"
-                  />
-                }
-                label="Strings"
-                style={{ paddingLeft: 10 }}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.int}
-                    onChange={this.handleFormChange("int")}
-                    value="int"
-                  />
-                }
-                label="Integers"
-                style={{ paddingLeft: 10 }}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.array}
-                    onChange={this.handleFormChange("array")}
-                    value="array"
-                  />
-                }
-                label="Arrays"
-                style={{ paddingLeft: 10 }}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.char}
-                    onChange={this.handleFormChange("char")}
-                    value="char"
-                  />
-                }
-                label="Characters"
-                style={{ paddingLeft: 10 }}
-              />
-            </FormGroup>
+              <FormGroup
+                className="formGroup"
+                column
+                style={{ marginLeft: 10, marginTop: 5 }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.string}
+                      onChange={this.handleFormChange("string")}
+                      value="string"
+                    />
+                  }
+                  label="Strings"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.int}
+                      onChange={this.handleFormChange("int")}
+                      value="int"
+                    />
+                  }
+                  label="Integers"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.array}
+                      onChange={this.handleFormChange("array")}
+                      value="array"
+                    />
+                  }
+                  label="Arrays"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.categories.char}
+                      onChange={this.handleFormChange("char")}
+                      value="char"
+                    />
+                  }
+                  label="Characters"
+                />
+              </FormGroup>
+            </div>
 
-            <FormGroup
-              className="formGroup"
-              column
-              style={{ marginLeft: 10, marginTop: 5}}
-            >
-             
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.string}
-                    onChange={this.handleFormChange("string")}
-                    value="string"
-                  />
-                }
-                label="Strings"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.int}
-                    onChange={this.handleFormChange("int")}
-                    value="int"
-                  />
-                }
-                label="Integers"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.array}
-                    onChange={this.handleFormChange("array")}
-                    value="array"
-                  />
-                }
-                label="Arrays"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.categories.char}
-                    onChange={this.handleFormChange("char")}
-                    value="char"
-                  />
-                }
-                label="Characters"
-              />
-            </FormGroup>
-            
-                 
             <Grid container spacing={1}>
               <Grid item sm={12} md={12}>
                 <div className="codeBoxNav">
@@ -400,6 +381,59 @@ export class upload extends Component {
               />
             </div>
           </form>
+
+          <div class="imageUploadBox">
+            {this.state.images !== null ? (
+
+
+              <div className="imagesHolder">
+                
+              <div className="imagesUploadPreview">
+
+                <div className="containerIU">
+                  <img   src="https://www.wykop.pl/cdn/c3201142/comment_S7pzARX3PcS2dkMHPtDYLpSw1dMEgOSC.jpg" />
+
+                  <div className="overlayIU">
+                    <IconButton onClick={null} className="iconIU" style={{backgroundColor: "transparent"}} >
+                      <HighlightOffIcon fontSize="large"   />
+                    </IconButton>
+                  </div>
+                </div>
+                </div>
+                <span></span>
+
+
+                <div className="imagesUploadPreview">
+                <div className="containerIU">
+                  <img   src="https://www.wykop.pl/cdn/c3201142/comment_QQEnxcMRqe4AqKBwdQekWCz8vovg0Qxj.jpg" />
+
+                  <div className="overlayIU">
+                    <IconButton onClick={null} className="iconIU" style={{backgroundColor: "transparent"}} >
+                      <HighlightOffIcon fontSize="large"   />
+                    </IconButton>
+                  </div>
+                </div>
+              </div>
+
+
+              </div> 
+
+
+
+
+
+
+            ) : (
+              <div className="imageUploadBtn">
+                <IconButton>
+                  <ImageIcon fontSize="large" />
+                </IconButton>{" "}
+                <br></br>
+                <Typography variant="button">Upload up to 4 images</Typography>
+              </div>
+            )}
+          </div>
+
           <Tooltip placement="left" title="Upload">
             <IconButton
               onClick={this.handleSubmit}

@@ -197,7 +197,95 @@ html {
 
 
 
+//imageUpload in postUpload
+.imageUploadBox {
+    width: 100%;
+    background-color: #e9e9e9;
+    
+    margin-bottom: 10px;
+    margin-top: 20px;
+    border: 3px solid #dddddd;
+    padding: 20px;
+    
+    box-sizing: border-box;
+    height: auto;
+    min-height: 150px;
+   
+    
+}
+.imageUploadBtn {
+    width: 146px; /*can be in percentage also.*/
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    color: #888888!important;
+}
+.imagesUploadPreview {
+    display: inline-block;
+    
+    
 
+}
+.imagesUploadPreview .containerIU {
+    margin-right: 20px;
+    margin-left: 20px;
+    
+    
+   
+}
+.imagesHolder {
+    text-align: center;
+  
+}
+.imagesUploadPreview img{
+    max-width: 125px;
+   
+    
+    
+    
+}
+
+
+
+//image removal
+.containerIU:hover .overlayIU {
+    opacity: 1;
+}
+.containerIU {
+    position: relative;
+    width: auto;
+    height: auto;
+    max-width: 125px;
+}
+
+
+.overlayIU {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: inherit;
+    height: auto;
+    max-height: inherit;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: rgba(0, 0, 0, 0.144);
+    
+}
+.iconIU {
+    color: white !important;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
 
 
 
