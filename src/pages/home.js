@@ -13,6 +13,7 @@ import { withSnackbar } from 'notistack';
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
@@ -24,6 +25,9 @@ import SaveIcon from '@material-ui/icons/Save';
 //import ReactPaginate from 'react-paginate';
 import Tooltip from '@material-ui/core/Tooltip';
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
 
 import { Waypoint } from 'react-waypoint';
 import { getPosts } from '../redux/actions/dataActions'
@@ -33,6 +37,7 @@ export class home extends Component {
 
     state = {
         data: [],
+        backupdata: [],
         active: false,
         categories: {
             string: true,
@@ -40,8 +45,11 @@ export class home extends Component {
             array: true,
             char: true,
         },
-        offset: 0,
         noMore: false,
+        all: true,
+        appr: false,
+        unappr: false
+
 
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -59,6 +67,7 @@ export class home extends Component {
         if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined) {
             this.setState({
                 data: this.props.data.posts,
+                backupdata: this.props.data.posts
             });
 
             var lastId = this.props.data.posts[this.props.data.posts.length - 1].postId;
@@ -67,10 +76,9 @@ export class home extends Component {
             this.setState({
                 lastid: lastId
             });
-
-
-
         }
+
+
     }
 
 
@@ -88,8 +96,12 @@ export class home extends Component {
         axios.get(link).then(res => {
 
 
+            res.data = this.filterUpcomingData(res.data);
+
+
             this.setState({
-                data: this.state.data.concat(res.data)
+                data: this.state.data.concat(res.data),
+                backupdata: this.state.data.concat(res.data)
             })
 
             this.setState({
@@ -101,16 +113,70 @@ export class home extends Component {
         }).catch(err => {
 
 
-            if ((err.response.status) === 404) {
-                this.setState({
-                    noMore: true
-                })
 
+            this.setState({
+                noMore: true
+            })
+
+
+        })
+    }
+
+
+    filterCurrentData = () => {
+        let filtered = [];
+
+        if (this.state.all) filtered = this.state.backupdata;
+        if (this.state.appr) {
+            for (var i = 0; i < this.state.backupdata.length; i++) {
+                if (this.state.backupdata[i].verified === true) {
+
+                    filtered.push(this.state.backupdata[i])
+                }
             }
+        }
+        if (this.state.unappr) {
+            for (var j = 0; j < this.state.backupdata.length; j++) {
+                if (this.state.backupdata[j].verified === false || this.state.backupdata[j].verified === undefined) {
+                    filtered.push(this.state.backupdata[j])
+                }
+            }
+        }
+
+        console.log(filtered);
+
+        this.setState({
+            data: filtered
         })
 
+    }
 
 
+    filterUpcomingData = (response) => {
+
+        let filtered = [];
+
+        if (this.state.all) filtered = response
+        if (this.state.appr) {
+            for (var i = 0; i < response.length; i++) {
+                if (response[i].verified === true) {
+
+                    filtered.push(response[i])
+                }
+            }
+        }
+        if (this.state.unappr) {
+            for (var i = 0; i < response.length; i++) {
+                if (response[i].verified === false || response[i].verified === undefined) {
+
+                    filtered.push(response[i])
+                }
+            }
+        }
+
+        console.log(filtered)
+
+        return filtered;
     }
 
 
@@ -130,6 +196,7 @@ export class home extends Component {
     toggleClass = () => {
         var currentState = this.state.active;
         this.setState({ ...this.state, active: !currentState });
+        console.log(this.state);
 
 
     };
@@ -138,11 +205,22 @@ export class home extends Component {
         this.setState({ categories: { ...this.state.categories, [name]: event.target.checked } });
     };
 
+
+    handleChangeGlobal = name => event => {
+
+        this.setState({
+            all: false,
+            appr: false,
+            unappr: false
+        })
+        this.setState({ [name]: event.target.checked });
+    };
+
     handleSubmitFilters = (event) => {
         event.preventDefault();
 
         this.toggleClass();
-        /// tu filtrować 
+        this.filterCurrentData();
 
     }
 
@@ -150,7 +228,7 @@ export class home extends Component {
     render() {
         const { loading } = this.props.data;
 
-        let recentPostsMarkup = !loading ? (
+        let recentPostsMarkup = (!loading && this.state.data.length > 0) ? (
             this.state.data.map((post) => <Post key={post.postId} post={post} />)
 
         ) : (<div><center>
@@ -239,6 +317,13 @@ export class home extends Component {
                                     <div className="clearer"></div>
 
                                 </div>
+                                <FormLabel component="legend">Gender</FormLabel>
+
+                                <RadioGroup aria-label="Post status" name="postStatus">
+                                    <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
+                                    <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
+                                    <FormControlLabel value="unappr" control={<Radio checked={this.state.unappr ? true : false} onChange={this.handleChangeGlobal("unappr")} />} label="Unapproved" />
+                                </RadioGroup>
 
 
                                 <Tooltip placement="left" title="Save">
@@ -264,7 +349,7 @@ export class home extends Component {
                             <div className="infinite-scroll-example__waypoint">
                                 {this.renderWaypoint()}
 
-                                {!loading ? this.state.noMore ? <p>No more posts found...</p> : (<div><center>
+                                {!loading ? this.state.noMore ? null : (<div><center>
                                     <LinearProgress color="primary" style={{ maxWidth: 200 }} /></center></div>) : null}
 
 
