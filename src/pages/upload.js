@@ -249,15 +249,13 @@ export class upload extends Component {
               rows="7"
             />
 
+<div> Categories: </div>
             <FormGroup
               className="formGroup"
               column
               style={{ marginLeft: 10, marginTop: 5 }}
             >
-              <Typography color="primary" variant="button">
-                {" "}
-                Categories:{" "}
-              </Typography>
+              
               <FormControlLabel
                 control={
                   <Checkbox
@@ -307,12 +305,9 @@ export class upload extends Component {
             <FormGroup
               className="formGroup"
               column
-              style={{ marginLeft: 10, marginTop: 5 }}
+              style={{ marginLeft: 10, marginTop: 5}}
             >
-              <Typography color="primary" variant="button">
-                {" "}
-                Kutafiarz:{" "}
-              </Typography>
+             
               <FormControlLabel
                 control={
                   <Checkbox
@@ -354,7 +349,8 @@ export class upload extends Component {
                 label="Characters"
               />
             </FormGroup>
-
+            
+                 
             <Grid container spacing={1}>
               <Grid item sm={12} md={12}>
                 <div className="codeBoxNav">
