@@ -169,9 +169,11 @@ export class upload extends Component {
         autoHideDuration: 1000
       });
 
+      if(!this.state.images.includes(nextProps.UI.success.name)) {
       this.setState({
         images: [...this.state.images, nextProps.UI.success.name]
-      });
+      });}
+      
       console.log(nextProps.UI.success.url);
       console.log(this.state.images);
     }
