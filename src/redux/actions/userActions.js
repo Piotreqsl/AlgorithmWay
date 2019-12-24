@@ -164,6 +164,8 @@ export const uploadImage = (formData) => (dispatch) => {
 }
 
 
+
+
 const setAuthorizationHeader = token => {
 
   const FBIdToken = `Bearer ${token}`;

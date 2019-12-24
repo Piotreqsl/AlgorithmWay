@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
@@ -34,8 +35,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import ImageIcon from "@material-ui/icons/Image";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { withSnackbar } from "notistack";
+import { uploadPostImage } from "../redux/actions/dataActions";
 
 const styles = theme => ({
   paper: {
@@ -69,6 +71,36 @@ export class upload extends Component {
     expanded: false,
     categories: [],
     images: []
+  };
+
+  handleImageUpload = event => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+   
+    const isType = image.type;
+    if (
+      isType === "image/png" ||
+      isType === "image/jpg" ||
+      isType === "image/jpeg" ||
+      isType === "image/bmp"
+    ) {
+      if (image.size < 5000000) {
+        this.props.uploadPostImage(formData);
+      } else {
+        this.props.enqueueSnackbar(`Selected file is too big (Max. 5MB)`, {
+          preventDuplicate: true,
+          variant: "error",
+          autoHideDuration: 5000
+        });
+      }
+    } else {
+      this.props.enqueueSnackbar(`Invalid file type`, {
+        preventDuplicate: true,
+        variant: "error",
+        autoHideDuration: 3000
+      });
+    }
   };
 
   handleAlignment = event => {
@@ -129,6 +161,20 @@ export class upload extends Component {
         autoHideDuration: 3000
       });
     }
+
+    if (nextProps.UI.success && !nextProps.UI.loading) {
+      this.props.enqueueSnackbar("Successfully added image", {
+        preventDuplicate: true,
+        variant: "success",
+        autoHideDuration: 1000
+      });
+
+      this.setState({
+        images: [...this.state.images, nextProps.UI.success.name]
+      });
+      console.log(nextProps.UI.success.url);
+      console.log(this.state.images);
+    }
   }
 
   handleSubmit = event => {
@@ -174,6 +220,11 @@ export class upload extends Component {
 
       this.setState({ expanded: false });
     }
+  };
+
+  handleOpenInput = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
   };
 
   render() {
@@ -383,51 +434,104 @@ export class upload extends Component {
           </form>
 
           <div class="imageUploadBox">
-            {this.state.images !== null ? (
-
-
-              <div className="imagesHolder">
-                
-              <div className="imagesUploadPreview">
-
-                <div className="containerIU">
-                  <img   src="https://www.wykop.pl/cdn/c3201142/comment_S7pzARX3PcS2dkMHPtDYLpSw1dMEgOSC.jpg" />
-
-                  <div className="overlayIU">
-                    <IconButton onClick={null} className="iconIU" style={{backgroundColor: "transparent"}} >
-                      <HighlightOffIcon fontSize="large"   />
-                    </IconButton>
-                  </div>
-                </div>
-                </div>
-                <span></span>
-
-
+            {this.state.images.length !== 0 ? (
+             
+             <div id="imagesHolder" className="imagesHolder">
+               
+              
+               
                 <div className="imagesUploadPreview">
-                <div className="containerIU">
-                  <img   src="https://www.wykop.pl/cdn/c3201142/comment_QQEnxcMRqe4AqKBwdQekWCz8vovg0Qxj.jpg" />
-
-                  <div className="overlayIU">
-                    <IconButton onClick={null} className="iconIU" style={{backgroundColor: "transparent"}} >
-                      <HighlightOffIcon fontSize="large"   />
-                    </IconButton>
+                  <div className="containerIU">
+                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[0]}?alt=media`} />
+                    <div className="overlayIU">
+                      <IconButton
+                        onClick={null}
+                        className="iconIU"
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <HighlightOffIcon fontSize="large" />
+                      </IconButton>
+                    </div>
                   </div>
                 </div>
+
+                {this.state.images.length !== 2 ? (<div className="imagesUploadPreview">
+                  <div className="containerIU">
+                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[1]}?alt=media`} />
+                    <div className="overlayIU">
+                      <IconButton
+                        onClick={null}
+                        className="iconIU"
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <HighlightOffIcon fontSize="large" />
+                      </IconButton>
+                    </div>
+                  </div>
+                </div>) : null}
+                
+                {this.state.images.length !== 3? (<div className="imagesUploadPreview">
+                  <div className="containerIU">
+                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[2]}?alt=media`} />
+                    <div className="overlayIU">
+                      <IconButton
+                        onClick={null}
+                        className="iconIU"
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <HighlightOffIcon fontSize="large" />
+                      </IconButton>
+                    </div>
+                  </div>
+                </div>) : null}
+
+                {this.state.images.length !== 4 ? (<div className="imagesUploadPreview">
+                  <div className="containerIU">
+                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[3]}?alt=media`} />
+                    <div className="overlayIU">
+                      <IconButton
+                        onClick={null}
+                        className="iconIU"
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <HighlightOffIcon fontSize="large" />
+                      </IconButton>
+                    </div>
+                  </div>
+                </div>) : null}
+
+
+
+                  {this.state.images.length<4 ? (
+    /*
+              <div>
+                <IconButton onClick={this.handleOpenInput}>
+                  <ImageIcon fontSize="large" />
+                </IconButton>
+                <input
+                  type="file"
+                  id="imageInput"
+                  hidden="hidden"
+                  onChange={this.handleImageUpload}
+                />
+              </div> */ null
+
+                  ) : null}
+
+
+
               </div>
-
-
-              </div> 
-
-
-
-
-
-
             ) : (
               <div className="imageUploadBtn">
-                <IconButton>
+                <IconButton onClick={this.handleOpenInput}>
                   <ImageIcon fontSize="large" />
-                </IconButton>{" "}
+                </IconButton>
+                <input
+                  type="file"
+                  id="imageInput"
+                  hidden="hidden"
+                  onChange={this.handleImageUpload}
+                />{" "}
                 <br></br>
                 <Typography variant="button">Upload up to 4 images</Typography>
               </div>
@@ -460,13 +564,14 @@ export class upload extends Component {
 
 upload.propTypes = {
   postPost: PropTypes.func.isRequired,
-  UI: PropTypes.object.isRequired
+  UI: PropTypes.object.isRequired,
+  uploadPostImage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   UI: state.UI
 });
 
-export default connect(mapStateToProps, { postPost })(
+export default connect(mapStateToProps, { postPost, uploadPostImage })(
   withStyles(styles)(withSnackbar(upload))
 );

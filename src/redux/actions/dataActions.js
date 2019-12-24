@@ -7,7 +7,9 @@ import {
   DELETE_POST,
   SET_ERRORS,
   CLEAR_ERRORS,
-  LOADING_UI
+  LOADING_UI,
+  SET_SUCCESS,
+  CLEAR_SUCCESS,
 } from "../types";
 
 import axios from "axios";
@@ -97,3 +99,34 @@ export const deletePost = postId => dispatch => {
     })
     .catch(err => console.log(err));
 };
+
+export const uploadPostImage = (formData) => dispatch => {
+  dispatch({type: LOADING_UI});
+  axios.post("/post/uploadImage", formData)
+  .then(res => {
+    dispatch(
+      {
+        type: SET_SUCCESS,
+        payload: res.data,
+      }
+    );
+    dispatch({
+      type: CLEAR_ERRORS
+    });
+
+  })
+  .catch(err => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: err.response.data,
+    });
+
+    dispatch({
+      type: CLEAR_SUCCESS
+    });
+    dispatch({
+      type: CLEAR_ERRORS
+    });
+
+  })
+}

@@ -68,7 +68,8 @@ export class profile extends Component {
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append('image', image, image.name);
-    console.log(image.type);
+    
+    
     const isType = (image.type);
     if (isType === "image/png" || isType === "image/jpg" || isType === "image/jpeg" || isType === "image/bmp") {
 
