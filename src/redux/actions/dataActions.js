@@ -59,6 +59,9 @@ export const postPost = (newPost, history) => dispatch => {
         dispatch({
           type: CLEAR_ERRORS
         });
+        dispatch({
+          type: CLEAR_SUCCESS
+        });
         
       }
 

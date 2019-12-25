@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
@@ -33,7 +33,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import axios from 'axios';
 import ImageIcon from "@material-ui/icons/Image";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { withSnackbar } from "notistack";
@@ -72,13 +72,18 @@ export class upload extends Component {
     categories: [],
     images: [],
     urls: [],
+    formdatas: [],
+    sent: false,
+
   };
 
   handleImageUpload = event => {
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append("image", image, image.name);
-   
+    
+
+    
     const isType = image.type;
     if (
       isType === "image/png" ||
@@ -88,11 +93,18 @@ export class upload extends Component {
     ) {
       if (image.size < 5000000) {
 
+
+        console.log(formData);
+        this.setState({
+      formdatas: [...this.state.formdatas, {formData} ]
+      });
+        console.log(this.state.formdatas);
+
         const objUrl = window.URL.createObjectURL(image);
         this.setState({
           urls: [...this.state.urls, objUrl],
         })
-        console.log(objUrl);
+        
 
        // this.props.uploadPostImage(formData);
       } else {
@@ -161,6 +173,7 @@ export class upload extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.UI.errors && !nextProps.UI.loading) {
       console.log(nextProps.UI.errors);
       this.props.enqueueSnackbar("Fatal error occurred", {
@@ -171,25 +184,73 @@ export class upload extends Component {
     }
 
     if (nextProps.UI.success && !nextProps.UI.loading) {
-      this.props.enqueueSnackbar("Successfully added image", {
-        preventDuplicate: true,
-        variant: "success",
-        autoHideDuration: 1000
-      });
+      
 
-      if(!this.state.images.includes(nextProps.UI.success.name)) {
+      if(!this.state.images.includes(nextProps.UI.success.url)) {
       this.setState({
-        images: [...this.state.images, nextProps.UI.success.name]
+        images: [...this.state.images, nextProps.UI.success.url]
       });}
       
-      console.log(nextProps.UI.success.url);
-      console.log(this.state.images);
+      //console.log(nextProps.UI.success.url);
+      
+      if(this.state.urls.length === this.state.images.length && this.state.sent === false) {
+        this.props.enqueueSnackbar("Successfully posted", {
+          preventDuplicate: true,
+          variant: "success",
+          autoHideDuration: 3000
+        }); 
+
+
+        console.log(this.state.urls);
+        console.log(this.state.images);
+        console.log("Wszystko załadowane");
+        this.setState({
+          sent: true,
+        })
+        this.handlePostUpload();
+  
+      }}
+
+      
+
+
     }
-  }
+
+
+    
+
+
+  
+
+  
+
+
+  
 
   handleSubmit = event => {
     event.preventDefault();
 
+
+   
+
+    if(this.state.formdatas.length === 0) {
+      this.handlePostUpload();
+    } else {
+      const formData = this.state.formdatas[0].formData;
+      this.props.uploadPostImage(formData);
+      
+    }
+
+      
+    
+
+    
+
+  
+  };
+
+  handlePostUpload = () => {
+    console.log("Will post now!");
     const postStruct = {
       title: this.state.title,
       shortDesc: this.state.shortDesc,
@@ -197,15 +258,25 @@ export class upload extends Component {
       java: this.state.javaCode,
       python: this.state.pythonCode,
       cpp: this.state.cppCode,
+      images: this.state.images,
       //categories
       categories: this.state.categories
     };
-    this.props.postPost(postStruct, this.props.history);
-  };
+
+    
+
+    
+      this.props.postPost(postStruct, this.props.history);
+    
+
+  }
 
   handleCodeChange = event => {
     if (this.state.alignment == "js") {
       this.setState({ javaCode: event.target.value });
+
+
+
     }
 
     if (this.state.alignment == "py") {
@@ -444,7 +515,7 @@ export class upload extends Component {
           </form>
 
           <div class="imageUploadBox">
-            {this.state.images.length !== 0 ? (
+            {this.state.urls.length !== 0 ? (
              
              <div id="imagesHolder" className="imagesHolder">
                
@@ -452,7 +523,7 @@ export class upload extends Component {
                
                 <div className="imagesUploadPreview">
                   <div className="containerIU">
-                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[0]}?alt=media`} />
+                    <img src={this.state.urls[0]} />
                     <div className="overlayIU">
                       <IconButton
                         onClick={null}
@@ -465,9 +536,9 @@ export class upload extends Component {
                   </div>
                 </div>
 
-                {this.state.images.length >= 2 ? (<div className="imagesUploadPreview">
+                {this.state.urls.length >= 2 ? (<div className="imagesUploadPreview">
                   <div className="containerIU">
-                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[1]}?alt=media`} />
+                    <img src={this.state.urls[1]} />
                     <div className="overlayIU">
                       <IconButton
                         onClick={null}
@@ -480,9 +551,9 @@ export class upload extends Component {
                   </div>
                 </div>) : null}
                 
-                {this.state.images.length >= 3? (<div className="imagesUploadPreview">
+                {this.state.urls.length >= 3? (<div className="imagesUploadPreview">
                   <div className="containerIU">
-                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[2]}?alt=media`} />
+                    <img src={this.state.urls[2]} />
                     <div className="overlayIU">
                       <IconButton
                         onClick={null}
@@ -495,9 +566,9 @@ export class upload extends Component {
                   </div>
                 </div>) : null}
 
-                {this.state.images.length >= 4 ? (<div className="imagesUploadPreview">
+                {this.state.urls.length >= 4 ? (<div className="imagesUploadPreview">
                   <div className="containerIU">
-                    <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[3]}?alt=media`} />
+                    <img src={this.state.urls[3]} />
                     <div className="overlayIU">
                       <IconButton
                         onClick={null}
@@ -512,7 +583,7 @@ export class upload extends Component {
 
 
 
-                  {this.state.images.length<4 ? (
+                  {this.state.urls.length<4 ? (
     
               <div>
                 <IconButton onClick={this.handleOpenInput}>
@@ -566,7 +637,7 @@ export class upload extends Component {
             </IconButton>
           </Tooltip>
           <div style={{ clear: "both" }}></div>
-          <img src={this.state.urls[0]}></img>
+         
         </Paper>
         
       </div>
