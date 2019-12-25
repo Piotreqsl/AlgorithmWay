@@ -70,7 +70,8 @@ export class upload extends Component {
     cppCode: "",
     expanded: false,
     categories: [],
-    images: []
+    images: [],
+    urls: [],
   };
 
   handleImageUpload = event => {
@@ -86,7 +87,14 @@ export class upload extends Component {
       isType === "image/bmp"
     ) {
       if (image.size < 5000000) {
-        this.props.uploadPostImage(formData);
+
+        const objUrl = window.URL.createObjectURL(image);
+        this.setState({
+          urls: [...this.state.urls, objUrl],
+        })
+        console.log(objUrl);
+
+       // this.props.uploadPostImage(formData);
       } else {
         this.props.enqueueSnackbar(`Selected file is too big (Max. 5MB)`, {
           preventDuplicate: true,
@@ -457,7 +465,7 @@ export class upload extends Component {
                   </div>
                 </div>
 
-                {this.state.images.length !== 2 ? (<div className="imagesUploadPreview">
+                {this.state.images.length >= 2 ? (<div className="imagesUploadPreview">
                   <div className="containerIU">
                     <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[1]}?alt=media`} />
                     <div className="overlayIU">
@@ -472,7 +480,7 @@ export class upload extends Component {
                   </div>
                 </div>) : null}
                 
-                {this.state.images.length !== 3? (<div className="imagesUploadPreview">
+                {this.state.images.length >= 3? (<div className="imagesUploadPreview">
                   <div className="containerIU">
                     <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[2]}?alt=media`} />
                     <div className="overlayIU">
@@ -487,7 +495,7 @@ export class upload extends Component {
                   </div>
                 </div>) : null}
 
-                {this.state.images.length !== 4 ? (<div className="imagesUploadPreview">
+                {this.state.images.length >= 4 ? (<div className="imagesUploadPreview">
                   <div className="containerIU">
                     <img src={`https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/${this.state.images[3]}?alt=media`} />
                     <div className="overlayIU">
@@ -505,7 +513,7 @@ export class upload extends Component {
 
 
                   {this.state.images.length<4 ? (
-    /*
+    
               <div>
                 <IconButton onClick={this.handleOpenInput}>
                   <ImageIcon fontSize="large" />
@@ -516,7 +524,7 @@ export class upload extends Component {
                   hidden="hidden"
                   onChange={this.handleImageUpload}
                 />
-              </div> */ null
+              </div> 
 
                   ) : null}
 
@@ -558,7 +566,9 @@ export class upload extends Component {
             </IconButton>
           </Tooltip>
           <div style={{ clear: "both" }}></div>
+          <img src={this.state.urls[0]}></img>
         </Paper>
+        
       </div>
     );
   }
