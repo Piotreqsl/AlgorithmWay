@@ -26,6 +26,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { connect } from "react-redux";
 
+
 const styles = {
   textField: {
     marginBottom: "13px",
@@ -60,9 +61,8 @@ class admin extends Component {
   }
 
   componentDidMount() {
-    axios.get('/posts')
+    axios.get('/allPosts')
       .then(res => {
-
         let filtered = [];
 
 
@@ -77,14 +77,17 @@ class admin extends Component {
           posts: filtered
         })
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err + " z posta"));
 
     axios.get("/getEditRequests").then(res => {
       console.log(res.data);
+
+
       this.setState({
         editReq: res.data
-
       })
+
+
 
     })
   }
@@ -142,10 +145,14 @@ class admin extends Component {
     ) : (<div><center>
       <CircularProgress color="primary" /></center></div>);
 
-    let editRequests = this.state.editReq ? (
+    let editRequests = (this.state.editReq && this.state.editReq.error === undefined) ? (
       this.state.editReq.map((req) => <EditRequestList key={req.id} post={req} />)
     ) : (<div><center>
       <CircularProgress color="primary" /></center></div>);
+
+    if (this.state.editReq && !this.state.editReq.error !== undefined) {
+      editRequests = <p>{this.state.editReq.error}</p>
+    }
 
 
 
