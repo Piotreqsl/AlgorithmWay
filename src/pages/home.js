@@ -48,7 +48,12 @@ export class home extends Component {
         noMore: false,
         all: true,
         appr: false,
-        unappr: false
+        unappr: false,
+        code: {
+            java: true,
+            cpp: true,
+            python: true
+        }
 
 
     }
@@ -139,29 +144,52 @@ export class home extends Component {
 
 
 
-    // Jakieś tam funckyje filtrujące dla łatwiejszego debuga
-    excludeUncheckedElement = (array, category) => {
-
-        array = array.filter(element => element.categories.indexOf(category) < 0);
-        return array;
-
-    }
-
-    excludeUncategorized = (array) => {
-        let exluded = []
-
-        for (var i = 0; i < array.length; i++) {
 
 
-            if (array[i].categories.length > 0) {
-                exluded.push(array[i]);
+
+
+
+
+
+    advancedFiltering = (mainArray, filters) => {
+        let filtered = [];
+
+        for (var i = 0; i < mainArray.length; i++) {
+            if (mainArray[i].categories.some(r => filters.includes(r))) {
+                filtered.push(mainArray[i])
             }
         }
 
-        return exluded;
+        return filtered;
 
     }
-    ///
+
+
+    advancedFilteringCode = (mainArray, filters) => {
+
+        let filtered = [];
+
+
+
+        for (var i = 0; i < mainArray.length; i++) {
+            let existingCode = [];
+
+            if (mainArray[i].java !== undefined) existingCode.push("java")
+            if (mainArray[i].cpp !== undefined) existingCode.push("cpp")
+            if (mainArray[i].python !== undefined) existingCode.push("python")
+
+
+            if (existingCode.some(r => filters.includes(r))) {
+                filtered.push(mainArray[i]);
+            }
+
+
+        }
+
+        return filtered;
+
+
+    }
 
 
 
@@ -191,30 +219,58 @@ export class home extends Component {
         }
 
 
-        /// Handlowanie kategorii, na podstawie wykluczania odznaczonych
+
+
+        let arrayFilters = [];
 
 
         if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
-            console.log("everything, no filtering")
+            console.log("everything, no filtering");
         } else {
-            filtered = this.excludeUncategorized(filtered);
+
+
+            if (this.state.categories.char) {
+                arrayFilters.push('char');
+            }
+
+            if (this.state.categories.int) {
+                arrayFilters.push('int');
+            }
+
+            if (this.state.categories.array) {
+                arrayFilters.push('array');
+            }
+
+            if (this.state.categories.string) {
+                arrayFilters.push('string');
+            }
+
+            console.log("filtry to " + arrayFilters);
+            filtered = this.advancedFiltering(filtered, arrayFilters);
         }
 
-        if (!this.state.categories.char) {
-            filtered = this.excludeUncheckedElement(filtered, "char")
+
+        let codeFilters = [];
+
+        if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
+            console.log("bez filtracji kodu");
+        }
+        else {
+            if (this.state.code.java) {
+                codeFilters.push("java")
+            }
+
+            if (this.state.code.cpp) {
+                codeFilters.push("cpp")
+            }
+
+            if (this.state.code.python) {
+                codeFilters.push("python")
+            }
+
+            filtered = this.advancedFilteringCode(filtered, codeFilters);
         }
 
-        if (!this.state.categories.int) {
-            filtered = this.excludeUncheckedElement(filtered, "int")
-        }
-
-        if (!this.state.categories.array) {
-            filtered = this.excludeUncheckedElement(filtered, "array")
-        }
-
-        if (!this.state.categories.string) {
-            filtered = this.excludeUncheckedElement(filtered, "string")
-        }
 
 
 
@@ -267,27 +323,54 @@ export class home extends Component {
             }
         }
 
+        let arrayFilters = [];
+
 
         if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
-            console.log("everything, no filtering")
+            console.log("everything, no filtering");
         } else {
-            filtered = this.excludeUncategorized(filtered);
+
+
+            if (this.state.categories.char) {
+                arrayFilters.push('char');
+            }
+
+            if (this.state.categories.int) {
+                arrayFilters.push('int');
+            }
+
+            if (this.state.categories.array) {
+                arrayFilters.push('array');
+            }
+
+            if (this.state.categories.string) {
+                arrayFilters.push('string');
+            }
+
+            console.log("filtry to " + arrayFilters);
+            filtered = this.advancedFiltering(filtered, arrayFilters);
         }
 
-        if (!this.state.categories.char) {
-            filtered = this.excludeUncheckedElement(filtered, "char")
-        }
 
-        if (!this.state.categories.int) {
-            filtered = this.excludeUncheckedElement(filtered, "int")
-        }
+        let codeFilters = [];
 
-        if (!this.state.categories.array) {
-            filtered = this.excludeUncheckedElement(filtered, "array")
+        if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
+            console.log("bez filtracji kodu");
         }
+        else {
+            if (this.state.code.java) {
+                codeFilters.push("java")
+            }
 
-        if (!this.state.categories.string) {
-            filtered = this.excludeUncheckedElement(filtered, "string")
+            if (this.state.code.cpp) {
+                codeFilters.push("cpp")
+            }
+
+            if (this.state.code.python) {
+                codeFilters.push("python")
+            }
+
+            filtered = this.advancedFilteringCode(filtered, codeFilters);
         }
 
 
@@ -324,6 +407,10 @@ export class home extends Component {
     handleChange = name => event => {
         this.setState({ categories: { ...this.state.categories, [name]: event.target.checked } });
     };
+
+    handleChangeCode = name => event => {
+        this.setState({ code: { ...this.state.code, [name]: event.target.checked } })
+    }
 
 
     handleChangeGlobal = name => event => {
@@ -443,14 +530,42 @@ export class home extends Component {
                                     <div className="clearer"></div>
 
                                 </div>
-                                <FormLabel component="legend">Gender</FormLabel>
+                                <div className="formWrapper">
 
-                                <RadioGroup aria-label="Post status" name="postStatus">
-                                    <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
-                                    <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
 
-                                </RadioGroup>
+                                    <RadioGroup className="formGroup" style={{ float: "left", }} aria-label="Post status" name="postStatus">
+                                        <FormLabel component="legend">Gender</FormLabel>
+                                        <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
+                                        <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
+                                    </RadioGroup>
 
+                                    <FormGroup column className="formGroup" style={{ float: "left" }}>
+                                        <Typography color="primary" variant="button"> Kutafiarz: </Typography>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox checked={this.state.code.java} onChange={this.handleChangeCode('java')} value="java" />
+                                            }
+                                            label="Java"
+                                        />
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox checked={this.state.code.cpp} onChange={this.handleChangeCode('cpp')} value="cpp" />
+                                            }
+                                            label="C++"
+                                        />
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox checked={this.state.code.python} onChange={this.handleChangeCode('python')} value="python" />
+                                            }
+                                            label="Python"
+                                        />
+
+                                    </FormGroup>
+
+
+
+                                    <div className="clearer"></div>
+                                </div>
 
                                 <Tooltip placement="left" title="Save">
                                     <IconButton
