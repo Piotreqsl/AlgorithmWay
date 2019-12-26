@@ -30,7 +30,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 
 
 import { Waypoint } from 'react-waypoint';
-import { getPosts } from '../redux/actions/dataActions'
+import { getPosts, pushPosts, filterPosts, restorePosts } from '../redux/actions/dataActions'
 
 export class home extends Component {
 
@@ -53,142 +53,7 @@ export class home extends Component {
             java: true,
             cpp: true,
             python: true
-        }
-
-
-    }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.user.authenticated !== this.props.user.authenticated && this.props.user.authenticated === true) {
-
-
-            this.props.enqueueSnackbar('Successfully logged in', {
-                preventDuplicate: true,
-                variant: "success",
-                autoHideDuration: 3000,
-
-            });
-        }
-
-        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined) {
-            var lastId = this.props.data.posts[this.props.data.posts.length - 1].postId;
-
-            this.setState({
-                data: this.props.data.posts,
-                backupdata: this.props.data.posts,
-                lastid: lastId
-            });
-
-
-
-
-        }
-
-
-    }
-
-
-
-    componentDidMount() {
-        this.props.getPosts();
-
-    }
-
-
-
-
-    loadMorePosts = () => {
-        var link = "/posts/next/" + this.state.lastid;
-        console.log("lołdowanie postów");
-
-        axios.get(link).then(res => {
-
-
-            // Ustawianie przed filtracją niezbędnych propsów
-            this.setState({
-                backupdata: this.state.backupdata.concat(res.data),
-                lastid: res.data[res.data.length - 1].postId
-            });
-
-
-            // Filtiracja
-            res.data = this.filterUpcomingData(res.data);
-
-
-
-            // Dodanie do stejta
-            this.setState({
-                data: this.state.data.concat(res.data)
-            }, () => {
-                if (res.data === undefined || res.data.length === 0) {
-                    if (this.state.noMore === false) {
-                        this.loadMorePosts();
-                    }
-                }
-            })
-
-
-
-
-            // Jeśli już nie ma wiecej postów (na cygana shandlowane :)))) 
-        }).catch(err => {
-
-            this.setState({
-                noMore: true
-            })
-
-
-        })
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    advancedFiltering = (mainArray, filters) => {
-        let filtered = [];
-
-        for (var i = 0; i < mainArray.length; i++) {
-            if (mainArray[i].categories.some(r => filters.includes(r))) {
-                filtered.push(mainArray[i])
-            }
-        }
-
-        return filtered;
-
-    }
-
-
-    advancedFilteringCode = (mainArray, filters) => {
-
-        let filtered = [];
-
-
-
-        for (var i = 0; i < mainArray.length; i++) {
-            let existingCode = [];
-
-            if (mainArray[i].java !== undefined) existingCode.push("java")
-            if (mainArray[i].cpp !== undefined) existingCode.push("cpp")
-            if (mainArray[i].python !== undefined) existingCode.push("python")
-
-
-            if (existingCode.some(r => filters.includes(r))) {
-                filtered.push(mainArray[i]);
-            }
-
-
-        }
-
-        return filtered;
-
-
+        },
     }
 
 
@@ -283,11 +148,16 @@ export class home extends Component {
 
 
 
+        console.log("curretn")
+
+
+
         /// Jeśli waypoint jest za wysoko, to automatycznie ładuje
 
         this.setState({
             data: filtered
         }, () => {
+            this.props.restorePosts(this.state.data)
             if (this.state.data.length <= 5 && !this.state.noMore) {
                 this.loadMorePosts()
             }
@@ -299,7 +169,6 @@ export class home extends Component {
 
 
     }
-
 
     filterUpcomingData = (response) => {
 
@@ -377,10 +246,134 @@ export class home extends Component {
 
 
 
+
+
         console.log(filtered)
 
         return filtered;
     }
+
+    loadMorePosts = () => {
+        var link = "/posts/next/" + this.state.lastid;
+
+        console.log("lołdowanie postów");
+        axios.get(link).then(res => {
+
+            //this.props.pushPosts(res.data);
+
+            res.data = this.filterUpcomingData(res.data)
+            if (res.data.length === 0) this.loadMorePosts();
+
+
+
+
+
+            // Jeśli już nie ma wiecej postów (na cygana shandlowane :)))) 
+        }).catch(err => {
+
+            this.setState({
+                noMore: true
+            })
+
+
+        })
+    }
+
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.user.authenticated !== this.props.user.authenticated && this.props.user.authenticated === true) {
+
+
+            this.props.enqueueSnackbar('Successfully logged in', {
+                preventDuplicate: true,
+                variant: "success",
+                autoHideDuration: 3000,
+
+            });
+        }
+
+        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined) {
+
+            console.log("przeszedł drugi if")
+            var lastId = this.props.data.posts[this.props.data.posts.length - 1].postId;
+
+
+
+
+
+            this.setState({
+                data: this.filterUpcomingData(this.props.data.posts),
+                backupdata: this.props.data.posts,
+                lastid: lastId,
+            });
+
+            this.props.restorePosts(this.filterUpcomingData(this.props.data.posts))
+            console.log("updejt jakikolwiek");
+
+
+        }
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+    componentDidMount() {
+        this.props.getPosts();
+    }
+
+
+
+
+    advancedFiltering = (mainArray, filters) => {
+        let filtered = [];
+
+        for (var i = 0; i < mainArray.length; i++) {
+            if (mainArray[i].categories.some(r => filters.includes(r))) {
+                filtered.push(mainArray[i])
+            }
+        }
+
+        return filtered;
+
+    }
+
+
+    advancedFilteringCode = (mainArray, filters) => {
+
+        let filtered = [];
+
+
+
+        for (var i = 0; i < mainArray.length; i++) {
+            let existingCode = [];
+
+            if (mainArray[i].java !== undefined) existingCode.push("java")
+            if (mainArray[i].cpp !== undefined) existingCode.push("cpp")
+            if (mainArray[i].python !== undefined) existingCode.push("python")
+
+
+            if (existingCode.some(r => filters.includes(r))) {
+                filtered.push(mainArray[i]);
+            }
+
+
+        }
+
+        return filtered;
+
+
+    }
+
 
 
     renderWaypoint = () => {
@@ -441,7 +434,7 @@ export class home extends Component {
         ) : (<div className="post-margin"><center>
             <CircularProgress color="primary" /> </center></div>);
 
-        if (!loading && this.state.data.length === 0) {
+        if (!loading && this.state.data.length === 0 && this.state.noMore === true) {
             recentPostsMarkup = <p>No posts found</p>;
         }
 
@@ -615,6 +608,9 @@ export class home extends Component {
 // eslint-disable-next-line react/no-typos
 home.PropTypes = {
     getPosts: PropTypes.func.isRequired,
+    restorePosts: PropTypes.func.isRequired,
+    pushPosts: PropTypes.func.isRequired,
+    filterPosts: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -631,4 +627,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getPosts })(withSnackbar(home));
+export default connect(mapStateToProps, { getPosts, pushPosts, filterPosts, restorePosts })(withSnackbar(home));
