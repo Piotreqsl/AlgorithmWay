@@ -65,17 +65,17 @@ export class home extends Component {
         }
 
         if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined) {
-            this.setState({
-                data: this.props.data.posts,
-                backupdata: this.props.data.posts
-            });
-
             var lastId = this.props.data.posts[this.props.data.posts.length - 1].postId;
 
-
             this.setState({
+                data: this.props.data.posts,
+                backupdata: this.props.data.posts,
                 lastid: lastId
             });
+
+
+
+
         }
 
 
@@ -93,26 +93,39 @@ export class home extends Component {
 
     loadMorePosts = () => {
         var link = "/posts/next/" + this.state.lastid;
+        console.log("lołdowanie postów");
+
         axios.get(link).then(res => {
 
 
+            // Ustawianie przed filtracją niezbędnych propsów
+            this.setState({
+                backupdata: this.state.backupdata.concat(res.data),
+                lastid: res.data[res.data.length - 1].postId
+            });
+
+
+            // Filtiracja
             res.data = this.filterUpcomingData(res.data);
 
 
+
+            // Dodanie do stejta
             this.setState({
-                data: this.state.data.concat(res.data),
-                backupdata: this.state.data.concat(res.data)
+                data: this.state.data.concat(res.data)
+            }, () => {
+                if (res.data === undefined || res.data.length === 0) {
+                    if (this.state.noMore === false) {
+                        this.loadMorePosts();
+                    }
+                }
             })
 
-            this.setState({
-                lastid: res.data[res.data.length - 1].postId
-            })
 
 
 
+            // Jeśli już nie ma wiecej postów (na cygana shandlowane :)))) 
         }).catch(err => {
-
-
 
             this.setState({
                 noMore: true
@@ -123,9 +136,43 @@ export class home extends Component {
     }
 
 
+
+
+
+    // Jakieś tam funckyje filtrujące dla łatwiejszego debuga
+    excludeUncheckedElement = (array, category) => {
+
+        array = array.filter(element => element.categories.indexOf(category) < 0);
+        return array;
+
+    }
+
+    excludeUncategorized = (array) => {
+        let exluded = []
+
+        for (var i = 0; i < array.length; i++) {
+
+
+            if (array[i].categories.length > 0) {
+                exluded.push(array[i]);
+            }
+        }
+
+        return exluded;
+
+    }
+    ///
+
+
+
     filterCurrentData = () => {
+
+
+
         let filtered = [];
 
+
+        /// Ustawianie wszystkich postów, bez względu na filtry kategorii ale z uwzględnieniem approved i 
         if (this.state.all) filtered = this.state.backupdata;
         if (this.state.appr) {
             for (var i = 0; i < this.state.backupdata.length; i++) {
@@ -143,11 +190,57 @@ export class home extends Component {
             }
         }
 
+
+        /// Handlowanie kategorii, na podstawie wykluczania odznaczonych
+
+
+        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
+            console.log("everything, no filtering")
+        } else {
+            filtered = this.excludeUncategorized(filtered);
+        }
+
+        if (!this.state.categories.char) {
+            filtered = this.excludeUncheckedElement(filtered, "char")
+        }
+
+        if (!this.state.categories.int) {
+            filtered = this.excludeUncheckedElement(filtered, "int")
+        }
+
+        if (!this.state.categories.array) {
+            filtered = this.excludeUncheckedElement(filtered, "array")
+        }
+
+        if (!this.state.categories.string) {
+            filtered = this.excludeUncheckedElement(filtered, "string")
+        }
+
+
+
+
+
+
+
+
         console.log(filtered);
+
+
+
+        /// Jeśli waypoint jest za wysoko, to automatycznie ładuje
 
         this.setState({
             data: filtered
+        }, () => {
+            if (this.state.data.length <= 5 && !this.state.noMore) {
+                this.loadMorePosts()
+            }
+
         })
+
+
+
+
 
     }
 
@@ -173,6 +266,33 @@ export class home extends Component {
                 }
             }
         }
+
+
+        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
+            console.log("everything, no filtering")
+        } else {
+            filtered = this.excludeUncategorized(filtered);
+        }
+
+        if (!this.state.categories.char) {
+            filtered = this.excludeUncheckedElement(filtered, "char")
+        }
+
+        if (!this.state.categories.int) {
+            filtered = this.excludeUncheckedElement(filtered, "int")
+        }
+
+        if (!this.state.categories.array) {
+            filtered = this.excludeUncheckedElement(filtered, "array")
+        }
+
+        if (!this.state.categories.string) {
+            filtered = this.excludeUncheckedElement(filtered, "string")
+        }
+
+
+
+
 
         console.log(filtered)
 
@@ -233,6 +353,12 @@ export class home extends Component {
 
         ) : (<div className="post-margin"><center>
             <CircularProgress color="primary" /> </center></div>);
+
+        if (!loading && this.state.data.length === 0) {
+            recentPostsMarkup = <p>No posts found</p>;
+        }
+
+
 
 
 
@@ -322,7 +448,7 @@ export class home extends Component {
                                 <RadioGroup aria-label="Post status" name="postStatus">
                                     <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
                                     <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
-                                    <FormControlLabel value="unappr" control={<Radio checked={this.state.unappr ? true : false} onChange={this.handleChangeGlobal("unappr")} />} label="Unapproved" />
+
                                 </RadioGroup>
 
 
