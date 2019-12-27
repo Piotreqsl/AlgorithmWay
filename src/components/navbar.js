@@ -39,8 +39,8 @@ import { useHistory } from "react-router-dom";
 
 //of auth
 
-import { useLocation } from "react-router";
 
+import {useLocation} from "react-router-dom"
 
 
 
@@ -152,7 +152,7 @@ const useStyles = makeStyles(theme => ({
 function PrimarySearchAppBar() {
 
   let location = useLocation();
-  console.log(location.pathname);
+ // console.log(location.pathname);
 
 
   let history = useHistory();
@@ -161,7 +161,7 @@ function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const authenticated = useSelector(state => state.user.authenticated, shallowEqual);
-  console.log(authenticated);
+ // console.log(authenticated);
   const admin = useSelector(state => state.user.adminPrivileges, shallowEqual);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();

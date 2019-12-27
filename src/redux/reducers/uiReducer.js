@@ -8,6 +8,7 @@ import {
     REMOVE_SNACKBAR,
     SET_SUCCESS,
     CLEAR_SUCCESS,
+    STOP_LOADING_UI,
 
 
 } from '../types';
@@ -54,6 +55,12 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: true,
             }
+            case STOP_LOADING_UI:
+                return {
+                    ...state,
+                    loading: false,
+
+                }
 
 
 

@@ -18,6 +18,8 @@ export const SET_SUCCESS = 'SET_SUCCESS'
 export const CLEAR_SUCCESS = 'CLEAR_SUCCESS'
 export const LOADING_DATA = "LOADING_DATA";
 export const UPLOAD_POST = "UPLOAD_POST"
+export const STOP_LOADING_UI = "STOP_LOADING_UI"
+
 
 //Data reducer types
 export const SET_POSTS = 'SET_POSTS';

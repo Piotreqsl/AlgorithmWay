@@ -11,8 +11,8 @@ import { Link } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton'
 import relativeTime from "dayjs/plugin/relativeTime";
 import Tooltip from "@material-ui/core/Tooltip";
-
-
+import MessageIcon from '@material-ui/icons/Message';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
 import dayjs from "dayjs";
 
@@ -159,7 +159,19 @@ class post extends Component {
               {likeButton}  <Typography variant="caption" color="inherit">
                 {likeCount}
               </Typography>
+             
+             
+             
+             
+              <IconButton style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px" }} >
+              <ChatBubbleOutlineIcon color="primary"></ChatBubbleOutlineIcon>
+               </IconButton><Typography variant="caption" color="inherit">
+                {commentCount}
+              </Typography>
+              
+
               {deleteButton}
+
             </div>
             <div className="post-userhandle">
               <Typography

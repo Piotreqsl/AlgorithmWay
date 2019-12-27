@@ -23,6 +23,7 @@ import signup from "./pages/signup";
 import upload from "./pages/upload";
 import profile from "./pages/profile";
 import admin from "./pages/admin";
+import posts from './pages/posts'
 
 //Components:
 import Navbar from "./components/navbar";
@@ -103,6 +104,7 @@ function App(props) {
                 <Route exact path="/upload" component={upload} />
                 <Route exact path="/user" component={profile} />
                 <Route exact path="/admin" component={admin} />
+                <Route path="/posts/" component={posts} />
 
               </Switch>
             </Router>
