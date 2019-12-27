@@ -91,7 +91,7 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
         arrUrls.splice(index, 1);
         this.setState({ urls: arrUrls });
         this.setState({formdatas: arrForms});
-        console.log(this.state.urls);console.log(this.state.formdatas);
+        //console.log(this.state.urls);console.log(this.state.formdatas);
       }
 
 
@@ -256,12 +256,23 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
     if(this.state.formdatas.length === 0) {
       this.handlePostUpload();
     } else {
-      const formData = this.state.formdatas[0].formData;
+
+
+      if(document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
+
+      const arr = this.state.formdatas;
+      for(let i = 0; i<arr.length; i++) {
+
+      const formData = this.state.formdatas[i].formData;
       this.props.uploadPostImage(formData);
+      console.log(i);  
+    }
       
+    } else {
+      console.log("Empty forms above!")
     }
 
-      
+  }
     
 
     
@@ -292,6 +303,10 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
   }
 
   handleCodeChange = event => {
+
+console.log(document.getElementById("postTitle").value.length);
+console.log(document.getElementById("shortDesc").value.length);
+    
     if (this.state.alignment == "js") {
       this.setState({ javaCode: event.target.value });
 
@@ -353,6 +368,7 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
               onChange={this.handleChange}
               inputProps={{ maxLength: 50 }}
               className={classes.input}
+              id="postTitle"
             />
 
             <TextField
@@ -368,6 +384,7 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
               className={classes.input}
               multiline="true"
               rows="3"
+              id="shortDesc"
             />
             <TextField
               name="desc"
