@@ -157,7 +157,7 @@ export class home extends Component {
         this.setState({
             data: filtered
         }, () => {
-            this.props.restorePosts(this.state.data)
+
             if (this.state.data.length <= 5 && !this.state.noMore) {
                 this.loadMorePosts()
             }
@@ -259,7 +259,8 @@ export class home extends Component {
         console.log("lołdowanie postów");
         axios.get(link).then(res => {
 
-            //this.props.pushPosts(res.data);
+            this.props.pushPosts(res.data);
+
 
             res.data = this.filterUpcomingData(res.data)
             if (res.data.length === 0) this.loadMorePosts();
@@ -294,24 +295,28 @@ export class home extends Component {
 
         if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined) {
 
-            console.log("przeszedł drugi if")
+
             var lastId = this.props.data.posts[this.props.data.posts.length - 1].postId;
+            var posty = this.filterUpcomingData(this.props.data.posts);
 
 
 
 
 
             this.setState({
-                data: this.filterUpcomingData(this.props.data.posts),
+                data: posty,
                 backupdata: this.props.data.posts,
                 lastid: lastId,
             });
 
-            this.props.restorePosts(this.filterUpcomingData(this.props.data.posts))
+
+
             console.log("updejt jakikolwiek");
 
 
         }
+
+
 
 
 
