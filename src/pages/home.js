@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
+
 
 import Post from '../components/post';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -22,7 +22,7 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import SaveIcon from '@material-ui/icons/Save';
-//import ReactPaginate from 'react-paginate';
+
 import Tooltip from '@material-ui/core/Tooltip';
 
 import Radio from '@material-ui/core/Radio';
@@ -138,6 +138,8 @@ export class home extends Component {
             });
         }
 
+        var did = false
+
 
         /// Jeśli upcoming data nic nie wniosło to ładuje dalej
         if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && prevProps.data.posts.length - this.props.data.posts.length === 0 && this.props.data.noMore === false) {
@@ -182,55 +184,56 @@ export class home extends Component {
                     codeFilters.push("python")
                 }
             }
+            did = true
             this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
 
         }
-        else {
-            /// Jeśli aktualnych postów jest 5 lub mniej, to ładuje sie wiecej postów żeby zawsze trochę można było skrolować
-            if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && this.props.data.posts.length <= 5 && this.props.data.noMore === false) {
+
+        /// Jeśli aktualnych postów jest 5 lub mniej, to ładuje sie wiecej postów żeby zawsze trochę można było skrolować
+        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && this.props.data.posts.length <= 5 && this.props.data.noMore === false && did === false) {
 
 
-                var approvedOnly = false;
-                if (this.state.all) approvedOnly = false;
-                if (this.state.appr) approvedOnly = true;
-                let arrayFilters = [];
-                if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
+            var approvedOnly = false;
+            if (this.state.all) approvedOnly = false;
+            if (this.state.appr) approvedOnly = true;
+            let arrayFilters = [];
+            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
 
-                } else {
-                    if (this.state.categories.char) {
-                        arrayFilters.push('char');
-                    }
-                    if (this.state.categories.int) {
-                        arrayFilters.push('int');
-                    }
-                    if (this.state.categories.array) {
-                        arrayFilters.push('array');
-                    }
-                    if (this.state.categories.string) {
-                        arrayFilters.push('string');
-                    }
-
+            } else {
+                if (this.state.categories.char) {
+                    arrayFilters.push('char');
                 }
-                let codeFilters = [];
-                if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
-
+                if (this.state.categories.int) {
+                    arrayFilters.push('int');
                 }
-                else {
-                    if (this.state.code.java) {
-                        codeFilters.push("java")
-                    }
-
-                    if (this.state.code.cpp) {
-                        codeFilters.push("cpp")
-                    }
-
-                    if (this.state.code.python) {
-                        codeFilters.push("python")
-                    }
+                if (this.state.categories.array) {
+                    arrayFilters.push('array');
                 }
-                this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
+                if (this.state.categories.string) {
+                    arrayFilters.push('string');
+                }
+
             }
+            let codeFilters = [];
+            if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
+
+            }
+            else {
+                if (this.state.code.java) {
+                    codeFilters.push("java")
+                }
+
+                if (this.state.code.cpp) {
+                    codeFilters.push("cpp")
+                }
+
+                if (this.state.code.python) {
+                    codeFilters.push("python")
+                }
+            }
+            this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
         }
+
 
 
 
@@ -248,7 +251,7 @@ export class home extends Component {
 
 
     componentDidMount() {
-        this.props.getPosts();
+        if (this.props.data.posts === undefined || this.props.data.posts.length === 0) this.props.getPosts();
     }
 
 
