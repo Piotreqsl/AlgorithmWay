@@ -28,5 +28,6 @@ export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
 export const DELETE_POST = "DELETE_POST"
 export const ADD_POSTS = "ADD_POSTS"
+export const LOAD_MORE_POSTS = "LOAD_MORE_POSTS"
+export const SET_NO_MORE = "SET_NO_MORE"
 export const FILTER_POSTS = "FILTER_POSTS"
-export const RESTORE_POSTS = "RESTORE_POSTS"
