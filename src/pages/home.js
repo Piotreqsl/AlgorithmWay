@@ -532,7 +532,7 @@ export class home extends Component {
 
 
                                     <RadioGroup className="formGroup" style={{ float: "left", }} aria-label="Post status" name="postStatus">
-                                        <FormLabel component="legend">Gender</FormLabel>
+                                    <Typography color="primary" variant="button"> Kutafiarz: </Typography>
                                         <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
                                         <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
                                     </RadioGroup>

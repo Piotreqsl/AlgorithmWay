@@ -29,6 +29,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PublishIcon from "@material-ui/icons/Publish";
 import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -38,6 +39,7 @@ import ImageIcon from "@material-ui/icons/Image";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { withSnackbar } from "notistack";
 import { uploadPostImage } from "../redux/actions/dataActions";
+import { width } from "@material-ui/system";
 
 const styles = theme => ({
   paper: {
@@ -77,6 +79,24 @@ export class upload extends Component {
 
   };
 
+
+  handleImageDelete = event => {
+console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
+
+      var arrForms = [...this.state.formdatas];
+      var arrUrls = [...this.state.urls];
+      var index = arrUrls.indexOf(event.currentTarget.parentElement.parentElement.querySelector('img').src);
+      if (index !== -1) {
+        arrForms.splice(index,1);
+        arrUrls.splice(index, 1);
+        this.setState({ urls: arrUrls });
+        this.setState({formdatas: arrForms});
+        console.log(this.state.urls);console.log(this.state.formdatas);
+      }
+
+
+  }
+
   handleImageUpload = event => {
     const image = event.target.files[0];
     const formData = new FormData();
@@ -94,11 +114,11 @@ export class upload extends Component {
       if (image.size < 5000000) {
 
 
-        console.log(formData);
+       // console.log(formData);
         this.setState({
       formdatas: [...this.state.formdatas, {formData} ]
       });
-        console.log(this.state.formdatas);
+       // console.log(this.state.formdatas);
 
         const objUrl = window.URL.createObjectURL(image);
         this.setState({
@@ -162,7 +182,7 @@ export class upload extends Component {
       event.target.checked == false &&
       this.state.categories.includes(event.target.value)
     ) {
-      console.log("need to delete " + event.target.value);
+      //console.log("need to delete " + event.target.value);
       var arr = [...this.state.categories];
       var index = arr.indexOf(event.target.value);
       if (index !== -1) {
@@ -201,9 +221,9 @@ export class upload extends Component {
         }); 
 
 
-        console.log(this.state.urls);
-        console.log(this.state.images);
-        console.log("Wszystko załadowane");
+        //console.log(this.state.urls);
+        //console.log(this.state.images);
+        //console.log("Wszystko załadowane");
         this.setState({
           sent: true,
         })
@@ -250,7 +270,7 @@ export class upload extends Component {
   };
 
   handlePostUpload = () => {
-    console.log("Will post now!");
+    //console.log("Will post now!");
     const postStruct = {
       title: this.state.title,
       shortDesc: this.state.shortDesc,
@@ -260,7 +280,7 @@ export class upload extends Component {
       cpp: this.state.cppCode,
       images: this.state.images,
       //categories
-      categories: this.state.categories
+      categories: this.state.categories,
     };
 
     
@@ -526,7 +546,7 @@ export class upload extends Component {
                     <img src={this.state.urls[0]} />
                     <div className="overlayIU">
                       <IconButton
-                        onClick={null}
+                        onClick={this.handleImageDelete}
                         className="iconIU"
                         style={{ backgroundColor: "transparent" }}
                       >
@@ -541,7 +561,7 @@ export class upload extends Component {
                     <img src={this.state.urls[1]} />
                     <div className="overlayIU">
                       <IconButton
-                        onClick={null}
+                        onClick={this.handleImageDelete}
                         className="iconIU"
                         style={{ backgroundColor: "transparent" }}
                       >
@@ -556,7 +576,7 @@ export class upload extends Component {
                     <img src={this.state.urls[2]} />
                     <div className="overlayIU">
                       <IconButton
-                        onClick={null}
+                        onClick={this.handleImageDelete}
                         className="iconIU"
                         style={{ backgroundColor: "transparent" }}
                       >
@@ -571,7 +591,7 @@ export class upload extends Component {
                     <img src={this.state.urls[3]} />
                     <div className="overlayIU">
                       <IconButton
-                        onClick={null}
+                        onClick={this.handleImageDelete}
                         className="iconIU"
                         style={{ backgroundColor: "transparent" }}
                       >
@@ -585,9 +605,9 @@ export class upload extends Component {
 
                   {this.state.urls.length<4 ? (
     
-              <div>
+              <div className="additionalIconDiv" >
                 <IconButton onClick={this.handleOpenInput}>
-                  <ImageIcon fontSize="large" />
+                  <AddCircleOutlineIcon fontSize="large" />
                 </IconButton>
                 <input
                   type="file"

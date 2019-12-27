@@ -237,16 +237,25 @@ html {
 }
 .imagesHolder {
     text-align: center;
-  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 .imagesUploadPreview img{
     max-width: 125px;
+    max-height: 210px;
    
     
     
     
 }
-
+.additionalIconDiv {
+    //its for addmore icon
+    width: 59px;
+    display: inline-block;
+    height: 59px;
+}
 
 
 //image removal

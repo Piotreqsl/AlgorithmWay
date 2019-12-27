@@ -1,5 +1,5 @@
 ## A L G O R I T H M  W A Y
-
+dorobić captche
 ## TO INSTALL
 
 npm install node-sass
