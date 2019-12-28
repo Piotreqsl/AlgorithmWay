@@ -137,8 +137,11 @@ html {
     margin-right: 14%;
     margin-bottom: 1%;
     transition: 1s;
+    
 }
-
+.post-content{
+    min-height: 125px;
+}
 .post-margin-edit {
 
     margin-bottom: 4%;
@@ -152,13 +155,27 @@ html {
     margin-top: 20px;
 }
 
+
 //post-title color: primary-main
+
+.post-short-desc{
+    max-width: 90%;
+}
+
+
 .post-title {
     text-decoration: none !important;
     cursor: pointer;
     float: left;
     color: $secondaryDark;
 
+    font-size: 1.25rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 500;
+    
+
+    
+    
 }
 
 .post-title:hover {
@@ -168,9 +185,20 @@ html {
 }
 
 .post-langs {
-    float: right;
+    
     margin-top: 4px;
-
+    right: 15%;
+    position: absolute;
+   
+}
+.post-short-desc {
+    font-size: 0.875rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    line-height: 1.43;
+    margin-top: 30px;
+    
+    
 }
 
 .post-langs img {
@@ -458,14 +486,53 @@ html {
 
 }
 
+@media only screen and (max-width: 1140px) {
+    .filtersButton {
+        width: 100% - 6%;
+    }
+.post-margin {
+        margin-right: 6%;
+        margin-bottom: 2%;
+    }
+
+
+    .post-langs {
+    
+        
+        right: 7%;
+        
+    }
+
+}
 
 @media only screen and (max-width: 959px) {
 
+    .MuiGrid-grid-sm-9 {
+        max-width: 100% !important;
+    flex-basis: 100% !important;
+    }
+
+    .filtersButton {
+        width: 100%;
+    }
+
+    .ndgrid {
+        display: none;
+        overflow: hidden;
+    }
     //Tablet
     .post-margin {
-
+        margin-right: 0px;
         margin-bottom: 2%;
     }
+
+    .post-langs {
+    
+        
+        right: 1%;
+        
+    }
+
 
     .post-margin-edit {
 
@@ -516,9 +583,25 @@ html {
 
 }
 
-
+@media only screen and (max-width: 666px) { 
+    .post-title {
+       max-width: 300px; 
+      
+    }
+    .post-short-desc {
+        margin-top: 55px;
+    }
+}
 @media only screen and (max-width: 599px) {
     //Phone
+
+    .post-title {
+        max-width: 250px; 
+     }
+
+    .post-langs {
+        right: 5%;
+    }
 
     .MuiTooltip-popper {
         display: none;

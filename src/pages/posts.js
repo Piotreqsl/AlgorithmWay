@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import {getPost} from '../redux/actions/dataActions';
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import dayjs from "dayjs";
 
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 const styles = {
@@ -43,17 +45,31 @@ export class posts extends Component {
     
     render() {
         const {
-            classes, post: {postId, createdAt, shortDesc, desc, title, userHandle, userImage, commentCount, likeCount, java, python, cpp}, UI: {loading}}
+            classes, post: {postId, createdAt, shortDesc, desc, title, userHandle, userImage, commentCount, likeCount, java, python, cpp, comments}, UI: {loading}}
             
            = this.props;
            
         return (
             <div class="main-content-squeezed">
+                {!loading ? (
+
                 <Paper className={classes.paper}>
-                    <Typography>
-                        The title is: {title}
-                    </Typography>
+                <Typography variant="h5">
+                    {title}
+                </Typography>
+                <Typography variant="caption">
+                    {dayjs(createdAt).fromNow()}
+                </Typography>
                 </Paper>
+
+
+                ) : (
+
+                <LinearProgress color="primary" />
+
+                )}
+                
+
             </div>
         )
     }

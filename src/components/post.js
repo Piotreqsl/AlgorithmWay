@@ -122,17 +122,18 @@ class post extends Component {
 
 
       <div className="post-margin">
-        <Card>
-          <CardMedia image={userImage} title="User image" />
+        <Card className="post-content">
+          
           <CardContent>
-            <Typography
+            
+            <a
               className="post-title"
-              component={Link}
-              to={`/posts/${postId}`}
-              variant="h6"
+             
+              src={`/posts/${postId}`}
+              
             >
               {title}
-            </Typography>
+            </a>
             <div className="post-langs">
               {java !== undefined && java !== "" && java !== null ? <Tooltip title="Java" placement="top">
                 <img draggable="false" src={j_src} height="24px" />
@@ -149,8 +150,9 @@ class post extends Component {
                   <img draggable="false" src={c_src} height="24px" />
                 </Tooltip> : null}
             </div>
-            <br /> <br />
-            <Typography variant="body2">{shortDesc}</Typography>
+            <p className="post-short-desc">
+            {shortDesc}
+            </p>
             <div className="post-date">
               <Typography variant="caption" color="inherit">
                 {dayjs(createdAt).fromNow()}

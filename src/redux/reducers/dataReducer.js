@@ -101,11 +101,13 @@ export default function (state = initialState, action) {
                                     case UPLOAD_POST:
                                         return {
                                             ...state,
-                                            screams: [
-                                                action.payload,
-                                                ...state.screams
+                                            posts: [
+                                                action.payload.resPost,
+                                                ...state.posts
                                             ]
                                         }
+
+                                    
 
                                         default:
                                             return state;

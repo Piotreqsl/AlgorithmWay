@@ -198,26 +198,21 @@ export const postPost = (newPost, history) => dispatch => {
       dispatch({
         type: CLEAR_ERRORS
       });
-
+      dispatch({
+        type: SET_SUCCESS,
+        payload: "Successfully posted"
+      });
+      history.push("/");
     })
     .catch(err => {
-      if (err.response) {
+      
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data,
 
 
         });
-      } else {
-        history.push("/");
-        dispatch({
-          type: CLEAR_ERRORS
-        });
-        dispatch({
-          type: CLEAR_SUCCESS
-        });
-
-      }
+       
 
 
     });

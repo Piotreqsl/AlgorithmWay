@@ -203,6 +203,15 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
       });
     }
 
+
+    if (nextProps.UI.success === "Successfully posted" && !nextProps.UI.loading)
+    {
+      this.props.enqueueSnackbar("Successfully posted, your post needs to be approved", {
+        preventDuplicate: true,
+        variant: "success",
+        autoHideDuration: 3000
+      });
+    }
     if (nextProps.UI.success && !nextProps.UI.loading) {
       
 
@@ -212,13 +221,9 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
       });}
       
       //console.log(nextProps.UI.success.url);
-      
-      if(this.state.urls.length === this.state.images.length && this.state.sent === false) {
-        this.props.enqueueSnackbar("Successfully posted", {
-          preventDuplicate: true,
-          variant: "success",
-          autoHideDuration: 3000
-        }); 
+       
+      if(this.state.urls.length === this.state.images.length && this.state.sent === false && this.state.urls.length !== 0) {
+        
 
 
         //console.log(this.state.urls);
