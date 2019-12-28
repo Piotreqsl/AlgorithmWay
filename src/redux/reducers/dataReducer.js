@@ -74,43 +74,39 @@ export default function (state = initialState, action) {
                                     let secondIndex = state.backupdata.findIndex((post) => post.postId === action.payload.postId);
                                     state.backupdata[secondIndex] = action.payload;
                                     return {
-                                        ...state,
-                                        posts: [
-                                            action.payload,
-                                            ...state.posts
-                                        ]
+                                        ...state
                                     }
                                     case SET_POST:
-                                        return{
+                                        return {
                                             ...state,
                                             post: action.payload,
                                         }
 
-                                    case DELETE_POST:
-                                        let index1 = state.posts.findIndex(post => post.postId === action.payload);
-                                        state.posts.splice(index1, 1);
+                                        case DELETE_POST:
+                                            let index1 = state.posts.findIndex(post => post.postId === action.payload);
+                                            state.posts.splice(index1, 1);
 
-                                        let secondindex1 = state.backupdata.findIndex(post => post.postId === action.payload);
-                                        state.backupdata.splice(secondindex1, 1);
+                                            let secondindex1 = state.backupdata.findIndex(post => post.postId === action.payload);
+                                            state.backupdata.splice(secondindex1, 1);
 
 
-                                        return {
-                                            ...state
-                                        };
+                                            return {
+                                                ...state
+                                            };
 
-                                    case UPLOAD_POST:
-                                        return {
-                                            ...state,
-                                            posts: [
-                                                action.payload.resPost,
-                                                ...state.posts
-                                            ]
-                                        }
+                                        case UPLOAD_POST:
+                                            return {
+                                                ...state,
+                                                posts: [
+                                                    action.payload.resPost,
+                                                    ...state.posts
+                                                ]
+                                            }
 
-                                    
 
-                                        default:
-                                            return state;
+
+                                            default:
+                                                return state;
 
 
 
