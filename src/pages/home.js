@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
+
 
 import Post from '../components/post';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -22,7 +22,7 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import SaveIcon from '@material-ui/icons/Save';
-//import ReactPaginate from 'react-paginate';
+
 import Tooltip from '@material-ui/core/Tooltip';
 
 import Radio from '@material-ui/core/Radio';
@@ -30,7 +30,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 
 
 import { Waypoint } from 'react-waypoint';
-import { getPosts, pushPosts, filterPosts, restorePosts } from '../redux/actions/dataActions'
+import { getPosts, loadMorePosts, filterPosts } from '../redux/actions/dataActions'
 
 export class home extends Component {
 
@@ -58,226 +58,71 @@ export class home extends Component {
 
 
 
-    filterCurrentData = () => {
-
-
-
-        let filtered = [];
-
-
-        /// Ustawianie wszystkich postów, bez względu na filtry kategorii ale z uwzględnieniem approved i 
-        if (this.state.all) filtered = this.state.backupdata;
-        if (this.state.appr) {
-            for (var i = 0; i < this.state.backupdata.length; i++) {
-                if (this.state.backupdata[i].verified === true) {
-
-                    filtered.push(this.state.backupdata[i])
-                }
-            }
-        }
-        if (this.state.unappr) {
-            for (var j = 0; j < this.state.backupdata.length; j++) {
-                if (this.state.backupdata[j].verified === false || this.state.backupdata[j].verified === undefined) {
-                    filtered.push(this.state.backupdata[j])
-                }
-            }
-        }
-
-
-
-
-        let arrayFilters = [];
-
-
-        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
-            console.log("everything, no filtering");
-        } else {
-
-
-            if (this.state.categories.char) {
-                arrayFilters.push('char');
-            }
-
-            if (this.state.categories.int) {
-                arrayFilters.push('int');
-            }
-
-            if (this.state.categories.array) {
-                arrayFilters.push('array');
-            }
-
-            if (this.state.categories.string) {
-                arrayFilters.push('string');
-            }
-
-            console.log("filtry to " + arrayFilters);
-            filtered = this.advancedFiltering(filtered, arrayFilters);
-        }
-
-
-        let codeFilters = [];
-
-        if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
-            console.log("bez filtracji kodu");
-        }
-        else {
-            if (this.state.code.java) {
-                codeFilters.push("java")
-            }
-
-            if (this.state.code.cpp) {
-                codeFilters.push("cpp")
-            }
-
-            if (this.state.code.python) {
-                codeFilters.push("python")
-            }
-
-            filtered = this.advancedFilteringCode(filtered, codeFilters);
-        }
-
-
-
-
-
-
-
-
-
-        console.log(filtered);
-
-
-
-        console.log("curretn")
-
-
-
-        /// Jeśli waypoint jest za wysoko, to automatycznie ładuje
-
-        this.setState({
-            data: filtered
-        }, () => {
-
-            if (this.state.data.length <= 5 && !this.state.noMore) {
-                this.loadMorePosts()
-            }
-
-        })
-
-
-
-
-
-    }
-
-    filterUpcomingData = (response) => {
-
-        let filtered = [];
-
-        if (this.state.all) filtered = response
-        if (this.state.appr) {
-            for (var i = 0; i < response.length; i++) {
-                if (response[i].verified === true) {
-
-                    filtered.push(response[i])
-                }
-            }
-        }
-        if (this.state.unappr) {
-            for (var i = 0; i < response.length; i++) {
-                if (response[i].verified === false || response[i].verified === undefined) {
-
-                    filtered.push(response[i])
-                }
-            }
-        }
-
-        let arrayFilters = [];
-
-
-        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
-            console.log("everything, no filtering");
-        } else {
-
-
-            if (this.state.categories.char) {
-                arrayFilters.push('char');
-            }
-
-            if (this.state.categories.int) {
-                arrayFilters.push('int');
-            }
-
-            if (this.state.categories.array) {
-                arrayFilters.push('array');
-            }
-
-            if (this.state.categories.string) {
-                arrayFilters.push('string');
-            }
-
-            console.log("filtry to " + arrayFilters);
-            filtered = this.advancedFiltering(filtered, arrayFilters);
-        }
-
-
-        let codeFilters = [];
-
-        if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
-            console.log("bez filtracji kodu");
-        }
-        else {
-            if (this.state.code.java) {
-                codeFilters.push("java")
-            }
-
-            if (this.state.code.cpp) {
-                codeFilters.push("cpp")
-            }
-
-            if (this.state.code.python) {
-                codeFilters.push("python")
-            }
-
-            filtered = this.advancedFilteringCode(filtered, codeFilters);
-        }
-
-
-
-
-
-
-
-        console.log(filtered)
-
-        return filtered;
-    }
 
     loadMorePosts = () => {
-        var link = "/posts/next/" + this.state.lastid;
 
-        console.log("lołdowanie postów");
-        axios.get(link).then(res => {
-
-            this.props.pushPosts(res.data);
+        var approvedOnly = false;
 
 
-            res.data = this.filterUpcomingData(res.data)
-            if (res.data.length === 0) this.loadMorePosts();
+        if (this.state.all) approvedOnly = false;
+        if (this.state.appr) approvedOnly = true;
 
 
 
 
+        /// Filtry na kategorie
+        let arrayFilters = [];
+        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
 
-            // Jeśli już nie ma wiecej postów (na cygana shandlowane :)))) 
-        }).catch(err => {
-
-            this.setState({
-                noMore: true
-            })
+        } else {
 
 
-        })
+            if (this.state.categories.char) {
+                arrayFilters.push('char');
+            }
+
+            if (this.state.categories.int) {
+                arrayFilters.push('int');
+            }
+
+            if (this.state.categories.array) {
+                arrayFilters.push('array');
+            }
+
+            if (this.state.categories.string) {
+                arrayFilters.push('string');
+            }
+
+        }
+
+        /// Filtry na kod
+
+        let codeFilters = [];
+
+        if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
+
+        }
+        else {
+            if (this.state.code.java) {
+                codeFilters.push("java")
+            }
+
+            if (this.state.code.cpp) {
+                codeFilters.push("cpp")
+            }
+
+            if (this.state.code.python) {
+                codeFilters.push("python")
+            }
+        }
+
+
+
+
+
+
+        this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
+
     }
 
 
@@ -293,27 +138,100 @@ export class home extends Component {
             });
         }
 
-        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined) {
+        var did = false
 
 
-            var lastId = this.props.data.posts[this.props.data.posts.length - 1].postId;
-            var posty = this.filterUpcomingData(this.props.data.posts);
-
-
-
-
-
-            this.setState({
-                data: posty,
-                backupdata: this.props.data.posts,
-                lastid: lastId,
-            });
+        /// Jeśli upcoming data nic nie wniosło to ładuje dalej
+        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && prevProps.data.posts.length - this.props.data.posts.length === 0 && this.props.data.noMore === false) {
 
 
 
-            console.log("updejt jakikolwiek");
+            var approvedOnly = false;
+            if (this.state.all) approvedOnly = false;
+            if (this.state.appr) approvedOnly = true;
+            let arrayFilters = [];
+            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
+
+            } else {
+                if (this.state.categories.char) {
+                    arrayFilters.push('char');
+                }
+                if (this.state.categories.int) {
+                    arrayFilters.push('int');
+                }
+                if (this.state.categories.array) {
+                    arrayFilters.push('array');
+                }
+                if (this.state.categories.string) {
+                    arrayFilters.push('string');
+                }
+
+            }
+            let codeFilters = [];
+            if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
+
+            }
+            else {
+                if (this.state.code.java) {
+                    codeFilters.push("java")
+                }
+
+                if (this.state.code.cpp) {
+                    codeFilters.push("cpp")
+                }
+
+                if (this.state.code.python) {
+                    codeFilters.push("python")
+                }
+            }
+            did = true
+            this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
+
+        }
+
+        /// Jeśli aktualnych postów jest 5 lub mniej, to ładuje sie wiecej postów żeby zawsze trochę można było skrolować
+        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && this.props.data.posts.length <= 5 && this.props.data.noMore === false && did === false) {
 
 
+            var approvedOnly = false;
+            if (this.state.all) approvedOnly = false;
+            if (this.state.appr) approvedOnly = true;
+            let arrayFilters = [];
+            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
+
+            } else {
+                if (this.state.categories.char) {
+                    arrayFilters.push('char');
+                }
+                if (this.state.categories.int) {
+                    arrayFilters.push('int');
+                }
+                if (this.state.categories.array) {
+                    arrayFilters.push('array');
+                }
+                if (this.state.categories.string) {
+                    arrayFilters.push('string');
+                }
+
+            }
+            let codeFilters = [];
+            if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
+
+            }
+            else {
+                if (this.state.code.java) {
+                    codeFilters.push("java")
+                }
+
+                if (this.state.code.cpp) {
+                    codeFilters.push("cpp")
+                }
+
+                if (this.state.code.python) {
+                    codeFilters.push("python")
+                }
+            }
+            this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
         }
 
 
@@ -333,7 +251,7 @@ export class home extends Component {
 
 
     componentDidMount() {
-        this.props.getPosts();
+        if (this.props.data.posts === undefined || this.props.data.posts.length === 0) this.props.getPosts();
     }
 
 
@@ -382,7 +300,7 @@ export class home extends Component {
 
 
     renderWaypoint = () => {
-        if (this.props.user.loading === false && this.state.data.length > 0) {
+        if (this.props.user.loading === false && this.props.data.posts.length > 0) {
             return (
                 <Waypoint
                     onEnter={this.loadMorePosts}
@@ -397,7 +315,7 @@ export class home extends Component {
     toggleClass = () => {
         var currentState = this.state.active;
         this.setState({ ...this.state, active: !currentState });
-        console.log(this.state);
+
 
 
     };
@@ -425,7 +343,58 @@ export class home extends Component {
         event.preventDefault();
 
         this.toggleClass();
-        this.filterCurrentData();
+
+
+
+        var approvedOnly = false;
+        if (this.state.all) approvedOnly = false;
+        if (this.state.appr) approvedOnly = true;
+
+
+        /// Filtry na kategorie
+        let arrayFilters = [];
+        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
+
+        } else {
+            if (this.state.categories.char) {
+                arrayFilters.push('char');
+            }
+
+            if (this.state.categories.int) {
+                arrayFilters.push('int');
+            }
+
+            if (this.state.categories.array) {
+                arrayFilters.push('array');
+            }
+
+            if (this.state.categories.string) {
+                arrayFilters.push('string');
+            }
+
+        }
+
+        /// Filtry na kod
+        let codeFilters = [];
+        if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
+
+        }
+        else {
+            if (this.state.code.java) {
+                codeFilters.push("java")
+            }
+
+            if (this.state.code.cpp) {
+                codeFilters.push("cpp")
+            }
+
+            if (this.state.code.python) {
+                codeFilters.push("python")
+            }
+        }
+
+        this.props.filterPosts(arrayFilters, codeFilters, approvedOnly);
+
 
     }
 
@@ -433,13 +402,13 @@ export class home extends Component {
     render() {
         const { loading } = this.props.data;
 
-        let recentPostsMarkup = (!loading && this.state.data.length > 0) ? (
-            this.state.data.map((post) => <Post key={post.postId} post={post} />)
+        let recentPostsMarkup = (!loading && this.props.data.posts.length > 0) ? (
+            this.props.data.posts.map((post) => <Post key={post.postId} post={post} />)
 
         ) : (<div className="post-margin"><center>
             <CircularProgress color="primary" /> </center></div>);
 
-        if (!loading && this.state.data.length === 0 && this.state.noMore === true) {
+        if (!loading && this.props.data.posts.length === 0 && this.props.data.noMore === true) {
             recentPostsMarkup = <p>No posts found</p>;
         }
 
@@ -532,7 +501,7 @@ export class home extends Component {
 
 
                                     <RadioGroup className="formGroup" style={{ float: "left", }} aria-label="Post status" name="postStatus">
-                                    <Typography color="primary" variant="button"> Kutafiarz: </Typography>
+                                        <Typography color="primary" variant="button"> Kutafiarz: </Typography>
                                         <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
                                         <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
                                     </RadioGroup>
@@ -588,7 +557,7 @@ export class home extends Component {
                             <div className="infinite-scroll-example__waypoint">
                                 {this.renderWaypoint()}
 
-                                {!loading ? this.state.noMore ? null : (<div className="post-margin"><center>
+                                {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
                                     <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
 
 
@@ -613,8 +582,7 @@ export class home extends Component {
 // eslint-disable-next-line react/no-typos
 home.PropTypes = {
     getPosts: PropTypes.func.isRequired,
-    restorePosts: PropTypes.func.isRequired,
-    pushPosts: PropTypes.func.isRequired,
+    loadMorePosts: PropTypes.func.isRequired,
     filterPosts: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
@@ -632,4 +600,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getPosts, pushPosts, filterPosts, restorePosts })(withSnackbar(home));
+export default connect(mapStateToProps, { getPosts, loadMorePosts, filterPosts })(withSnackbar(home));

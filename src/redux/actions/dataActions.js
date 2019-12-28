@@ -11,12 +11,16 @@ import {
   SET_SUCCESS,
   CLEAR_SUCCESS,
   ADD_POSTS,
-  FILTER_POSTS,
-  RESTORE_POSTS,
+  SET_NO_MORE,
+
   SET_POST,
   STOP_LOADING_UI,
-  
+  LOAD_MORE_POSTS,
+  FILTER_POSTS
+
 } from "../types";
+
+import store from '../store';
 
 import axios from "axios";
 import delete_post from "../../components/delete_post";
@@ -41,41 +45,149 @@ export const getPosts = () => dispatch => {
     });
 };
 
-export const pushPosts = (posts) => dispatch => {
-  dispatch({
-    type: ADD_POSTS,
-    payload: posts
-  })
+const advancedFiltering = (mainArray, filters) => {
+  let filtered = [];
+
+  for (var i = 0; i < mainArray.length; i++) {
+    if (mainArray[i].categories.some(r => filters.includes(r))) {
+      filtered.push(mainArray[i])
+    }
+  }
+
+  return filtered;
 
 }
 
-export const filterPosts = (posts) => dispatch => {
+
+const advancedFilteringCode = (mainArray, filters) => {
+
+  let filtered = [];
+
+
+
+  for (var i = 0; i < mainArray.length; i++) {
+    let existingCode = [];
+
+    if (mainArray[i].java !== undefined) existingCode.push("java")
+    if (mainArray[i].cpp !== undefined) existingCode.push("cpp")
+    if (mainArray[i].python !== undefined) existingCode.push("python")
+
+
+    if (existingCode.some(r => filters.includes(r))) {
+      filtered.push(mainArray[i]);
+    }
+
+
+  }
+
+  return filtered;
+
+
+}
+
+
+
+export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
+  var link = "/posts/next/" + store.getState().data.lastId;
+  console.log(link + "redux");
+
+  axios.get(link).then((res) => {
+
+
+
+    let filtered = [];
+
+    for (var i = 0; i < res.data.length; i++) {
+      if (approvedOnly === true && res.data[i].verified === true) {
+        filtered.push(res.data[i])
+      } else {
+        filtered = res.data
+      }
+    }
+
+    if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
+    if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
+
+
+    console.log(filtered.length)
+
+
+    if (filtered.length === 0) {
+      loadMorePosts(categoryFilters, codeFilters, approvedOnly);
+      console.log("przeszedł" + "tersad")
+    }
+
+
+    dispatch({
+      type: LOAD_MORE_POSTS,
+      payload: filtered,
+      backupdata: res.data
+    })
+
+
+
+  }).catch(err => {
+    dispatch({
+      type: SET_NO_MORE
+    })
+  })
+
+
+
+
+
+
+}
+
+
+export const filterPosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
+
+  let filtered = [];
+
+  for (var i = 0; i < store.getState().data.backupdata.length; i++) {
+    if (approvedOnly === true && store.getState().data.backupdata[i].verified === true) {
+      filtered.push(store.getState().data.backupdata[i])
+    } else {
+      filtered = store.getState().data.backupdata
+    }
+  }
+
+  if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
+  if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
+
+  console.log(filtered);
+
   dispatch({
     type: FILTER_POSTS,
-    payload: posts
+    payload: filtered
   })
+
+
 }
 
-export const restorePosts = (data) => dispatch => {
-  dispatch({
-    type: RESTORE_POSTS,
-    payload: data
-  })
-}
 
 export const getPost = postId => dispatch => {
-    dispatch({type: LOADING_UI});
-    axios.get(`/posts/${postId}`)
+  dispatch({
+    type: LOADING_UI
+  });
+  axios.get(`/posts/${postId}`)
     .then(res => {
       dispatch({
         type: SET_POST,
         payload: res.data,
       });
+<<<<<<< HEAD
       dispatch({type: SET_SUCCESS,
       payload: "Git majonezizk: " + postId
       })
       dispatch({type: STOP_LOADING_UI})
     }) 
+=======
+      dispatch({
+        type: STOP_LOADING_UI
+      })
+    })
+>>>>>>> c022654d4a7dcccbb2b56131f270f5ebd8f01bff
     .catch(err => console.log(err));
 }
 
