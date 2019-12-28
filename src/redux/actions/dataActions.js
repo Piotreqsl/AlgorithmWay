@@ -71,6 +71,9 @@ export const getPost = postId => dispatch => {
         type: SET_POST,
         payload: res.data,
       });
+      dispatch({type: SET_SUCCESS,
+      payload: "Git majonezizk: " + postId
+      })
       dispatch({type: STOP_LOADING_UI})
     }) 
     .catch(err => console.log(err));

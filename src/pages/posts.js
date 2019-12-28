@@ -26,30 +26,32 @@ export class posts extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
+
     componentWillMount() {
         console.log(document.location.href);
         let str = document.location.href;
         let arr = str.split("/");
         console.log(arr[4]);
          let loc =  arr[4];
-        this.setState({
-            postId: loc
-        });
+        
 
-
+        this.props.getPost(loc);
     }
     
     render() {
         const {
-            classes, post: {post: {postId, createdAt, shortDesc, desc, title, userHandle, userImage, commentCount, likeCount, java, python, cpp}}
+            classes, post: {postId, createdAt, shortDesc, desc, title, userHandle, userImage, commentCount, likeCount, java, python, cpp}, UI: {loading}}
             
-          } = this.props;
-
+           = this.props;
+           
         return (
             <div class="main-content-squeezed">
                 <Paper className={classes.paper}>
                     <Typography>
-                        aaa
+                        The title is: {title}
                     </Typography>
                 </Paper>
             </div>

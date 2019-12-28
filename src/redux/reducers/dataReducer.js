@@ -7,7 +7,8 @@ import {
     UPLOAD_POST,
     ADD_POSTS,
     FILTER_POSTS,
-    RESTORE_POSTS
+    RESTORE_POSTS,
+    SET_POST
 } from '../types'
 
 const initialState = {
@@ -70,11 +71,16 @@ export default function (state = initialState, action) {
                                 case UPLOAD_POST:
                                     return {
                                         ...state,
-                                        screams: [
+                                        posts: [
                                             action.payload,
-                                            ...state.screams
+                                            ...state.posts
                                         ]
                                     }
+                                    case SET_POST:
+                                        return{
+                                            ...state,
+                                            post: action.payload,
+                                        }
 
                                     default:
                                         return state;
