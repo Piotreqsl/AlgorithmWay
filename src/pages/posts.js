@@ -14,6 +14,10 @@ const styles = {
     paper: {
       padding: "20px"
     },
+    marginUni: {
+        
+        marginBottom: "10px",
+    }
   
    
   };
@@ -54,11 +58,11 @@ export class posts extends Component {
                 {!loading ? (
 
                 <Paper className={classes.paper}>
-                <Typography variant="h5">
+                <Typography className={classes.marginUni} variant="h5">
                     {title}
                 </Typography>
 
-                <Typography variant="body1">
+                <Typography className={classes.marginUni}  variant="body1">
                     {shortDesc}
                 </Typography>
 
