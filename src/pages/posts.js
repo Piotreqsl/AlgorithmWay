@@ -6,7 +6,7 @@ import {getPost} from '../redux/actions/dataActions';
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import dayjs from "dayjs";
-
+import relativeTime from "dayjs/plugin/relativeTime";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 
@@ -48,7 +48,7 @@ export class posts extends Component {
             classes, post: {postId, createdAt, shortDesc, desc, title, userHandle, userImage, commentCount, likeCount, java, python, cpp, comments}, UI: {loading}}
             
            = this.props;
-           
+           dayjs.extend(relativeTime);
         return (
             <div class="main-content-squeezed">
                 {!loading ? (
@@ -57,9 +57,18 @@ export class posts extends Component {
                 <Typography variant="h5">
                     {title}
                 </Typography>
+
+                <Typography variant="body1">
+                    {shortDesc}
+                </Typography>
+
                 <Typography variant="caption">
                     {dayjs(createdAt).fromNow()}
                 </Typography>
+                
+                    <hr  className="overallHR"/>
+                        
+
                 </Paper>
 
 

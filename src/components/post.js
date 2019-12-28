@@ -129,7 +129,7 @@ class post extends Component {
             <a
               className="post-title"
              
-              src={`/posts/${postId}`}
+              href={`/posts/${postId}`}
               
             >
               {title}
