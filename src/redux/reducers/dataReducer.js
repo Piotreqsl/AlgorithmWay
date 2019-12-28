@@ -7,13 +7,9 @@ import {
     UPLOAD_POST,
     ADD_POSTS,
     FILTER_POSTS,
-<<<<<<< HEAD
-    RESTORE_POSTS,
-    SET_POST
-=======
+    SET_POST,
     SET_NO_MORE,
     LOAD_MORE_POSTS
->>>>>>> c022654d4a7dcccbb2b56131f270f5ebd8f01bff
 } from '../types'
 
 const initialState = {
@@ -79,13 +75,10 @@ export default function (state = initialState, action) {
                                     state.backupdata[secondIndex] = action.payload;
                                     return {
                                         ...state,
-<<<<<<< HEAD
                                         posts: [
                                             action.payload,
                                             ...state.posts
                                         ]
-=======
->>>>>>> c022654d4a7dcccbb2b56131f270f5ebd8f01bff
                                     }
                                     case SET_POST:
                                         return{
