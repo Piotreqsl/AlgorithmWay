@@ -111,10 +111,10 @@ class post extends Component {
     var j_src;
     var p_src;
     var c_src;
-    j_src = "java_logo.png";
-    p_src = "python_logo.png";
+    j_src = "https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/java_logo.png?alt=media&token=03067a8a-721b-4f69-ad32-ef2df63a9584";
+    p_src = "https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/python_logo.png?alt=media&token=7e7010bb-fa65-445d-be7a-7a429c703d2c";
 
-    c_src = "cpp_logo.png";
+    c_src = "https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/cpp_logo.png?alt=media&token=8389d1bd-c9f0-4542-a274-1a33d9922e6f";
 
 
     return (
