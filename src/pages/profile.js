@@ -201,7 +201,7 @@ export class profile extends Component {
           <div className={classes.profilePosts}>{recentPostsMarkup}</div>
         </div>
       ) : (
-          <p>not urs prof</p>
+         <center> <p>You need to be logged in to see this page</p> </center>
         )
     ) : (
 

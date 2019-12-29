@@ -206,8 +206,11 @@ html {
 .post-langs {
     
     margin-top: 1px;
-    right: 15%;
-    position: absolute;
+   // right: 15%;
+   // position: absolute;
+   float: right;
+   
+   
    
 }
 .post-short-desc {
@@ -215,7 +218,7 @@ html {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
     line-height: 1.43;
-    margin-top: 30px;
+    margin-top: auto;
     
     
 }
@@ -545,12 +548,7 @@ html {
         margin-bottom: 2%;
     }
 
-    .post-langs {
-    
-        
-        right: 1%;
-        
-    }
+   
 
 
     .post-margin-edit {
@@ -607,16 +605,12 @@ html {
        max-width: 300px; 
       
     }
-    .post-short-desc {
-        margin-top: 55px;
-    }
+    
 }
 @media only screen and (max-width: 599px) {
     //Phone
 
-    .post-short-desc {
-        margin-top: 75px;
-    }
+  
 
     .post-title {
         max-width: 250px; 
@@ -677,10 +671,7 @@ html {
 
 
     //avatar non-react
-    .bigAvatar-scss {
-        width: 100px !important;
-        height: 100px !important;
-    }
+    
 
 
 }

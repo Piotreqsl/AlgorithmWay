@@ -133,7 +133,7 @@ class post extends Component {
               
             >
               {title}
-            </a>
+            </a> 
             <div className="post-langs">
               {java !== undefined && java !== "" && java !== null ? <Tooltip title="Java" placement="top">
                 <img draggable="false" src={j_src} height="24px" />
@@ -149,7 +149,7 @@ class post extends Component {
                 <Tooltip title="C++" placement="top">
                   <img draggable="false" src={c_src} height="24px" />
                 </Tooltip> : null}
-            </div>
+            </div><div style={{clear: "both"}} ></div>
             <p className="post-short-desc">
             {shortDesc}
             </p>
