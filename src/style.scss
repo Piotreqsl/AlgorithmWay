@@ -458,12 +458,119 @@ html {
     height: 400px;
     padding: 15px;
     box-sizing: border-box;
+    margin-bottom: 20px;
    
 }
 
-
+.blackBox {
+    color: #ffffff !important;
+    background-color: #000000 !important;
+    
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.75rem;
+    resize: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 400px;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 20px; 
+}
+.blackBox::selection {
+    background: #ffffff48;
+    color: #a177ac;
+}
+.blackBox::-moz-selection {
+    background: #ffffff48;
+    color: #a177ac;
+}
 .blackBoxExpanded {
     height: 800px;
+}
+
+
+.codeInputs span::selection {
+    background: #ffffff48;
+    color: #a177ac;
+}
+
+.codeInputs span::-moz-selection {
+    background: #ffffff48;
+    color: #a177ac;
+}
+
+.codeInputs code::selection {
+    background: #ffffff48;
+    color: #ae85be;
+}
+
+.codeInputs code::-moz-selection {
+    background: #ffffff48;
+    color: #ae85be;
+}
+
+
+
+
+
+
+
+.DialogIMG .MuiPaper-root {
+    background-color: #00000031 !important;
+}
+.DialogIMG-imgcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    
+}
+.DialogIMG-img {
+    height: fit-content;
+    
+}
+.DialogIMG-closeBTN:hover {
+    background-color: #FFFFFF23 !important;
+}
+
+.DialogIMG-flexContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.DialogIMG-btn {
+    height: 160px;
+    width: 160px;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 7px;
+    background-size: 100%;
+    border-bottom: 4px ridge transparent;
+  
+
+}
+.DialogIMG-btn:hover, .DialogIMG-btn:focus {
+   /* -webkit-box-shadow: inset 0px 0px 3px 2px rgba(233,233,233,1);
+    -moz-box-shadow: inset 0px 0px 3px 2px rgba(233,233,233,1);
+    box-shadow: inset 0px 0px 3px 2px rgb(233, 233, 233); */
+
+    animation-name: example;
+    animation-duration: .3s;
+    background-size: 110%;
+    
+    border-bottom: 4px ridge rgb(255, 255, 255);
+    @keyframes example {
+        0%   {background-size: 100%;
+            border-bottom: 4px ridge transparent;}
+        100% {background-size: 110%;
+            border-bottom: 4px ridge rgb(255, 255, 255);}
+      }
 }
 
 

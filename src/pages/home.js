@@ -251,7 +251,7 @@ export class home extends Component {
 
 
     componentDidMount() {
-        if (this.props.data.posts === undefined || this.props.data.posts.length === 0) this.props.getPosts();
+        if (this.props.data.posts === undefined || this.props.data.posts.length <= 1) this.props.getPosts();
     }
 
 

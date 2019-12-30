@@ -21,7 +21,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import CropFreeIcon from "@material-ui/icons/CropFree";
 import IconButton from "@material-ui/core/IconButton";
 import Highlight from "react-highlight.js"
-
+import DialogIMG from '../components/dialog_img'
 
 
 
@@ -48,6 +48,7 @@ export class posts extends Component {
 
     alignment: "",
     currentCode: "",
+    img: [],
    
 
   };
@@ -138,17 +139,19 @@ export class posts extends Component {
         java,
         python,
         cpp,
-        comments
+        comments,
+        categories,
+        images,
       },
       UI: { loading }
     } = this.props;
     dayjs.extend(relativeTime);
 
     
-    
+
 
     const handleChangePanel = event => {
-      console.log("sdas");
+     
       var ex = this.state.expanded;
       this.setState({
         expanded: !ex
@@ -162,7 +165,7 @@ export class posts extends Component {
     return (
 
       <div class="main-content-squeezed">
-          
+        
         {!loading ? (
            
           <Paper className={classes.paper}>
@@ -289,6 +292,21 @@ export class posts extends Component {
 
             <div id="codeBox" className="codeInputs">
             
+            {this.state.currentCode === "" ? (
+
+<Highlight language={"java"}>
+             {`
+|===============================================|
+|                                               |
+|   /* Choose desired programming language */   |
+|                                               |
+|===============================================| `}
+            </Highlight>
+
+            ) : null}
+            
+            
+            
             {this.props.post.java && this.state.currentCode === "java" ?  (
                  <Highlight language={"java"}>
              {this.props.post.java}
@@ -321,6 +339,7 @@ export class posts extends Component {
             ) : null}
 
             
+              
 
 
 
@@ -329,9 +348,10 @@ export class posts extends Component {
 
 
 
-
-
-
+          <div className="DialogIMG-flexContainer">
+  
+           
+          </div>
 
 
 

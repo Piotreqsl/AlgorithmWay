@@ -82,7 +82,7 @@ export class upload extends Component {
 
 
   handleImageDelete = event => {
-console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
+//console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
 
       var arrForms = [...this.state.formdatas];
       var arrUrls = [...this.state.urls];
@@ -194,9 +194,9 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    //console.log(nextProps);
     if (nextProps.UI.errors && !nextProps.UI.loading) {
-      console.log(nextProps.UI.errors);
+     // console.log(nextProps.UI.errors);
       this.props.enqueueSnackbar("Fatal error occurred", {
         preventDuplicate: true,
         variant: "error",
@@ -207,7 +207,7 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
 
     if (nextProps.UI.success === "Successfully posted" && !nextProps.UI.loading)
     {
-      this.props.enqueueSnackbar("Successfully posted, your post needs to be approved", {
+      this.props.enqueueSnackbar("Successfully uploaded,  your post needs to be approved", {
         preventDuplicate: true,
         variant: "success",
         autoHideDuration: 3000
@@ -271,7 +271,7 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
 
       const formData = this.state.formdatas[i].formData;
       this.props.uploadPostImage(formData);
-      console.log(i);  
+      //console.log(i);  
     }
       
     } else {
@@ -310,8 +310,8 @@ console.log(event.currentTarget.parentElement.parentElement.querySelector('img')
 
   handleCodeChange = event => {
 
-console.log(document.getElementById("postTitle").value.length);
-console.log(document.getElementById("shortDesc").value.length);
+//console.log(document.getElementById("postTitle").value.length);
+//console.log(document.getElementById("shortDesc").value.length);
     
     if (this.state.alignment == "js") {
       this.setState({ javaCode: event.target.value });
@@ -330,7 +330,7 @@ console.log(document.getElementById("shortDesc").value.length);
   };
 
   handleExpand = () => {
-    console.log(this.state.expanded);
+    //console.log(this.state.expanded);
     if (this.state.expanded == false) {
       document.getElementById("codeBoxing").classList.add("blackBoxExpanded");
       this.setState({ expanded: true });
@@ -547,7 +547,7 @@ console.log(document.getElementById("shortDesc").value.length);
               </Grid>
             </Grid>
 
-            <div className="codeInputs">
+            <div>
               <textarea
                 id="codeBoxing"
                 onChange={this.handleCodeChange}
