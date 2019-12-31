@@ -148,11 +148,17 @@ export class posts extends Component {
 
 
 
+    //TU MASZ KATEGOIRE FIUCIE ZBOLAŁY
+    const cat = (!this.props.UI.loading && this.props.UI.success !== null ? <p>{this.props.post.categories[0]} </p> : null)
+
+
+
     dayjs.extend(relativeTime);
 
 
     const handleChangePanel = event => {
 
+      console.log(this.props.post);
       var ex = this.state.expanded;
       this.setState({
         expanded: !ex
@@ -204,7 +210,18 @@ export class posts extends Component {
 
             <Typography style={{ marginTop: "15px", marginBottom: "25px" }} variant="body2">
               {desc}
+
             </Typography>
+
+
+
+            <Typography style={{ marginTop: "15px", marginBottom: "25px" }} variant="body2">
+
+              {cat}
+
+            </Typography>
+
+
 
 
 
