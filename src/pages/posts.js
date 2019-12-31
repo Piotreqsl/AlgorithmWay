@@ -148,8 +148,8 @@ export class posts extends Component {
 
 
 
-    //TU MASZ KATEGOIRE FIUCIE ZBOLAŁY
-    const cat = (!this.props.UI.loading && this.props.UI.success !== null ? <p>{this.props.post.categories[0]} </p> : null)
+    
+    //const cat = (!this.props.UI.loading && this.props.UI.success !== null ? <p>{this.props.post.categories[0]} </p> : null)
 
 
 
@@ -215,11 +215,7 @@ export class posts extends Component {
 
 
 
-            <Typography style={{ marginTop: "15px", marginBottom: "25px" }} variant="body2">
-
-              {cat}
-
-            </Typography>
+            
 
 
 
@@ -369,11 +365,32 @@ export class posts extends Component {
 
 
 
+      {(!this.props.UI.loading && this.props.UI.success !== null ? this.props.post.images : null) ? (
 
-            <div className="DialogIMG-flexContainer">
+<div className="DialogIMG-flexContainer">
+
+{(() => {
+const arr = (!this.props.UI.loading && this.props.UI.success !== null ? this.props.post.images : null)
+
+console.log(arr);
 
 
-            </div>
+const imgs = [];
+
+if(arr) {
+
+for (let i = 0; i < (!this.props.UI.loading && this.props.UI.success !== null ? this.props.post.images.length : null); i++) {
+imgs.push(<DialogIMG value={(!this.props.UI.loading && this.props.UI.success !== null ? this.props.post.images[i] : null)} />);
+} 
+}
+return imgs;
+})()}
+
+</div>
+
+      ) : null}
+
+            
 
 
 

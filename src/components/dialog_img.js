@@ -45,7 +45,7 @@ export default function ResponsiveDialog(value) {
        
         <DialogContent>
             <div className="DialogIMG-imgcontainer">
-          <img className="DialogIMG-img" src={_imgURL}></img>
+          <img className="DialogIMG-img" src={_imgURL.value}></img>
              </div>
         </DialogContent>
         <DialogActions>

@@ -175,7 +175,7 @@ export const getPost = postId => dispatch => {
     console.log('dopiero lołdin')
     axios.get(`/posts/${postId}`)
       .then(res => {
-        console.log("test hej" + postId)
+        
 
         dispatch({
           type: SET_POST,
