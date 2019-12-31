@@ -37,10 +37,12 @@ import { logoutUser } from '../redux/actions/userActions';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 
+import { logo } from "./logo192.png"
+
 //of auth
 
 
-import {useLocation} from "react-router-dom"
+import { useLocation } from "react-router-dom"
 
 
 
@@ -152,7 +154,7 @@ const useStyles = makeStyles(theme => ({
 function PrimarySearchAppBar() {
 
   let location = useLocation();
- // console.log(location.pathname);
+  // console.log(location.pathname);
 
 
   let history = useHistory();
@@ -161,7 +163,7 @@ function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const authenticated = useSelector(state => state.user.authenticated, shallowEqual);
- // console.log(authenticated);
+  // console.log(authenticated);
   const admin = useSelector(state => state.user.adminPrivileges, shallowEqual);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -366,7 +368,7 @@ function PrimarySearchAppBar() {
 
 
 
-          <Avatar className={classes.bigAvatar} src="logo192.png"></Avatar>
+          <Avatar className={classes.bigAvatar} src="logo192.png" ></Avatar>
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>

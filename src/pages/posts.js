@@ -49,7 +49,7 @@ export class posts extends Component {
     alignment: "",
     currentCode: "",
     img: [],
-   
+
 
   };
 
@@ -60,7 +60,7 @@ export class posts extends Component {
       //document.getElementById("codeBoxing").innerHTML = this.props.post.java;
       //console.log(this.state.javaCode);
       this.setState({
-          currentCode: "java",
+        currentCode: "java",
       })
     }
 
@@ -70,7 +70,7 @@ export class posts extends Component {
 
       this.setState({
         currentCode: "python",
-    })
+      })
 
     }
 
@@ -79,7 +79,7 @@ export class posts extends Component {
       // console.log(this.state.cppCode);
       this.setState({
         currentCode: "cpp",
-    })
+      })
 
     }
   };
@@ -99,25 +99,25 @@ export class posts extends Component {
     }
   };
 
- 
 
 
 
 
-  componentWillMount() {
-    console.log(document.location.href);
-    let str = document.location.href;
+
+  componentDidMount() {
+
+    let str = this.props.location.pathname;
     let arr = str.split("/");
-    console.log(arr[4]);
-    let loc = arr[4];
-
-    this.props.getPost(loc);
-  
-
-   
+    console.log(arr[2]);
+    let loc = arr[2];
+    console.log("mount dla " + loc)
 
 
-  } 
+
+    if (arr[1] === "posts" && arr[2] !== "logo192.png") this.props.getPost(loc);
+
+
+  }
 
 
 
@@ -145,29 +145,29 @@ export class posts extends Component {
       },
       UI: { loading }
     } = this.props;
-    dayjs.extend(relativeTime);
 
-    
+
+
+    dayjs.extend(relativeTime);
 
 
     const handleChangePanel = event => {
-     
+
       var ex = this.state.expanded;
       this.setState({
         expanded: !ex
       });
-    
     };
 
-   
-    
-    
+
+
+
     return (
 
-      <div class="main-content-squeezed">
-        
+      <div className="main-content-squeezed">
+
         {!loading ? (
-           
+
           <Paper className={classes.paper}>
             <ExpansionPanel
               className={classes.expansion}
@@ -205,9 +205,6 @@ export class posts extends Component {
             <Typography style={{ marginTop: "15px", marginBottom: "25px" }} variant="body2">
               {desc}
             </Typography>
-            
-
-           
 
 
 
@@ -217,141 +214,149 @@ export class posts extends Component {
 
 
 
-                
+
+
+
+
+
+
+
+
+
             {this.props.post.java || this.props.post.cpp || this.props.post.python ? (
 
-               
 
-                <div>
+
+              <div>
                 <Grid container spacing={1}>
-              <Grid item sm={12} md={12}>
-                <div className="codeBoxNav">
-                  <ToggleButtonGroup
-                    value={this.state.alignment}
-                    exclusive
-                    onChange={this.handleAlignment}
-                  >
-                    
-                    {this.props.post.java  ? (
+                  <Grid item sm={12} md={12}>
+                    <div className="codeBoxNav">
+                      <ToggleButtonGroup
+                        value={this.state.alignment}
+                        exclusive
+                        onChange={this.handleAlignment}
+                      >
 
-                    <ToggleButton id="langBTN" value="js">
-                      <img
-                        draggable="false"
-                        src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/java_logo.png?alt=media&token=03067a8a-721b-4f69-ad32-ef2df63a9584"
-                        height="24px"
-                      />
-                    </ToggleButton>
+                        {this.props.post.java ? (
 
-                    ) : null}
-
-                    
-
-                    {this.props.post.python ? (
-
-                    <ToggleButton id="langBTN" value="py">
-                      <img
-                        draggable="false"
-                        src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/python_logo.png?alt=media&token=7e7010bb-fa65-445d-be7a-7a429c703d2c"
-                        height="24px"
-                      />
-                    </ToggleButton>
-
-                    ) : null}    
-                    
-
-                        {this.props.post.cpp ? (
-
-                    <ToggleButton id="langBTN" value="cpp">
-                      <img
-                        draggable="false"
-                        src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/cpp_logo.png?alt=media&token=8389d1bd-c9f0-4542-a274-1a33d9922e6f"
-                        height="24px"
-                      />
-
-                    </ToggleButton>
+                          <ToggleButton id="langBTN" value="js">
+                            <img
+                              draggable="false"
+                              src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/java_logo.png?alt=media&token=03067a8a-721b-4f69-ad32-ef2df63a9584"
+                              height="24px"
+                            />
+                          </ToggleButton>
 
                         ) : null}
 
-                    
+
+
+                        {this.props.post.python ? (
+
+                          <ToggleButton id="langBTN" value="py">
+                            <img
+                              draggable="false"
+                              src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/python_logo.png?alt=media&token=7e7010bb-fa65-445d-be7a-7a429c703d2c"
+                              height="24px"
+                            />
+                          </ToggleButton>
+
+                        ) : null}
+
+
+                        {this.props.post.cpp ? (
+
+                          <ToggleButton id="langBTN" value="cpp">
+                            <img
+                              draggable="false"
+                              src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/cpp_logo.png?alt=media&token=8389d1bd-c9f0-4542-a274-1a33d9922e6f"
+                              height="24px"
+                            />
+
+                          </ToggleButton>
+
+                        ) : null}
 
 
 
-                  </ToggleButtonGroup>
-                  <IconButton
-                    onClick={this.handleExpand}
-                    className="codeBoxingCrop"
-                  >
-                    <CropFreeIcon />
-                  </IconButton>
-                  <div style={{clear: "both"}}></div>
-                </div>
-              </Grid>
-            </Grid>
-            
-           
 
-            <div id="codeBox" className="codeInputs">
-            
-            {this.state.currentCode === "" ? (
 
-<Highlight language={"java"}>
-             {`
+                      </ToggleButtonGroup>
+                      <IconButton
+                        onClick={this.handleExpand}
+                        className="codeBoxingCrop"
+                      >
+                        <CropFreeIcon />
+                      </IconButton>
+                      <div style={{ clear: "both" }}></div>
+                    </div>
+                  </Grid>
+                </Grid>
+
+
+
+                <div id="codeBox" className="codeInputs">
+
+                  {this.state.currentCode === "" ? (
+
+                    <Highlight language={"java"}>
+                      {`
 |===============================================|
 |                                               |
 |   /* Choose desired programming language */   |
 |                                               |
 |===============================================| `}
-            </Highlight>
+                    </Highlight>
+
+                  ) : null}
+
+
+
+                  {this.props.post.java && this.state.currentCode === "java" ? (
+                    <Highlight language={"java"}>
+                      {this.props.post.java}
+                    </Highlight>
+                  ) : null}
+
+                  {this.props.post.python && this.state.currentCode === "python" ? (
+
+                    <Highlight language={"python"}>
+                      {this.props.post.python}
+                    </Highlight>
+
+                  ) : null}
+
+
+                  {this.props.post.cpp && this.state.currentCode === "cpp" ? (
+
+                    <Highlight language={"c++"}>
+                      {this.props.post.cpp}
+                    </Highlight>
+
+                  ) : null}
+
+
+                </div>
+              </div>
+
+
 
             ) : null}
-            
-            
-            
-            {this.props.post.java && this.state.currentCode === "java" ?  (
-                 <Highlight language={"java"}>
-             {this.props.post.java}
-            </Highlight>
-            ) : null}
-           
-           {this.props.post.python && this.state.currentCode === "python" ? (
 
-            <Highlight language={"python"}>
-             {this.props.post.python}
-            </Highlight>
 
-           ) : null}
-            
 
-            {this.props.post.cpp && this.state.currentCode === "cpp" ? (
 
-            <Highlight language={"c++"}>
-             {this.props.post.cpp}
-            </Highlight>
 
-            ) : null}
-            
+
+
+
+
+
+
+            <div className="DialogIMG-flexContainer">
+
 
             </div>
-            </div>
-
-
-
-            ) : null}
-
-            
-              
-
-
-
-
-
-
-
-
-          <div className="DialogIMG-flexContainer">
-  
-           
-          </div>
 
 
 
@@ -362,8 +367,8 @@ export class posts extends Component {
 
           </Paper>
         ) : (
-          <LinearProgress color="primary" />
-        )}
+            <LinearProgress color="primary" />
+          )}
       </div>
     );
   }
@@ -372,7 +377,9 @@ export class posts extends Component {
 posts.propTypes = {
   getPost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired
+  UI: PropTypes.object.isRequired,
+
+  classes: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
   post: state.data.post,

@@ -17,6 +17,7 @@ import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import dayjs from "dayjs";
 
 
+
 import DeletePost from './delete_post'
 
 import { connect } from 'react-redux'
@@ -123,17 +124,13 @@ class post extends Component {
 
       <div className="post-margin">
         <Card className="post-content">
-          
+
           <CardContent>
-            
-            <a
-              className="post-title"
-             
-              href={`/posts/${postId}`}
-              
-            >
-              {title}
-            </a> 
+
+
+            <Link to={`/posts/${postId}`}><p className="post-title" >{title}</p> </Link>
+
+
             <div className="post-langs">
               {java !== undefined && java !== "" && java !== null ? <Tooltip title="Java" placement="top">
                 <img draggable="false" src={j_src} height="24px" />
@@ -149,9 +146,9 @@ class post extends Component {
                 <Tooltip title="C++" placement="top">
                   <img draggable="false" src={c_src} height="24px" />
                 </Tooltip> : null}
-            </div><div style={{clear: "both"}} ></div>
+            </div><div style={{ clear: "both" }} ></div>
             <p className="post-short-desc">
-            {shortDesc}
+              {shortDesc}
             </p>
             <div className="post-date">
               <Typography variant="caption" color="inherit">
@@ -161,16 +158,16 @@ class post extends Component {
               {likeButton}  <Typography variant="caption" color="inherit">
                 {likeCount}
               </Typography>
-             
-             
-             
-             
+
+
+
+
               <IconButton style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px" }} >
-              <ChatBubbleOutlineIcon color="primary"></ChatBubbleOutlineIcon>
-               </IconButton><Typography variant="caption" color="inherit">
+                <ChatBubbleOutlineIcon color="primary"></ChatBubbleOutlineIcon>
+              </IconButton><Typography variant="caption" color="inherit">
                 {commentCount}
               </Typography>
-              
+
 
               {deleteButton}
 

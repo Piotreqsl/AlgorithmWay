@@ -167,21 +167,27 @@ export const filterPosts = (categoryFilters, codeFilters, approvedOnly) => dispa
 
 
 export const getPost = postId => dispatch => {
-  dispatch({
-    type: LOADING_UI
-  });
-  axios.get(`/posts/${postId}`)
-    .then(res => {
-      dispatch({
-        type: SET_POST,
-        payload: res.data,
-      });
-      dispatch({type: SET_SUCCESS,
-      payload: "Git majonezizk: " + postId
+  if (postId !== "logo192.png") {
+
+    dispatch({
+      type: LOADING_UI
+    });
+    console.log('dopiero lołdin')
+    axios.get(`/posts/${postId}`)
+      .then(res => {
+        console.log("test hej" + postId)
+
+        dispatch({
+          type: SET_POST,
+          payload: res.data,
+        });
+        dispatch({
+          type: SET_SUCCESS,
+          payload: "Git majonezizk: " + postId
+        })
       })
-      dispatch({type: STOP_LOADING_UI})
-    }) 
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
+  }
 }
 
 export const postPost = (newPost, history) => dispatch => {
@@ -205,14 +211,14 @@ export const postPost = (newPost, history) => dispatch => {
       history.push("/");
     })
     .catch(err => {
-      
-        dispatch({
-          type: SET_ERRORS,
-          payload: err.response.data,
+
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
 
 
-        });
-       
+      });
+
 
 
     });
