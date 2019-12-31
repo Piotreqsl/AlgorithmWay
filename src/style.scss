@@ -459,6 +459,7 @@ html {
     padding: 15px;
     box-sizing: border-box;
     margin-bottom: 20px;
+    overflow: scroll;
    
 }
 
@@ -527,8 +528,11 @@ html {
     
 }
 .DialogIMG-img {
+
  overflow: hidden;
- height: 100%;
+ width: max-content;
+ 
+ 
     
 }
 .DialogIMG-closeBTN:hover {
@@ -557,7 +561,8 @@ html {
     border-radius: 7px;
     //background-size: 100%;
     border-bottom: 4px ridge transparent;
-  
+    margin-top: 5px;
+    margin-bottom: 5px;
 
 }
 .DialogIMG-btn:hover, .DialogIMG-btn:focus {
