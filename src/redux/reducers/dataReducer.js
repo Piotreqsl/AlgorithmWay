@@ -90,7 +90,13 @@ export default function (state = initialState, action) {
 
 
 
+<<<<<<< HEAD
                                     case ADD_POSTS:
+=======
+                                        if(state.post.postId === action.payload.postId) {
+                                            state.post.likeCount = action.payload.likeCount;
+                                        }
+>>>>>>> 7a9cce63ed83aae169587781fd2c6413d0645e03
                                         return {
                                             ...state,
                                             posts: state.posts.concat(action.payload),
