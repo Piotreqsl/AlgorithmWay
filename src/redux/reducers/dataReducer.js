@@ -100,7 +100,7 @@ export default function (state = initialState, action) {
                                         if (thirdIndex >= 0) state.admin.unapprovedPosts[thirdIndex] = action.payload;
 
                                         if(state.post.postId === action.payload.postId) {
-                                            state.post = action.payload;
+                                            state.post.likeCount = action.payload.likeCount;
                                         }
                                         return {
                                             ...state

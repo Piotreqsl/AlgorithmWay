@@ -46,7 +46,7 @@ export class comments extends Component {
                         marginRight: "10px"
                       }}
                     ></div>
-                    <div>
+                    <div className="comment-body">
                       <Typography variant="body2">{body}</Typography>
 
                       <Tooltip
