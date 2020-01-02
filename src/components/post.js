@@ -194,8 +194,14 @@ class post extends Component {
             <div className="post-userhandle">
               <Typography
                 component={Link}
-                to={`/users/${userHandle}`}
-                variant="overline"
+                to={
+                  
+                     this.props.user.credentials.handle === this.props.post.userHandle
+                      ? `/user`
+                      : `/users/${userHandle}`
+                    
+                }
+                variant="caption"
                 color="inherit"
               >
                 {userHandle}

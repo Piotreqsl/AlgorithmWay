@@ -214,6 +214,7 @@ html {
     font-size: 1.25rem;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 500;
+    margin: 0px;
     
 
     
@@ -253,7 +254,7 @@ html {
 
 .post-userhandle {
     float: right;
-    margin-top: 30.25px;
+    margin-top: 33.5px;
     margin-bottom: 5px;
 }
 
@@ -269,6 +270,59 @@ html {
 }
 
 
+.prev-userhandle{
+    
+    margin-top: 25px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+.prev-avNhandle {
+    display: flex;
+    align-items: center;
+    
+}
+.prev-userhandle a {
+    cursor: pointer;
+    text-decoration: none !important;
+    color: rgb(100, 100, 128) !important;
+}
+
+.prev-userhandle a:hover {
+    color: rgb(136, 136, 172) !important;
+    transition: 0.2s;
+}
+
+.comment-display{
+display: flex;
+padding: 10px;
+
+}
+
+.comment-info {
+width: 60px;
+
+
+flex-direction: column;
+display: flex;
+align-items: center;
+margin-right: 10px;
+justify-content: center;
+
+
+}
+
+.comment-info a {
+    cursor: pointer;
+    text-decoration: none !important;
+    color: rgb(100, 100, 128) !important;
+}
+.comment-info a:hover {
+    color: rgb(136, 136, 172) !important;
+    transition: 0.2s;
+}
 
 //imageUpload in postUpload
 .imageUploadBox {

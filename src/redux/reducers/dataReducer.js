@@ -72,11 +72,28 @@ export default function (state = initialState, action) {
                                         backupdata: action.payload
                                 }
 
+
+                                case UNLIKE_POST:
+                                case LIKE_POST:
+                                    let index = state.posts.findIndex((post) => post.postId === action.payload.postId);
+                                    state.posts[index] = action.payload;
+
+                                    let secondIndex = state.backupdata.findIndex((post) => post.postId === action.payload.postId);
+                                    state.backupdata[secondIndex] = action.payload;
+                                    if(state.post.postId === action.payload.postId) {
+                                        state.post = action.payload;
+                                    }
                                 case ADD_POSTS:
                                     return {
                                         ...state,
                                         posts: state.posts.concat(action.payload),
                                     }
+
+                                    case SET_POST:
+                                        return {
+                                            ...state,
+                                            post: action.payload,
+                                        }
 
 
                                     case UNLIKE_POST:
