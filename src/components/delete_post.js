@@ -62,7 +62,7 @@ deletePost = () => {
 
     return <Fragment>
 
-<Tooltip title="Delete post" placement="right">
+<Tooltip title="Delete post" placement="top">
           <IconButton onClick={this.handleOpen}
             className="deleteIco"
             style={{ backgroundColor: 'transparent'}}

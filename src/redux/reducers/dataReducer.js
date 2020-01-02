@@ -56,6 +56,7 @@ export default function (state = initialState, action) {
                             return {
                                 ...state,
                                 admin: {
+                                    ...state.admin,
                                     unapprovedPosts: action.payload
                                 }
                             }

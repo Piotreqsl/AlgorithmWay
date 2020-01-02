@@ -9,6 +9,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton'
+import CheckIcon from '@material-ui/icons/Check';
 import relativeTime from "dayjs/plugin/relativeTime";
 import Tooltip from "@material-ui/core/Tooltip";
 import MessageIcon from '@material-ui/icons/Message';
@@ -21,8 +22,10 @@ import dayjs from "dayjs";
 import DeletePost from './delete_post'
 
 import { connect } from 'react-redux'
-import { likePost, unlikePost } from '../redux/actions/dataActions'
+import { likePost, unlikePost, approvePost } from '../redux/actions/dataActions'
 import PropTypes from 'prop-types'
+
+
 
 
 
@@ -53,6 +56,10 @@ class post extends Component {
     this.props.unlikePost(this.props.post.postId);
   }
 
+  approve = () => {
+    this.props.approvePost(this.props.post.postId)
+  }
+
 
 
   render() {
@@ -74,9 +81,10 @@ class post extends Component {
         cpp,
         likeCount,
         commentCount,
+        verified
       },
       user: {
-        authenticated, credentials: { handle }
+        authenticated, credentials: { handle }, adminPrivileges
       }
     } = this.props;
 
@@ -99,6 +107,16 @@ class post extends Component {
 
           )
       )
+
+    const approveButton = (authenticated && this.props.user.adminPrivileges) ?
+
+      <Tooltip title="Approve post" placement="top">
+        <IconButton style={{ backgroundColor: 'transparent', marginLeft: '-10px' }} onClick={this.approve} >
+          <CheckIcon
+            style={{ color: "#4CAF50" }} />
+        </IconButton></Tooltip> : null
+
+
 
 
     const deleteButton = (authenticated && userHandle === handle) || (authenticated && this.props.user.adminPrivileges) ? (
@@ -170,6 +188,7 @@ class post extends Component {
 
 
               {deleteButton}
+              {approveButton}
 
             </div>
             <div className="post-userhandle">
@@ -196,6 +215,7 @@ class post extends Component {
 post.propTypes = {
   likePost: PropTypes.func.isRequired,
   unlikePost: PropTypes.func.isRequired,
+  approvePost: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
@@ -209,6 +229,7 @@ const mapStateToProps = state => ({
 const mapActionsToProps = {
   likePost,
   unlikePost,
+  approvePost
 
 }
 
