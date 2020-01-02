@@ -61,6 +61,18 @@ class post extends Component {
   }
 
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+
+    let indexA = this.props.data.posts.findIndex((post) => post.postId === this.props.post.postId);
+
+
+
+
+
+
+  }
+
+
 
   render() {
 
@@ -108,7 +120,7 @@ class post extends Component {
           )
       )
 
-    const approveButton = (authenticated && this.props.user.adminPrivileges) ?
+    const approveButton = (authenticated && this.props.user.adminPrivileges && !verified) ?
 
       <Tooltip title="Approve post" placement="top">
         <IconButton style={{ backgroundColor: 'transparent', marginLeft: '-10px' }} onClick={this.approve} >
@@ -195,11 +207,11 @@ class post extends Component {
               <Typography
                 component={Link}
                 to={
-                  
-                     this.props.user.credentials.handle === this.props.post.userHandle
-                      ? `/user`
-                      : `/users/${userHandle}`
-                    
+
+                  this.props.user.credentials.handle === this.props.post.userHandle
+                    ? `/user`
+                    : `/users/${userHandle}`
+
                 }
                 variant="caption"
                 color="inherit"
@@ -223,12 +235,14 @@ post.propTypes = {
   unlikePost: PropTypes.func.isRequired,
   approvePost: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  data: state.data
 })
 
 

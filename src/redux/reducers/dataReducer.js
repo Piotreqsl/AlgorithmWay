@@ -10,7 +10,8 @@ import {
     SET_POST,
     SET_NO_MORE,
     LOAD_MORE_POSTS,
-    GET_UNAPPROVED_POSTS
+    GET_UNAPPROVED_POSTS,
+    APPROVE_POST
 } from '../types'
 
 const initialState = {
@@ -60,52 +61,40 @@ export default function (state = initialState, action) {
                                     unapprovedPosts: action.payload
                                 }
                             }
+                            case APPROVE_POST:
+                                let indexA = state.posts.findIndex((post) => post.postId === action.payload);
+                                state.posts[indexA].verified = true;
 
+                                let secondIndexA = state.backupdata.findIndex((post) => post.postId === action.payload);
+                                state.backupdata[secondIndexA].verified = true;
 
+                                let thirdIndexA = state.admin.unapprovedPosts.findIndex((post) => post.postId === action.payload);
+                                if (thirdIndexA >= 0) state.admin.unapprovedPosts.splice(thirdIndexA, 1)
 
-                            case SET_POSTS:
                                 return {
-                                    ...state,
-                                    posts: action.payload,
-                                        loading: false,
-                                        lastId: action.payload[action.payload.length - 1].postId,
-                                        backupdata: action.payload
+                                    ...state
                                 }
 
 
-                            
 
-                                case ADD_POSTS:
+
+                                case SET_POSTS:
                                     return {
                                         ...state,
-                                        posts: state.posts.concat(action.payload),
+                                        posts: action.payload,
+                                            loading: false,
+                                            lastId: action.payload[action.payload.length - 1].postId,
+                                            backupdata: action.payload
                                     }
 
-                                    case SET_POST:
+
+
+
+                                    case ADD_POSTS:
                                         return {
                                             ...state,
-                                            post: action.payload,
+                                            posts: state.posts.concat(action.payload),
                                         }
-
-
-                                    case UNLIKE_POST:
-                                    case LIKE_POST:
-                                        let index = state.posts.findIndex((post) => post.postId === action.payload.postId);
-                                        state.posts[index] = action.payload;
-
-                                        let secondIndex = state.backupdata.findIndex((post) => post.postId === action.payload.postId);
-                                        state.backupdata[secondIndex] = action.payload;
-
-                                        let thirdIndex = state.admin.unapprovedPosts.findIndex((post) => post.postId === action.payload.postId);
-                                        if (thirdIndex >= 0) state.admin.unapprovedPosts[thirdIndex] = action.payload;
-
-                                        if(state.post.postId === action.payload.postId) {
-                                            state.post = action.payload;
-                                        }
-                                        return {
-                                            ...state
-                                        }
-
 
                                         case SET_POST:
                                             return {
@@ -113,34 +102,56 @@ export default function (state = initialState, action) {
                                                 post: action.payload,
                                             }
 
-                                            case DELETE_POST:
-                                                let index1 = state.posts.findIndex(post => post.postId === action.payload);
-                                                state.posts.splice(index1, 1);
 
-                                                let secondindex1 = state.backupdata.findIndex(post => post.postId === action.payload);
-                                                state.backupdata.splice(secondindex1, 1);
+                                            case UNLIKE_POST:
+                                            case LIKE_POST:
+                                                let index = state.posts.findIndex((post) => post.postId === action.payload.postId);
+                                                state.posts[index] = action.payload;
 
-                                                let thirdindex1 = state.admin.unapprovedPosts.findIndex(post => post.postId === action.payload);
-                                                if (thirdindex1 >= 0) state.admin.unapprovedPosts.splice(thirdindex1, 1);
+                                                let secondIndex = state.backupdata.findIndex((post) => post.postId === action.payload.postId);
+                                                state.backupdata[secondIndex] = action.payload;
 
+                                                let thirdIndex = state.admin.unapprovedPosts.findIndex((post) => post.postId === action.payload.postId);
+                                                if (thirdIndex >= 0) state.admin.unapprovedPosts[thirdIndex] = action.payload;
+
+                                                if (state.post.postId === action.payload.postId) {
+                                                    state.post.likeCount = action.payload.likeCount;
+                                                }
 
                                                 return {
                                                     ...state
-                                                };
-
-                                            case UPLOAD_POST:
-                                                return {
-                                                    ...state,
-                                                    posts: [
-                                                        action.payload.resPost,
-                                                        ...state.posts
-                                                    ]
                                                 }
 
 
 
-                                                default:
-                                                    return state;
+                                                case DELETE_POST:
+                                                    let index1 = state.posts.findIndex(post => post.postId === action.payload);
+                                                    state.posts.splice(index1, 1);
+
+                                                    let secondindex1 = state.backupdata.findIndex(post => post.postId === action.payload);
+                                                    state.backupdata.splice(secondindex1, 1);
+
+                                                    let thirdindex1 = state.admin.unapprovedPosts.findIndex(post => post.postId === action.payload);
+                                                    if (thirdindex1 >= 0) state.admin.unapprovedPosts.splice(thirdindex1, 1);
+
+
+                                                    return {
+                                                        ...state
+                                                    };
+
+                                                case UPLOAD_POST:
+                                                    return {
+                                                        ...state,
+                                                        posts: [
+                                                            action.payload.resPost,
+                                                            ...state.posts
+                                                        ]
+                                                    }
+
+
+
+                                                    default:
+                                                        return state;
 
 
 

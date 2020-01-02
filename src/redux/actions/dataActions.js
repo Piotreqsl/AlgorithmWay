@@ -17,7 +17,8 @@ import {
   STOP_LOADING_UI,
   LOAD_MORE_POSTS,
   FILTER_POSTS,
-  GET_UNAPPROVED_POSTS
+  GET_UNAPPROVED_POSTS,
+  APPROVE_POST
 
 } from "../types";
 
@@ -215,13 +216,32 @@ export const getUnapprovedPosts = () => dispatch => {
 export const approvePost = (postId) => dispatch => {
   var link = "/admin/" + postId + "/verify"
 
+  dispatch({
+    type: CLEAR_ERRORS
+  })
+  dispatch({
+    type: CLEAR_SUCCESS
+  })
+
   axios.post(link).then(res => {
 
-    console.log(res.status)
+    dispatch({
+      type: APPROVE_POST,
+      payload: postId
+    })
+    dispatch({
+      type: SET_SUCCESS,
+      payload: "Post approved"
+    })
 
 
   }).catch(err => {
-    console.log(err)
+    dispatch({
+      type: SET_ERRORS,
+      payload: "Post already approved"
+    })
+
+
   })
 
 
