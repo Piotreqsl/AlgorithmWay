@@ -25,7 +25,12 @@ export class comments extends Component {
                 >
                   <div className="comment-display">
                     <div className="comment-info">
-                      <Avatar />
+                      <Avatar src={userImage} component={Link}
+                        to={
+                          userHandle === currentUserHandle
+                            ? `/user`
+                            : `/users/${userHandle}`
+                        } />
 
                       <Typography
                         variant="caption"

@@ -137,17 +137,10 @@ export class profile extends Component {
 
 
   componentDidUpdate(prevProps) {
-    var did = false
-    console.log("updejt")
 
-    /// Jeśli upcoming data nic nie wniosło to ładuje dalej
-
-    /// Jeśli aktualnych postów jest 5 lub mniej, to ładuje sie wiecej postów żeby zawsze trochę można było skrolować
-    if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && this.props.data.posts.length <= 5 && this.props.data.noMore === false && did === false) {
+    /// Zobaczyć jak wyjdzie w praniu i najwyżej napisać ify na doładowanie postoów
 
 
-      this.props.loadMorePosts([], [], false);
-    }
 
 
   }
@@ -157,10 +150,7 @@ export class profile extends Component {
 
 
     if (this.props.user.credentials.handle !== undefined && this.props.user.credentials.handle !== null) { }
-
-
     if (this.props.data.posts === undefined || this.props.data.posts.length <= 1) this.props.getPosts();
-
 
 
   }
