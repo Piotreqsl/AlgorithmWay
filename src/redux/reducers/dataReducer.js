@@ -72,16 +72,8 @@ export default function (state = initialState, action) {
                                 }
 
 
-                                case UNLIKE_POST:
-                                case LIKE_POST:
-                                    let index = state.posts.findIndex((post) => post.postId === action.payload.postId);
-                                    state.posts[index] = action.payload;
+                            
 
-                                    let secondIndex = state.backupdata.findIndex((post) => post.postId === action.payload.postId);
-                                    state.backupdata[secondIndex] = action.payload;
-                                    if(state.post.postId === action.payload.postId) {
-                                        state.post = action.payload;
-                                    }
                                 case ADD_POSTS:
                                     return {
                                         ...state,
@@ -106,10 +98,14 @@ export default function (state = initialState, action) {
                                         let thirdIndex = state.admin.unapprovedPosts.findIndex((post) => post.postId === action.payload.postId);
                                         if (thirdIndex >= 0) state.admin.unapprovedPosts[thirdIndex] = action.payload;
 
-
+                                        if(state.post.postId === action.payload.postId) {
+                                            state.post = action.payload;
+                                        }
                                         return {
                                             ...state
                                         }
+
+
                                         case SET_POST:
                                             return {
                                                 ...state,
