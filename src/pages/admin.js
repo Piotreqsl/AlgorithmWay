@@ -25,6 +25,9 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { connect } from "react-redux";
+import { Waypoint } from 'react-waypoint';
+import { getUnapprovedPosts, loadMorePosts, filterPosts } from '../redux/actions/dataActions'
+import { withSnackbar } from 'notistack';
 
 
 const styles = {
@@ -61,34 +64,14 @@ class admin extends Component {
   }
 
   componentDidMount() {
-    axios.get('/allPosts')
-      .then(res => {
-        let filtered = [];
 
-
-        res.data.forEach(req => {
-          if (req.verified === false) {
-            filtered.push(req);
-          }
-
-        })
-
-        this.setState({
-          posts: filtered
-        })
-      })
-      .catch(err => console.log(err + " z posta"));
+    this.props.getUnapprovedPosts();
 
     axios.get("/getEditRequests").then(res => {
       console.log(res.data);
-
-
       this.setState({
         editReq: res.data
       })
-
-
-
     })
   }
 
@@ -140,10 +123,12 @@ class admin extends Component {
     const { errors, loadingLocal, success } = this.state;
 
 
-    let recentPostsMarkup = this.state.posts ? (
-      this.state.posts.map((post) => <Post key={post.postId} post={post} />)
+    let recentPostsMarkup = this.props.data.admin.unapprovedPosts ? (
+      this.props.data.admin.unapprovedPosts.map((post) => <Post key={post.postId} post={post} />)
     ) : (<div><center>
       <CircularProgress color="primary" /></center></div>);
+
+
 
     let editRequests = (this.state.editReq && this.state.editReq.error === undefined) ? (
       this.state.editReq.map((req) => <EditRequestList key={req.id} post={req} />)
@@ -240,18 +225,21 @@ class admin extends Component {
 
 admin.propTypes = {
   classes: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired,
+  getUnapprovedPosts: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired
+  UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  UI: state.UI
+  UI: state.UI,
+  data: state.data
+
 });
-const mapActionsToProps = {};
+
 
 export default connect(
   mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(admin));
+  { getUnapprovedPosts }
+)(withStyles(styles)(withSnackbar(admin)));

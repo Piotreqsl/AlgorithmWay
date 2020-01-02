@@ -16,7 +16,8 @@ import {
   SET_POST,
   STOP_LOADING_UI,
   LOAD_MORE_POSTS,
-  FILTER_POSTS
+  FILTER_POSTS,
+  GET_UNAPPROVED_POSTS
 
 } from "../types";
 
@@ -175,7 +176,7 @@ export const getPost = postId => dispatch => {
     console.log('dopiero lołdin')
     axios.get(`/posts/${postId}`)
       .then(res => {
-        
+
 
         dispatch({
           type: SET_POST,
@@ -188,6 +189,27 @@ export const getPost = postId => dispatch => {
       })
       .catch(err => console.log(err));
   }
+}
+
+
+export const getUnapprovedPosts = () => dispatch => {
+  axios.get('/allPosts')
+    .then(res => {
+      let filtered = [];
+
+      res.data.forEach(req => {
+        if (req.verified === false) {
+          filtered.push(req);
+        }
+      })
+
+      dispatch({
+        type: GET_UNAPPROVED_POSTS,
+        payload: filtered
+      })
+    })
+    .catch(err => console.log(err + " z posta"));
+
 }
 
 export const postPost = (newPost, history) => dispatch => {
