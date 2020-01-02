@@ -37,7 +37,7 @@ import { logoutUser } from '../redux/actions/userActions';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 
-import { logo } from "./logo192.png"
+import { logo } from "./logo.png"
 
 //of auth
 
@@ -189,6 +189,7 @@ function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
+    console.log(logo)
   };
 
   const handleLogout = () => {

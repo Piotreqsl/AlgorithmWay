@@ -61,17 +61,6 @@ class post extends Component {
   }
 
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-
-    let indexA = this.props.data.posts.findIndex((post) => post.postId === this.props.post.postId);
-
-
-
-
-
-
-  }
-
 
 
   render() {
