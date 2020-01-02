@@ -212,6 +212,22 @@ export const getUnapprovedPosts = () => dispatch => {
 
 }
 
+export const approvePost = (postId) => dispatch => {
+  var link = "/admin/" + postId + "/verify"
+
+  axios.post(link).then(res => {
+
+    console.log(res.status)
+
+
+  }).catch(err => {
+    console.log(err)
+  })
+
+
+}
+
+
 export const postPost = (newPost, history) => dispatch => {
   dispatch({
     type: LOADING_UI
