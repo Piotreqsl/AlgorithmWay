@@ -73,9 +73,13 @@ export default function (state = initialState, action) {
 
                                     let secondIndex = state.backupdata.findIndex((post) => post.postId === action.payload.postId);
                                     state.backupdata[secondIndex] = action.payload;
+                                    if(state.post.postId === action.payload.postId) {
+                                        state.post = action.payload;
+                                    }
                                     return {
                                         ...state
                                     }
+
                                     case SET_POST:
                                         return {
                                             ...state,
