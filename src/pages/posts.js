@@ -29,7 +29,7 @@ import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import { likePost, unlikePost } from '../redux/actions/dataActions'
 
 import Comments from '../components/comments'
-
+import CommentInput from '../components/comment_input'
 
 const styles = {
   paper: {
@@ -390,7 +390,7 @@ export class posts extends Component {
               </div>
             ) : null}
           </Paper>
-                <p>dodawanie postów form</p>
+                <CommentInput postId={postId} />
 <Comments comments={comments} currentUserHandle={this.props.user.credentials.handle} />
 </div>
 

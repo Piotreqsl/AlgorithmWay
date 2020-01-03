@@ -259,7 +259,7 @@ export class upload extends Component {
 
    
 
-    if(this.state.formdatas.length === 0) {
+    if(this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
       this.handlePostUpload();
     } else {
 
@@ -275,7 +275,11 @@ export class upload extends Component {
     }
       
     } else {
-      console.log("Empty forms above!")
+      this.props.enqueueSnackbar(`"Title" and "Short description" cannot be empty`, {
+        preventDuplicate: true,
+        variant: "error",
+        autoHideDuration: 2000
+      });
     }
 
   }
@@ -362,7 +366,7 @@ export class upload extends Component {
           <Typography className={classes.head1} variant="h4" color="primary">
             Create a post
           </Typography>
-          <form>
+         
             <TextField
               name="title"
               type="text"
@@ -390,6 +394,7 @@ export class upload extends Component {
               className={classes.input}
               multiline="true"
               rows="3"
+              rowsMax="4"
               id="shortDesc"
             />
             <TextField
@@ -405,6 +410,7 @@ export class upload extends Component {
               className={classes.input}
               multiline="true"
               rows="7"
+              rowsMax="8"
             />
             <div>
               <div> Categories: </div>
@@ -555,7 +561,7 @@ export class upload extends Component {
                 className="blackBox"
               />
             </div>
-          </form>
+         
 
           <div class="imageUploadBox">
             {this.state.urls.length !== 0 ? (

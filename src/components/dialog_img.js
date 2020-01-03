@@ -16,7 +16,7 @@ export default function ResponsiveDialog(value) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   const _imgURL = value;
-  console.log(_imgURL);
+  //console.log(_imgURL);
 
   const handleClickOpen = () => {
     setOpen(true);
