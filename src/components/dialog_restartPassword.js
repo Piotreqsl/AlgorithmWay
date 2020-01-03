@@ -12,7 +12,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { extend } from "dayjs";
 import axios from "axios";
 import { withSnackbar } from 'notistack';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography'
 
 import { resetPassword } from "../redux/actions/userActions"
@@ -34,56 +34,58 @@ class FormDialog extends Component {
     success: '',
   };
 
- 
+
 
   submit = () => {
-      
-    
+
+
     const resetPassword = {
-          body: this.state.email,
-      }
+      body: this.state.email,
+    }
 
 
 
     this.props.resetPassword(resetPassword);
-    
-    
+
+
     this.handleClose();
 
-    
+
     console.log(this.state.email);
   }
-  
+
   componentWillReceiveProps(nextProps) {
 
     console.log(nextProps);
-    if(nextProps.UI.loading === false && nextProps.UI.success && !nextProps.UI.errors && !nextProps.UI.general) {
-        
-        this.props.enqueueSnackbar('Recovery email sent', {
-            preventDuplicate: true,
-            variant: "success",
-            autoHideDuration: 2000,
-    
-          });
-    }
-    if(nextProps.UI.errors != null) {
-    const err = nextProps.UI.errors;
-    console.log(err + "err.error: " + err.error);
-    if (err.error === "Email not found" && !nextProps.UI.success) {
-        
-      this.props.enqueueSnackbar('Invalid email', {
+    if (nextProps.UI.loading === false && nextProps.UI.success && !nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.success !== 'Git majonezizk') {
+
+
+
+      this.props.enqueueSnackbar('Recovery email sent', {
         preventDuplicate: true,
-        variant: "error",
+        variant: "success",
         autoHideDuration: 2000,
 
       });
-      
     }
-        }
+    if (nextProps.UI.errors != null) {
+      const err = nextProps.UI.errors;
+      console.log(err + "err.error: " + err.error);
+      if (err.error === "Email not found" && !nextProps.UI.success) {
 
-    
+        this.props.enqueueSnackbar('Invalid email', {
+          preventDuplicate: true,
+          variant: "error",
+          autoHideDuration: 2000,
 
-   
+        });
+
+      }
+    }
+
+
+
+
 
   }
 
@@ -95,17 +97,17 @@ class FormDialog extends Component {
 
   handleOpen = () => {
     this.setState({ open: true });
-    
+
   };
 
   handleClose = () => {
     this.setState({ open: false });
   };
 
- 
 
-  
- 
+
+
+
 
   render() {
     const { classes, UI: { loading } } = this.props;
@@ -113,46 +115,46 @@ class FormDialog extends Component {
     return (
       <div>
 
-       <Typography
-            component={Link}
-            className="frgtPassword"
-            onClick={this.handleOpen}
-            variant="body1"
-          >
-            Forgot password
+        <Typography
+          component={Link}
+          className="frgtPassword"
+          onClick={this.handleOpen}
+          variant="body1"
+        >
+          Forgot password
           </Typography>
 
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
-          
+
         >
           <DialogTitle id="form-dialog-title">Reset your password</DialogTitle>
-          <form> 
-          <DialogContent>
-            
-            <TextField
-              variant="outlined"
-              margin="dense"
-              id="email"
-              label="Email"
-              value={this.state.email}
-              placeholder="Enter your email"
-             // onChange={this.handleChange}
-             
-             onChange={e => this.emailChange(e.target.value)}
-             type="text"
-              fullWidth
-              
-              
-              inputProps={{ maxLength: 50 }}
-            />
+          <form>
+            <DialogContent>
 
-<div className="resetDialog"></div>
+              <TextField
+                variant="outlined"
+                margin="dense"
+                id="email"
+                label="Email"
+                value={this.state.email}
+                placeholder="Enter your email"
+                // onChange={this.handleChange}
 
-            
-          </DialogContent>
+                onChange={e => this.emailChange(e.target.value)}
+                type="text"
+                fullWidth
+
+
+                inputProps={{ maxLength: 50 }}
+              />
+
+              <div className="resetDialog"></div>
+
+
+            </DialogContent>
           </form>
           <DialogActions>
             <IconButton
@@ -163,7 +165,7 @@ class FormDialog extends Component {
               <CloseIcon></CloseIcon>
             </IconButton>
             <IconButton variant="contained" onClick={this.submit} color="primary">
-             <DoneIcon></DoneIcon>
+              <DoneIcon></DoneIcon>
             </IconButton>
           </DialogActions>
         </Dialog>
@@ -172,11 +174,11 @@ class FormDialog extends Component {
   }
 
 
-  emailChange(value){
+  emailChange(value) {
     this.setState({
-         email: value
+      email: value
     });
-}
+  }
 
 
 

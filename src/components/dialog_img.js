@@ -16,7 +16,7 @@ export default function ResponsiveDialog(value) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   const _imgURL = value;
-  console.log(_imgURL);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,12 +28,12 @@ export default function ResponsiveDialog(value) {
 
   return (
     <div>
-      
-        
-       
-        <div id="DialogIMG-btn" onClick={handleClickOpen} className="DialogIMG-btn" style={{backgroundImage:`url('${_imgURL.value}')`}} >
 
-        </div>
+
+
+      <div id="DialogIMG-btn" onClick={handleClickOpen} className="DialogIMG-btn" style={{ backgroundImage: `url('${_imgURL.value}')` }} >
+
+      </div>
 
       <Dialog
         fullScreen={fullScreen}
@@ -42,18 +42,18 @@ export default function ResponsiveDialog(value) {
         aria-labelledby="responsive-dialog-title"
         className="DialogIMG"
       >
-       
+
         <DialogContent>
-            <div className="DialogIMG-imgcontainer">
-          <img className="DialogIMG-img" src={_imgURL.value}></img>
-             </div>
+          <div className="DialogIMG-imgcontainer">
+            <img className="DialogIMG-img" src={_imgURL.value}></img>
+          </div>
         </DialogContent>
         <DialogActions>
-          
-          <IconButton  onClick={handleClose} className="DialogIMG-closeBTN">
-    <CloseIcon style={{color: "white"}} fontSize="large" />
+
+          <IconButton onClick={handleClose} className="DialogIMG-closeBTN">
+            <CloseIcon style={{ color: "white" }} fontSize="large" />
           </IconButton>
-          
+
         </DialogActions>
       </Dialog>
     </div>

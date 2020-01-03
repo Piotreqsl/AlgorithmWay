@@ -53,7 +53,7 @@ export class posts extends Component {
     expandedC: false,
 
     alignment: "",
-    currentCode: "",
+    currentCode: "java",
     img: []
   };
 

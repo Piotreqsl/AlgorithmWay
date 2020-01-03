@@ -24,6 +24,7 @@ import upload from "./pages/upload";
 import profile from "./pages/profile";
 import admin from "./pages/admin";
 import posts from './pages/posts'
+import edit from './pages/edit'
 
 //Components:
 import Navbar from "./components/navbar";
@@ -79,20 +80,20 @@ const styles = {
 
 function App(props) {
   const { classes } = props;
-  
- 
+
+
   return (
-    
+
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
         <SnackbarProvider
-        classes={{
-          variantSuccess: classes.success,
-          variantError: classes.error,
-          variantWarning: classes.warning,
-          variantInfo: classes.info,
-      }}
-        maxSnack={3}>
+          classes={{
+            variantSuccess: classes.success,
+            variantError: classes.error,
+            variantWarning: classes.warning,
+            variantInfo: classes.info,
+          }}
+          maxSnack={3}>
           <div className="App">
             <Router>
               <Navbar />
@@ -105,6 +106,7 @@ function App(props) {
                 <Route exact path="/user" component={profile} />
                 <Route exact path="/admin" component={admin} />
                 <Route path="/posts/" component={posts} />
+                <Route path="/editPost/" component={edit} />
 
               </Switch>
             </Router>
@@ -115,9 +117,9 @@ function App(props) {
   );
 }
 App.propTypes = {
- 
+
   classes: PropTypes.object.isRequired,
- 
+
 };
 export { UIauth };
 export default withStyles(styles)(App);

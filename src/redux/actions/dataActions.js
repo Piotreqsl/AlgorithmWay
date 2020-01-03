@@ -185,10 +185,16 @@ export const getPost = postId => dispatch => {
         });
         dispatch({
           type: SET_SUCCESS,
-          payload: "Git majonezizk: " + postId
+          payload: "Git majonezizk"
         })
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data.error
+        });
+        console.log(err)
+      });
   }
 }
 
@@ -272,10 +278,9 @@ export const postPost = (newPost, history) => dispatch => {
 
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data,
-
-
+        payload: err.response.statusText,
       });
+
 
 
 
