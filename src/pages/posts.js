@@ -27,9 +27,9 @@ import Avatar from "@material-ui/core/Avatar";
 import LikedIcon from '@material-ui/icons/Favorite';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import { likePost, unlikePost } from '../redux/actions/dataActions'
-
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline"
 import Comments from '../components/comments'
-
+import CommentInput from '../components/comment_input'
 
 const styles = {
   paper: {
@@ -51,7 +51,7 @@ export class posts extends Component {
     postId: "",
     expanded: false,
     expandedC: false,
-
+   
     alignment: "",
     currentCode: "java",
     img: []
@@ -114,12 +114,17 @@ export class posts extends Component {
     this.props.unlikePost(this.props.post.postId);
   }
 
-  componentDidMount() {
+   componentDidMount() {
     let str = this.props.location.pathname;
     let arr = str.split("/");
     let loc = arr[2];
     if (arr[1] === "posts" && arr[2] !== "logo192.png") this.props.getPost(loc);
+
+  
+
   }
+
+  
 
   render() {
     const {
@@ -152,7 +157,7 @@ export class posts extends Component {
 
     dayjs.extend(relativeTime);
 
-
+    
     const likeButton = !authenticated ? (
       <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }} component={Link} to="/login" >
         <LikeIcon color="primary" />
@@ -178,6 +183,10 @@ export class posts extends Component {
         expanded: !ex
       });
     };
+
+    const scrolltocomment = () => {
+      window.scrollTo(0, document.getElementById("commentWaypoint").offsetTop);
+    }
 
     return (
       <div className="main-content-squeezed">
@@ -237,6 +246,25 @@ export class posts extends Component {
                     {likeCount}
                   </Typography>
 
+                  
+                  <IconButton 
+
+                  style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px" }} 
+                  onClick={
+                    
+
+                   scrolltocomment
+                     
+                    
+
+                  }
+                  >
+                <ChatBubbleOutlineIcon  color="primary"></ChatBubbleOutlineIcon>
+              </IconButton>
+              <Typography variant="caption" color="inherit">
+                {commentCount}
+              </Typography>
+                    
                 </div>
 
 
@@ -328,74 +356,75 @@ export class posts extends Component {
 |   /* Choose desired programming language */   |
 |                                               |
 |===============================================| `}
-                        </Highlight>
-                      ) : null}
+                    </Highlight>
+                  ) : null}
 
-                      {this.props.post.java && this.state.currentCode === "java" ? (
-                        <Highlight language={"java"}>
-                          {this.props.post.java}
-                        </Highlight>
-                      ) : null}
+                  {this.props.post.java && this.state.currentCode === "java" ? (
+                    <Highlight language={"java"}>
+                      {this.props.post.java}
+                    </Highlight>
+                  ) : null}
 
-                      {this.props.post.python &&
-                        this.state.currentCode === "python" ? (
-                          <Highlight language={"python"}>
-                            {this.props.post.python}
-                          </Highlight>
-                        ) : null}
+                  {this.props.post.python &&
+                  this.state.currentCode === "python" ? (
+                    <Highlight language={"python"}>
+                      {this.props.post.python}
+                    </Highlight>
+                  ) : null}
 
-                      {this.props.post.cpp && this.state.currentCode === "cpp" ? (
-                        <Highlight language={"c++"}>
-                          {this.props.post.cpp}
-                        </Highlight>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : null}
+                  {this.props.post.cpp && this.state.currentCode === "cpp" ? (
+                    <Highlight language={"c++"}>
+                      {this.props.post.cpp}
+                    </Highlight>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
 
-              {(!this.props.UI.loading && this.props.UI.success !== null ? (
-                this.props.post.images
-              ) : null) ? (
-                  <div className="DialogIMG-flexContainer">
-                    {(() => {
-                      const arr =
-                        !this.props.UI.loading && this.props.UI.success !== null
-                          ? this.props.post.images
-                          : null;
+            {(!this.props.UI.loading && this.props.UI.success !== null ? (
+              this.props.post.images
+            ) : null) ? (
+              <div className="DialogIMG-flexContainer">
+                {(() => {
+                  const arr =
+                    !this.props.UI.loading && this.props.UI.success !== null
+                      ? this.props.post.images
+                      : null;
 
+                //  console.log(arr);
 
+                  const imgs = [];
 
-                      const imgs = [];
-
-                      if (arr) {
-                        for (
-                          let i = 0;
-                          i <
-                          (!this.props.UI.loading && this.props.UI.success !== null
-                            ? this.props.post.images.length
-                            : null);
-                          i++
-                        ) {
-                          imgs.push(
-                            <DialogIMG
-                              value={
-                                !this.props.UI.loading &&
-                                  this.props.UI.success !== null
-                                  ? this.props.post.images[i]
-                                  : null
-                              }
-                            />
-                          );
-                        }
-                      }
-                      return imgs;
-                    })()}
-                  </div>
-                ) : null}
-            </Paper>
-            <p>dodawanie postów form</p>
-            <Comments comments={comments} currentUserHandle={this.props.user.credentials.handle} />
-          </div>
+                  if (arr) {
+                    for (
+                      let i = 0;
+                      i <
+                      (!this.props.UI.loading && this.props.UI.success !== null
+                        ? this.props.post.images.length
+                        : null);
+                      i++
+                    ) {
+                      imgs.push(
+                        <DialogIMG
+                          value={
+                            !this.props.UI.loading &&
+                            this.props.UI.success !== null
+                              ? this.props.post.images[i]
+                              : null
+                          }
+                        />
+                      );
+                    }
+                  }
+                  return imgs;
+                })()}
+              </div>
+            ) : null}
+          </Paper>
+          <div id="commentWaypoint" > </div>
+                <CommentInput postId={postId} />
+<Comments comments={comments} currentUserHandle={this.props.user.credentials.handle} />
+</div>
 
         ) : (
             <LinearProgress color="primary" />

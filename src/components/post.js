@@ -181,7 +181,9 @@ class post extends Component {
 
 
 
-              <IconButton style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px" }} >
+              <IconButton component={Link} to={
+                authenticated ? `/posts/${postId}` : '/login'
+              } style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px" }} >
                 <ChatBubbleOutlineIcon color="primary"></ChatBubbleOutlineIcon>
               </IconButton><Typography variant="caption" color="inherit">
                 {commentCount}

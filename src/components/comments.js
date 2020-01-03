@@ -8,29 +8,38 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Tooltip from '@material-ui/core/Tooltip'
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import IconButton from '@material-ui/core/IconButton'
+import DeleteComment from './delete_comment';
+
 export class comments extends Component {
+  
+  
+  
   render() {
     dayjs.extend(relativeTime);
     const { comments, currentUserHandle } = this.props;
     return (
       <div>
         {comments ? (
-          <Grid container>
+          <Grid id="comments-container" container>
             {comments.map(comment => {
-              const { body, createdAt, userImage, userHandle } = comment;
+              const { body, createdAt, userImage, userHandle, id } = comment;
               return (
                 <Paper
                   style={{ width: "100%", marginTop: "10px" }}
-                  key={createdAt}
+                  key={id}
                 >
                   <div className="comment-display">
                     <div className="comment-info">
-                      <Avatar src={userImage} component={Link}
-                        to={
-                          userHandle === currentUserHandle
-                            ? `/user`
-                            : `/users/${userHandle}`
-                        } />
+                      <Avatar src={userImage}
+                      component={Link}
+                      to={
+                        userHandle === currentUserHandle
+                          ? `/user`
+                          : `/users/${userHandle}`
+                      }
+                      />
 
                       <Typography
                         variant="caption"
@@ -52,19 +61,37 @@ export class comments extends Component {
                       }}
                     ></div>
                     <div className="comment-body">
-                      <Typography variant="body2">{body}</Typography>
-
+                      <Typography 
+                      style={{
+                        marginBottom: "20px"
+                      }}
+                      variant="body2">{body}</Typography>
+                      <div style={{
+                        //float: "right"
+                        position: "absolute",
+                        right: "7px",
+                        bottom: "3px",
+                        marginTop: "15px"
+                      }}> 
                       <Tooltip
                         placement="left"
                         title={dayjs(createdAt).format("YYYY.MM.DD HH:mm")}
                       >
                         <Typography
-                          style={{ float: "right" }}
+                          style={{ marginRight:"5px" }}
                           variant="caption"
                         >
                           {dayjs(createdAt).fromNow()}
                         </Typography>
                       </Tooltip>
+
+                      {currentUserHandle === userHandle ? (
+
+                             <DeleteComment comId={id} />              
+
+                      ) : null}
+
+                      </div>
                     </div>
                   </div>
                 </Paper>
@@ -78,7 +105,8 @@ export class comments extends Component {
 }
 
 comments.propTypes = {
-  comments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+
 };
 
 export default comments;

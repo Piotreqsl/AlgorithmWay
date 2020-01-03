@@ -105,6 +105,7 @@ class FormDialog extends Component {
               fullWidth
               multiline="true"
               rows="3"
+              rowsMax="4"
               inputProps={{ maxLength: 150 }}
             />
 
@@ -122,7 +123,7 @@ class FormDialog extends Component {
              fullWidth
               multiline="true"
               
-              inputProps={{ maxLength: 20 }}
+              inputProps={{ maxLength: 30 }}
             />
           </DialogContent>
           </form>
