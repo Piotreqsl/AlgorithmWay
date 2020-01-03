@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 
-import { postPost } from "../redux/actions/dataActions";
+import { postPost, createEditRequest } from "../redux/actions/dataActions";
 
 //mui
 import Paper from "@material-ui/core/Paper";
@@ -42,12 +42,14 @@ import DialogIMG from "../components/dialog_img";
 
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Checkbox from "@material-ui/core/Checkbox";
 import axios from 'axios';
 import ImageIcon from "@material-ui/icons/Image";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { withSnackbar } from "notistack";
-import { uploadPostImage } from "../redux/actions/dataActions";
+import { uploadPostImage, uploadPostImageEdit } from "../redux/actions/dataActions";
 import { width } from "@material-ui/system";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -92,7 +94,9 @@ export class edit extends Component {
         urls: [],
         formdatas: [],
         sent: false,
-        currentCode: "js"
+        currentCode: "js",
+        active: false,
+        imgOptions: "keep"
 
     };
 
@@ -101,10 +105,17 @@ export class edit extends Component {
         let str = this.props.location.pathname;
         let arr = str.split("/");
         let loc = arr[2];
+        this.setState({ originalID: loc })
         this.props.getPost(loc);
+
+
+
     }
 
-
+    toggleClass = () => {
+        var currentState = this.state.active;
+        this.setState({ ...this.state, active: !currentState });
+    };
 
     handleImageDelete = event => {
         //console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
@@ -222,6 +233,8 @@ export class edit extends Component {
             });
         }
 
+        console.log(this.state)
+
         if (
             event.target.checked == false &&
             this.state.categories.includes(event.target.value)
@@ -240,6 +253,8 @@ export class edit extends Component {
 
     componentDidUpdate(prevProps) {
 
+
+        /// Ustawianie domyślnyhc tych
         if (this.props.post !== null && this.props.post !== undefined && prevProps.post !== this.props.post) {
             this.setState({
                 title: this.props.post.title,
@@ -257,11 +272,26 @@ export class edit extends Component {
                 this.setState({ cppCode: this.props.post.cpp })
             }
 
+            console.log(this.props.post.images);
+
+            this.setState({ images: this.props.post.images })
+
+
+
+
 
 
             this.setState({
                 categories: this.props.post.categories
             })
+        }
+
+        if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success !== null && !this.props.UI.processing && this.props.UI.success !== "Git majonezizk" && this.props.UI.success === "Edited immediately by owner") {
+            this.props.enqueueSnackbar(this.props.UI.success, {
+                preventDuplicate: true,
+                variant: "success",
+                autoHideDuration: 3000
+            });
         }
 
     }
@@ -298,7 +328,8 @@ export class edit extends Component {
         if (nextProps.UI.success && !nextProps.UI.loading) {
 
 
-            if (!this.state.images.includes(nextProps.UI.success.url)) {
+
+            if (!this.state.images.includes(nextProps.UI.success.url) && nextProps.UI.success !== "Git majonezizk") {
                 this.setState({
                     images: [...this.state.images, nextProps.UI.success.url]
                 });
@@ -332,30 +363,37 @@ export class edit extends Component {
         } else {
 
 
-            if (document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
+            if (document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0 && this.state.imgOptions === "new") {
 
                 const arr = this.state.formdatas;
                 for (let i = 0; i < arr.length; i++) {
-
                     const formData = this.state.formdatas[i].formData;
-                    this.props.uploadPostImage(formData);
+                    this.props.uploadPostImageEdit(formData);
                     //console.log(i);  
                 }
+            }
 
-            } else {
 
+            else if ((this.state.imgOptions === "keep" || this.state.imgOptions === "empty") && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) this.handlePostUpload();
+
+
+            else {
+                this.props.enqueueSnackbar(`"Title" and "Short description" cannot be empty`, {
+                    preventDuplicate: true,
+                    variant: "error",
+                    autoHideDuration: 2000
+                });
             }
 
         }
 
 
 
-
-
     };
 
     handlePostUpload = () => {
-        //console.log("Will post now!");
+
+
         const postStruct = {
             title: this.state.title,
             shortDesc: this.state.shortDesc,
@@ -363,15 +401,16 @@ export class edit extends Component {
             java: this.state.javaCode,
             python: this.state.pythonCode,
             cpp: this.state.cppCode,
-            images: this.state.images,
-            //categories
+            originalPostId: this.state.originalID,
             categories: this.state.categories,
         };
 
+        if (this.state.images !== undefined) postStruct.images = this.state.images
 
 
 
-        this.props.postPost(postStruct, this.props.history);
+
+        this.props.createEditRequest(postStruct, this.props.history);
 
 
     }
@@ -423,8 +462,23 @@ export class edit extends Component {
         const { errors } = this.state;
         const {
             classes,
-            UI: { loading }
+            UI: { loading, processing }
         } = this.props;
+
+
+        const handleRadioChange = (event) => {
+            console.log("ze jkas");
+            this.setState({
+                imgOptions: event.target.value
+            })
+            if (event.target.value === "new") {
+                this.setState({ active: true, images: [] })
+            }
+            else if (event.target.value === "empty") this.setState({ active: false, images: [] })
+            else if (event.target.value === "keep") this.setState({ active: false, images: this.props.post.images })
+
+
+        }
 
 
         return (
@@ -644,110 +698,140 @@ export class edit extends Component {
                     </textarea>
                 </div>
 
+                <Typography> Image options </Typography>
 
-                <div class="imageUploadBox">
-                    {this.state.urls.length !== 0 ? (
+                <RadioGroup aria-label="Image options" onChange={handleRadioChange}>
 
-                        <div id="imagesHolder" className="imagesHolder">
+                    {this.props.post.images.length > 0 ? <FormControlLabel
+                        value="keep"
+                        control={<Radio color="primary" />}
+                        label="Keep exsisting images"
+                        checked={this.state.imgOptions === "keep"}
+                    /> : null}
+
+                    <FormControlLabel
+                        value="new"
+                        control={<Radio color="primary" />}
+                        label="Upload new images"
+                        checked={this.state.imgOptions === "new"}
+
+                    />
+                    <FormControlLabel
+                        value="empty"
+                        control={<Radio color="primary" />}
+                        label="Leave empty"
+                        checked={this.state.imgOptions === "empty"}
+                    />
+                </RadioGroup>
 
 
 
-                            <div className="imagesUploadPreview">
-                                <div className="containerIU">
-                                    <img src={this.state.urls[0]} />
-                                    <div className="overlayIU">
-                                        <IconButton
-                                            onClick={this.handleImageDelete}
-                                            className="iconIU"
-                                            style={{ backgroundColor: "transparent" }}
-                                        >
-                                            <HighlightOffIcon fontSize="large" />
-                                        </IconButton>
+
+                <div className={this.state.active ? "imageUploadBoxEdit isOpenEdit" : "imageUploadBoxEdit"} >
+                    {
+                        this.state.urls.length !== 0 ? (
+
+                            <div id="imagesHolder" className="imagesHolder">
+
+
+
+                                <div className="imagesUploadPreview">
+                                    <div className="containerIU">
+                                        <img src={this.state.urls[0]} />
+                                        <div className="overlayIU">
+                                            <IconButton
+                                                onClick={this.handleImageDelete}
+                                                className="iconIU"
+                                                style={{ backgroundColor: "transparent" }}
+                                            >
+                                                <HighlightOffIcon fontSize="large" />
+                                            </IconButton>
+                                        </div>
                                     </div>
                                 </div>
+
+                                {this.state.urls.length >= 2 ? (<div className="imagesUploadPreview">
+                                    <div className="containerIU">
+                                        <img src={this.state.urls[1]} />
+                                        <div className="overlayIU">
+                                            <IconButton
+                                                onClick={this.handleImageDelete}
+                                                className="iconIU"
+                                                style={{ backgroundColor: "transparent" }}
+                                            >
+                                                <HighlightOffIcon fontSize="large" />
+                                            </IconButton>
+                                        </div>
+                                    </div>
+                                </div>) : null}
+
+                                {this.state.urls.length >= 3 ? (<div className="imagesUploadPreview">
+                                    <div className="containerIU">
+                                        <img src={this.state.urls[2]} />
+                                        <div className="overlayIU">
+                                            <IconButton
+                                                onClick={this.handleImageDelete}
+                                                className="iconIU"
+                                                style={{ backgroundColor: "transparent" }}
+                                            >
+                                                <HighlightOffIcon fontSize="large" />
+                                            </IconButton>
+                                        </div>
+                                    </div>
+                                </div>) : null}
+
+                                {this.state.urls.length >= 4 ? (<div className="imagesUploadPreview">
+                                    <div className="containerIU">
+                                        <img src={this.state.urls[3]} />
+                                        <div className="overlayIU">
+                                            <IconButton
+                                                onClick={this.handleImageDelete}
+                                                className="iconIU"
+                                                style={{ backgroundColor: "transparent" }}
+                                            >
+                                                <HighlightOffIcon fontSize="large" />
+                                            </IconButton>
+                                        </div>
+                                    </div>
+                                </div>) : null}
+
+
+
+                                {this.state.urls.length < 4 ? (
+
+                                    <div className="additionalIconDiv" >
+                                        <IconButton onClick={this.handleOpenInput}>
+                                            <AddCircleOutlineIcon fontSize="large" />
+                                        </IconButton>
+                                        <input
+                                            type="file"
+                                            id="imageInput"
+                                            hidden="hidden"
+                                            onChange={this.handleImageUpload}
+                                        />
+                                    </div>
+
+                                ) : null}
+
+
+
                             </div>
-
-                            {this.state.urls.length >= 2 ? (<div className="imagesUploadPreview">
-                                <div className="containerIU">
-                                    <img src={this.state.urls[1]} />
-                                    <div className="overlayIU">
-                                        <IconButton
-                                            onClick={this.handleImageDelete}
-                                            className="iconIU"
-                                            style={{ backgroundColor: "transparent" }}
-                                        >
-                                            <HighlightOffIcon fontSize="large" />
-                                        </IconButton>
-                                    </div>
-                                </div>
-                            </div>) : null}
-
-                            {this.state.urls.length >= 3 ? (<div className="imagesUploadPreview">
-                                <div className="containerIU">
-                                    <img src={this.state.urls[2]} />
-                                    <div className="overlayIU">
-                                        <IconButton
-                                            onClick={this.handleImageDelete}
-                                            className="iconIU"
-                                            style={{ backgroundColor: "transparent" }}
-                                        >
-                                            <HighlightOffIcon fontSize="large" />
-                                        </IconButton>
-                                    </div>
-                                </div>
-                            </div>) : null}
-
-                            {this.state.urls.length >= 4 ? (<div className="imagesUploadPreview">
-                                <div className="containerIU">
-                                    <img src={this.state.urls[3]} />
-                                    <div className="overlayIU">
-                                        <IconButton
-                                            onClick={this.handleImageDelete}
-                                            className="iconIU"
-                                            style={{ backgroundColor: "transparent" }}
-                                        >
-                                            <HighlightOffIcon fontSize="large" />
-                                        </IconButton>
-                                    </div>
-                                </div>
-                            </div>) : null}
-
-
-
-                            {this.state.urls.length < 4 ? (
-
-                                <div className="additionalIconDiv" >
+                        ) : (
+                                <div className="imageUploadBtn">
                                     <IconButton onClick={this.handleOpenInput}>
-                                        <AddCircleOutlineIcon fontSize="large" />
+                                        <ImageIcon fontSize="large" />
                                     </IconButton>
                                     <input
                                         type="file"
                                         id="imageInput"
                                         hidden="hidden"
                                         onChange={this.handleImageUpload}
-                                    />
+                                    />{" "}
+                                    <br></br>
+                                    <Typography variant="button">Upload up to 4 images</Typography>
                                 </div>
-
-                            ) : null}
-
-
-
-                        </div>
-                    ) : (
-                            <div className="imageUploadBtn">
-                                <IconButton onClick={this.handleOpenInput}>
-                                    <ImageIcon fontSize="large" />
-                                </IconButton>
-                                <input
-                                    type="file"
-                                    id="imageInput"
-                                    hidden="hidden"
-                                    onChange={this.handleImageUpload}
-                                />{" "}
-                                <br></br>
-                                <Typography variant="button">Upload up to 4 images</Typography>
-                            </div>
-                        )}
+                            )
+                    }
                 </div>
 
                 <Tooltip placement="left" title="Upload">
@@ -759,11 +843,11 @@ export class edit extends Component {
                             float: "right",
                             marginTop: "5px"
                         }}
-                        disabled={loading}
+                        disabled={processing}
                     >
                         <PublishIcon color="primary" />
-                        {loading && (
-                            <CircularProgress size={50} className={classes.progress} />
+                        {processing && (
+                            <CircularProgress size={50} style={{ position: "absolute" }} />
                         )}
                     </IconButton>
                 </Tooltip>
@@ -1047,7 +1131,7 @@ export class edit extends Component {
         const { errors } = this.state;
         const {
             classes,
-            UI: { loading }
+            UI: { loading, processing }
         } = this.props;
 
         dayjs.extend(relativeTime);
@@ -1072,12 +1156,12 @@ export class edit extends Component {
 }
 
 edit.propTypes = {
-    postPost: PropTypes.func.isRequired,
+    createEditRequest: PropTypes.func.isRequired,
     getPost: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    uploadPostImage: PropTypes.func.isRequired
+    uploadPostImageEdit: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -1086,6 +1170,6 @@ const mapStateToProps = state => ({
     user: state.user
 });
 
-export default connect(mapStateToProps, { postPost, uploadPostImage, getPost })(
+export default connect(mapStateToProps, { postPost, uploadPostImageEdit, getPost, createEditRequest })(
     withStyles(styles)(withSnackbar(edit))
 );

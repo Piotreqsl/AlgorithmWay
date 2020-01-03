@@ -19,6 +19,7 @@ export const CLEAR_SUCCESS = 'CLEAR_SUCCESS'
 export const LOADING_DATA = "LOADING_DATA";
 export const UPLOAD_POST = "UPLOAD_POST"
 export const STOP_LOADING_UI = "STOP_LOADING_UI"
+export const PROCESSING = "PROCESSING"
 
 
 //Data reducer types

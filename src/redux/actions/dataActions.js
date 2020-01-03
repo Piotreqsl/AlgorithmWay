@@ -12,7 +12,7 @@ import {
   CLEAR_SUCCESS,
   ADD_POSTS,
   SET_NO_MORE,
-
+  PROCESSING,
   SET_POST,
   STOP_LOADING_UI,
   LOAD_MORE_POSTS,
@@ -22,6 +22,7 @@ import {
   DELETE_COMMENT,
   APPROVE_POST,
 
+
 } from "../types";
 
 import store from '../store';
@@ -30,6 +31,13 @@ import axios from "axios";
 import delete_post from "../../components/delete_post";
 
 export const getPosts = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERRORS
+  })
+  dispatch({
+    type: CLEAR_SUCCESS
+  })
+
   dispatch({
     type: LOADING_DATA
   });
@@ -176,6 +184,7 @@ export const getPost = postId => dispatch => {
     dispatch({
       type: LOADING_UI
     });
+
     console.log('dopiero lołdin')
     axios.get(`/posts/${postId}`)
       .then(res => {
@@ -255,6 +264,39 @@ export const approvePost = (postId) => dispatch => {
 
 }
 
+export const createEditRequest = (newPost, history) => dispatch => {
+
+
+  dispatch({
+    type: PROCESSING
+  });
+
+  var link = "/post/" + newPost.originalPostId + "/createEditRequest";
+
+  axios.post(link, newPost)
+    .then(res => {
+      console.log(res)
+
+      dispatch({
+        type: CLEAR_ERRORS
+      });
+      dispatch({
+        type: SET_SUCCESS,
+        payload: res.data.success
+      });
+
+
+    }).catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.statusText,
+      });
+    });
+
+
+
+}
+
 
 export const postPost = (newPost, history) => dispatch => {
   dispatch({
@@ -318,34 +360,35 @@ export const unlikePost = postId => dispatch => {
 
 export const submitComment = (postId, commentData) => dispatch => {
   axios.post(`/post/${postId}/comment`, commentData)
-  .then(res => {
-    dispatch({  type: SUBMIT_COMMENT,
-      payload: res.data
-     });
-     dispatch({
-      type: CLEAR_ERRORS
-    });
+    .then(res => {
+      dispatch({
+        type: SUBMIT_COMMENT,
+        payload: res.data
+      });
+      dispatch({
+        type: CLEAR_ERRORS
+      });
 
-  })
-  .catch(err => {
-    dispatch({
-      type: SET_ERRORS,
-      payload: err.response.data,
     })
-  })
-  
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      })
+    })
+
 
 }
 
 export const deleteComment = (commentId) => dispatch => {
   axios.post(`/comment/${commentId}/delete`)
-  .then(res => {
-    dispatch({
-      type: DELETE_COMMENT,
-      payload: commentId
+    .then(res => {
+      dispatch({
+        type: DELETE_COMMENT,
+        payload: commentId
+      })
     })
-  })
-  .catch(err => console.log(err));
+    .catch(err => console.log(err));
 }
 
 
@@ -367,6 +410,10 @@ export const uploadPostImage = (formData) => dispatch => {
   dispatch({
     type: LOADING_UI
   });
+
+  dispatch({
+    type: PROCESSING
+  })
   axios.post("/post/uploadImage", formData)
     .then(res => {
       dispatch({
@@ -381,7 +428,42 @@ export const uploadPostImage = (formData) => dispatch => {
     .catch(err => {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data,
+        payload: err.response,
+      });
+
+      dispatch({
+        type: CLEAR_SUCCESS
+      });
+      dispatch({
+        type: CLEAR_ERRORS
+      });
+
+    })
+}
+
+export const uploadPostImageEdit = (formData) => dispatch => {
+  dispatch({
+    type: PROCESSING
+  });
+
+  dispatch({
+    type: PROCESSING
+  })
+  axios.post("/post/uploadImage", formData)
+    .then(res => {
+      dispatch({
+        type: SET_SUCCESS,
+        payload: res.data,
+      });
+      dispatch({
+        type: CLEAR_ERRORS
+      });
+
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response,
       });
 
       dispatch({

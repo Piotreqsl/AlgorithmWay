@@ -154,6 +154,14 @@ export class home extends Component {
                 preventDuplicate: false,
 
             });
+
+            if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Edited immediately by owner")
+                this.props.enqueueSnackbar("Edited immediately by owner", {
+                    variant: "success",
+                    autoHideDuration: 3000,
+                    preventDuplicate: false,
+
+                });
         }
 
 
@@ -334,9 +342,6 @@ export class home extends Component {
     toggleClass = () => {
         var currentState = this.state.active;
         this.setState({ ...this.state, active: !currentState });
-
-
-
     };
 
     handleChange = name => event => {
