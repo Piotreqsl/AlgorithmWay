@@ -22,7 +22,7 @@ export class comments extends Component {
     return (
       <div>
         {comments ? (
-          <Grid container>
+          <Grid id="comments-container" container>
             {comments.map(comment => {
               const { body, createdAt, userImage, userHandle, id } = comment;
               return (
