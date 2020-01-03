@@ -34,6 +34,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { height } from "@material-ui/system";
 import { withSnackbar } from 'notistack';
 
+import { getPosts, loadMorePosts } from '../redux/actions/dataActions'
+import { Waypoint } from 'react-waypoint';
+
 
 
 const styles = {
@@ -68,8 +71,8 @@ export class profile extends Component {
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append('image', image, image.name);
-    
-    
+
+
     const isType = (image.type);
     if (isType === "image/png" || isType === "image/jpg" || isType === "image/jpeg" || isType === "image/bmp") {
 
@@ -103,23 +106,64 @@ export class profile extends Component {
 
   }
 
+
+  renderWaypoint = () => {
+    if (this.props.user.loading === false && this.props.data.posts.length > 0) {
+      return (
+        <Waypoint
+          onEnter={this.loadMorePosts}
+        />
+      )
+
+    }
+  }
+
+  loadMorePosts = () => {
+    console.log("hej waypoint")
+
+    this.props.loadMorePosts([], [], false);
+  }
+
+
+
+
+
   handleEditPicture = () => {
     const fileInput = document.getElementById('imageInput');
     fileInput.click();
   }
 
-  componentWillReceiveProps(props) {
 
-    console.log(props);
+
+
+  componentDidUpdate(prevProps) {
+
+    /// Zobaczyć jak wyjdzie w praniu i najwyżej napisać ify na doładowanie postoów
+
+
 
 
   }
 
+  componentDidMount() {
+
+
+
+    if (this.props.user.credentials.handle !== undefined && this.props.user.credentials.handle !== null) { }
+    if (this.props.data.posts === undefined || this.props.data.posts.length <= 1) this.props.getPosts();
+
+
+  }
+
+
   render() {
     dayjs.extend(theTime);
 
-    let recentPostsMarkup = this.state.posts ? (
-      this.state.posts.map(post => <Post key={post.postId} post={post} />)
+    let recentPostsMarkup = this.props.data.posts ? (
+      this.props.data.posts.map(post =>
+        (post.userHandle === this.props.user.credentials.handle) ?
+          <Post key={post.postId} post={post} /> : null
+      )
     ) : (
         <div>
           <center>
@@ -198,10 +242,20 @@ export class profile extends Component {
 
           </Paper>
 
-          <div className={classes.profilePosts}>{recentPostsMarkup}</div>
+          <div className={classes.profilePosts}>
+
+            {recentPostsMarkup}
+            <div className="infinite-scroll-example__waypoint">
+              {this.renderWaypoint()}
+              {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
+                <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
+
+            </div>
+
+          </div>
         </div>
       ) : (
-         <center> <p>You need to be logged in to see this page</p> </center>
+          <center> <p>You need to be logged in to see this page</p> </center>
         )
     ) : (
 
@@ -213,30 +267,16 @@ export class profile extends Component {
     return profileMarkup;
   }
 
-  state = {
-    posts: null
-  };
 
-  componentDidMount() {
-    axios
-      .get(`/users/${this.props.user.credentials.handle}`)
-      .then(res => {
-        console.log("Hello " + this.props.user.credentials.handle + "!");
-
-        this.setState({
-          posts: res.data.posts
-        });
-      })
-      .catch(err => console.log("PER POST: " + err));
-  }
 }
 
 const mapStateToProps = state => ({
   user: state.user,
   UI: state.ui,
+  data: state.data
 });
 
-const mapActionsToProps = { logoutUser, uploadImage }
+const mapActionsToProps = { logoutUser, uploadImage, getPosts, loadMorePosts }
 
 profile.propTypes = {
   user: PropTypes.object.isRequired,
@@ -244,6 +284,9 @@ profile.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   uploadImage: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  getPosts: PropTypes.func.isRequired,
+  loadMorePosts: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(withSnackbar(profile)));

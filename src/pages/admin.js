@@ -75,6 +75,29 @@ class admin extends Component {
     })
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+
+    if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Post approved") {
+      this.props.enqueueSnackbar('Post successfully approved', {
+        variant: "success",
+        autoHideDuration: 3000,
+
+      });
+    }
+
+    if (prevProps.UI.errors !== this.props.UI.errors && this.props.UI.errors === "Post already approved") {
+      this.props.enqueueSnackbar("Post already approved", {
+        variant: "error",
+        autoHideDuration: 3000,
+
+      });
+    }
+
+
+
+
+  }
+
 
   handleChange = event => {
     this.setState({

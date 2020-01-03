@@ -138,8 +138,27 @@ export class home extends Component {
             });
         }
 
-        var did = false
+        if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Post approved") {
+            this.props.enqueueSnackbar('Post successfully approved', {
+                variant: "success",
+                autoHideDuration: 3000,
+                preventDuplicate: false,
 
+            });
+        }
+
+        if (prevProps.UI.errors !== this.props.UI.errors && this.props.UI.errors === "Post already approved") {
+            this.props.enqueueSnackbar("Post already approved", {
+                variant: "error",
+                autoHideDuration: 3000,
+                preventDuplicate: false,
+
+            });
+        }
+
+
+        // zmienna pomocnicza, żeby nigdy dwa na raz się nie robuły
+        var did = false
 
         /// Jeśli upcoming data nic nie wniosło to ładuje dalej
         if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && prevProps.data.posts.length - this.props.data.posts.length === 0 && this.props.data.noMore === false) {
@@ -556,13 +575,10 @@ export class home extends Component {
                             {recentPostsMarkup}
                             <div className="infinite-scroll-example__waypoint">
                                 {this.renderWaypoint()}
-
                                 {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
                                     <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
 
-
                             </div>
-
                         </div>
 
 

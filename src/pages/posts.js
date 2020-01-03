@@ -87,7 +87,7 @@ export class posts extends Component {
   };
 
   handleExpand = () => {
-    console.log(this.state.expandedC);
+
     if (this.state.expandedC == false) {
       document.getElementById("codeBox").classList.add("blackBoxExpanded");
       this.setState({ expandedC: true });
@@ -117,10 +117,7 @@ export class posts extends Component {
   componentDidMount() {
     let str = this.props.location.pathname;
     let arr = str.split("/");
-    console.log(arr[2]);
     let loc = arr[2];
-    console.log("mount dla " + loc);
-
     if (arr[1] === "posts" && arr[2] !== "logo192.png") this.props.getPost(loc);
   }
 
@@ -151,7 +148,7 @@ export class posts extends Component {
       UI: { loading }
     } = this.props;
 
-    //const cat = (!this.props.UI.loading && this.props.UI.success !== null ? <p>{this.props.post.categories[0]} </p> : null)
+
 
     dayjs.extend(relativeTime);
 
@@ -176,7 +173,6 @@ export class posts extends Component {
 
 
     const handleChangePanel = event => {
-      console.log(this.props.post);
       var ex = this.state.expanded;
       this.setState({
         expanded: !ex
@@ -187,139 +183,146 @@ export class posts extends Component {
       <div className="main-content-squeezed">
         {!loading ? (
           <div>
-          <Paper className={classes.paper}>
-            <ExpansionPanel
-              className={classes.expansion}
-              expanded={this.state.expanded}
-              onChange={handleChangePanel}
-            >
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
+            <Paper className={classes.paper}>
+              <ExpansionPanel
+                className={classes.expansion}
+                expanded={this.state.expanded}
+                onChange={handleChangePanel}
               >
-                <Typography color="primary" className={classes.heading}>
-                  {title}
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography className={classes.marginUni} variant="body1">
-                  {shortDesc}
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-           
-            <div className="prev-userhandle">
-              <div className="prev-avNhandle"> 
-              <Avatar style={{width: "30px", height: "30px"}} />
-              <Typography style={{marginLeft: "5px"}}
-                component={Link}
-                to={
-                  !loading
-                    ? this.props.user.credentials.handle === this.props.post.userHandle
-                      ? `/user`
-                      : `/users/${userHandle}`
-                    : null
-                }
-                variant="caption"
-              >
-                {userHandle}
-               
-              </Typography>
-              </div>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <Typography color="primary" className={classes.heading}>
+                    {title}
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography className={classes.marginUni} variant="body1">
+                    {shortDesc}
+                  </Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+
+              <div className="prev-userhandle">
+                <div className="prev-avNhandle">
+                  <Avatar src={userImage} style={{ width: "30px", height: "30px" }} component={Link}
+                    to={
+                      !loading
+                        ? this.props.user.credentials.handle === this.props.post.userHandle
+                          ? `/user`
+                          : `/users/${userHandle}`
+                        : null
+                    } />
+                  <Typography style={{ marginLeft: "5px" }}
+                    component={Link}
+                    to={
+                      !loading
+                        ? this.props.user.credentials.handle === this.props.post.userHandle
+                          ? `/user`
+                          : `/users/${userHandle}`
+                        : null
+                    }
+                    variant="caption"
+                  >
+                    {userHandle}
+
+                  </Typography>
+                </div>
 
                 <div>
 
-                {likeButton}  <Typography variant="caption" color="inherit">
-                {likeCount}
-              </Typography>
+                  {likeButton}  <Typography variant="caption" color="inherit">
+                    {likeCount}
+                  </Typography>
 
                 </div>
 
 
 
-              <Tooltip
-              placement="left"
-              title={dayjs(createdAt).format("YYYY.MM.DD HH:mm")}
-            >
+                <Tooltip
+                  placement="left"
+                  title={dayjs(createdAt).format("YYYY.MM.DD HH:mm")}
+                >
+                  <Typography
+                    style={{ float: "right" }}
+                    variant="caption"
+                  >
+                    {dayjs(createdAt).fromNow()}
+                  </Typography>
+                </Tooltip>
+
+              </div>
+
+
+
+              <div style={{ clear: "both" }}></div>
+
               <Typography
-                style={{  float: "right" }}
-                variant="caption"
+                style={{ marginTop: "15px", marginBottom: "25px" }}
+                variant="body2"
               >
-                {dayjs(createdAt).fromNow()}
+                {desc}
               </Typography>
-            </Tooltip>
 
-            </div>
+              {this.props.post.java ||
+                this.props.post.cpp ||
+                this.props.post.python ? (
+                  <div>
+                    <Grid container spacing={1}>
+                      <Grid item sm={12} md={12}>
+                        <div className="codeBoxNav">
+                          <ToggleButtonGroup
+                            value={this.state.alignment}
+                            exclusive
+                            onChange={this.handleAlignment}
+                          >
+                            {this.props.post.java ? (
+                              <ToggleButton id="langBTN" value="js">
+                                <img
+                                  draggable="false"
+                                  src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/java_logo.png?alt=media&token=03067a8a-721b-4f69-ad32-ef2df63a9584"
+                                  height="24px"
+                                />
+                              </ToggleButton>
+                            ) : null}
 
-            
+                            {this.props.post.python ? (
+                              <ToggleButton id="langBTN" value="py">
+                                <img
+                                  draggable="false"
+                                  src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/python_logo.png?alt=media&token=7e7010bb-fa65-445d-be7a-7a429c703d2c"
+                                  height="24px"
+                                />
+                              </ToggleButton>
+                            ) : null}
 
-            <div style={{ clear: "both" }}></div>
+                            {this.props.post.cpp ? (
+                              <ToggleButton id="langBTN" value="cpp">
+                                <img
+                                  draggable="false"
+                                  src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/cpp_logo.png?alt=media&token=8389d1bd-c9f0-4542-a274-1a33d9922e6f"
+                                  height="24px"
+                                />
+                              </ToggleButton>
+                            ) : null}
+                          </ToggleButtonGroup>
+                          <IconButton
+                            onClick={this.handleExpand}
+                            className="codeBoxingCrop"
+                          >
+                            <CropFreeIcon />
+                          </IconButton>
+                          <div style={{ clear: "both" }}></div>
+                        </div>
+                      </Grid>
+                    </Grid>
 
-            <Typography
-              style={{ marginTop: "15px", marginBottom: "25px" }}
-              variant="body2"
-            >
-              {desc}
-            </Typography>
-
-            {this.props.post.java ||
-            this.props.post.cpp ||
-            this.props.post.python ? (
-              <div>
-                <Grid container spacing={1}>
-                  <Grid item sm={12} md={12}>
-                    <div className="codeBoxNav">
-                      <ToggleButtonGroup
-                        value={this.state.alignment}
-                        exclusive
-                        onChange={this.handleAlignment}
-                      >
-                        {this.props.post.java ? (
-                          <ToggleButton id="langBTN" value="js">
-                            <img
-                              draggable="false"
-                              src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/java_logo.png?alt=media&token=03067a8a-721b-4f69-ad32-ef2df63a9584"
-                              height="24px"
-                            />
-                          </ToggleButton>
-                        ) : null}
-
-                        {this.props.post.python ? (
-                          <ToggleButton id="langBTN" value="py">
-                            <img
-                              draggable="false"
-                              src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/python_logo.png?alt=media&token=7e7010bb-fa65-445d-be7a-7a429c703d2c"
-                              height="24px"
-                            />
-                          </ToggleButton>
-                        ) : null}
-
-                        {this.props.post.cpp ? (
-                          <ToggleButton id="langBTN" value="cpp">
-                            <img
-                              draggable="false"
-                              src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/cpp_logo.png?alt=media&token=8389d1bd-c9f0-4542-a274-1a33d9922e6f"
-                              height="24px"
-                            />
-                          </ToggleButton>
-                        ) : null}
-                      </ToggleButtonGroup>
-                      <IconButton
-                        onClick={this.handleExpand}
-                        className="codeBoxingCrop"
-                      >
-                        <CropFreeIcon />
-                      </IconButton>
-                      <div style={{ clear: "both" }}></div>
-                    </div>
-                  </Grid>
-                </Grid>
-
-                <div id="codeBox" className="codeInputs">
-                  {this.state.currentCode === "" ? (
-                    <Highlight language={"java"}>
-                      {`
+                    <div id="codeBox" className="codeInputs">
+                      {this.state.currentCode === "" ? (
+                        <Highlight language={"java"}>
+                          {`
 |===============================================|
 |                                               |
 |   /* Choose desired programming language */   |
@@ -395,8 +398,8 @@ export class posts extends Component {
 </div>
 
         ) : (
-          <LinearProgress color="primary" />
-        )}
+            <LinearProgress color="primary" />
+          )}
       </div>
     );
   }

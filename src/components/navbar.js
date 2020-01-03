@@ -37,7 +37,7 @@ import { logoutUser } from '../redux/actions/userActions';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 
-import { logo } from "./logo192.png"
+import { logo } from "./logo.png"
 
 //of auth
 
@@ -163,7 +163,8 @@ function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const authenticated = useSelector(state => state.user.authenticated, shallowEqual);
-  // console.log(authenticated);
+
+
   const admin = useSelector(state => state.user.adminPrivileges, shallowEqual);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -189,6 +190,7 @@ function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
+
   };
 
   const handleLogout = () => {
@@ -283,27 +285,52 @@ function PrimarySearchAppBar() {
     >
 
 
-      <MenuItem onClick={handleMenuClose} component={Link} to="/">
-        <IconButton disableFocusRipple="true" color="inherit" >
-          <Badge badgeContent={0} color="secondary">
-            <Home />
-          </Badge>
-        </IconButton>
-        <p>Home</p>
-      </MenuItem>
+      {location.pathname !== "/" ?
+        <MenuItem onClick={handleMenuClose} component={Link} to="/">
+          <IconButton disableFocusRipple="true" color="inherit" >
+            <Badge badgeContent={0} color="secondary">
+              <Home />
+            </Badge>
+          </IconButton>
+          <p>Home</p>
+        </MenuItem> :
+        <MenuItem onClick={handleMenuClose} >
+          <IconButton disableFocusRipple="true" color="inherit" >
+            <Badge badgeContent={0} color="secondary">
+              <Home />
+            </Badge>
+          </IconButton>
+          <p>Home</p>
+        </MenuItem>}
 
 
 
-      <MenuItem component={Link} to="/upload"
-        className={!authenticated ? classes.toDi : classes.toN}
-        onClick={handleMenuClose}>
-        <IconButton disableRipple="true" color="inherit">
-          <Badge badgeContent={0} color="secondary">
-            <Add></Add>
-          </Badge>
-        </IconButton>
-        <p>Create a post</p>
-      </MenuItem>
+
+
+
+
+      {location.pathname !== "/upload" ?
+        <MenuItem component={Link} to="/upload"
+          className={!authenticated ? classes.toDi : classes.toN}
+          onClick={handleMenuClose}>
+          <IconButton disableRipple="true" color="inherit">
+            <Badge badgeContent={0} color="secondary">
+              <Add></Add>
+            </Badge>
+          </IconButton>
+          <p>Create a post</p>
+        </MenuItem> :
+        <MenuItem
+          className={!authenticated ? classes.toDi : classes.toN}
+          onClick={handleMenuClose}>
+          <IconButton disableRipple="true" color="inherit">
+            <Badge badgeContent={0} color="secondary">
+              <Add></Add>
+            </Badge>
+          </IconButton>
+          <p>Create a post</p>
+        </MenuItem>}
+
 
 
       <MenuItem
@@ -321,24 +348,61 @@ function PrimarySearchAppBar() {
       </MenuItem>
 
 
-      <MenuItem component={Link} to="/login" onClick={handleMenuClose}
+      {location.pathname !== "/login" ?
+        <MenuItem component={Link} to="/login" onClick={handleMenuClose} className={authenticated ? classes.toDi : classes.toN}   >
+          <IconButton
+            color="inherit">
+            <Badge color="secondary">
+              <LogIn />
+            </Badge>
+          </IconButton>
+          <p>Log in</p>
+        </MenuItem> :
+        <MenuItem onClick={handleMenuClose} className={authenticated ? classes.toDi : classes.toN}   >
+          <IconButton
+            color="inherit">
+            <Badge color="secondary">
+              <LogIn />
+            </Badge>
+          </IconButton>
+          <p>Log in</p>
+        </MenuItem>
+      }
 
-        className={authenticated ? classes.toDi : classes.toN}
+      {location.pathname !== "/admin" ?
+        <MenuItem component={Link} to="/admin" onClick={handleMenuClose} className={!admin ? classes.toDi : classes.toN}>
+          <IconButton
+            className={!admin ? classes.toDi : classes.toN}
+            disabled={!admin}
+            aria-label="Admin functions"
+            color="inherit">
+            <SupervisedUserCircleIcon />
+          </IconButton>
+          <p>Admin panel</p>
+        </MenuItem> :
+
+        <MenuItem onClick={handleMenuClose} className={!admin ? classes.toDi : classes.toN}>
+          <IconButton
+            className={!admin ? classes.toDi : classes.toN}
+            disabled={!admin}
+            aria-label="Admin functions"
+            color="inherit">
+            <SupervisedUserCircleIcon />
+          </IconButton>
+          <p>Admin panel</p>
+        </MenuItem>
 
 
-      >
-        <IconButton
+      }
 
-          // disabled={auth} 
-          color="inherit">
 
-          <Badge color="secondary">
-            <LogIn />
-          </Badge>
-        </IconButton>
-        <p>Log in</p>
-      </MenuItem>
+
+
+
+
     </Menu>
+
+
 
   );
 
@@ -365,11 +429,7 @@ function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Toolbar>
-
-
-
-          <Avatar className={classes.bigAvatar} src="logo192.png" ></Avatar>
-
+          <Avatar className={classes.bigAvatar} src="https://i.ibb.co/86Jyr73/logo192.png" />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -407,7 +467,6 @@ function PrimarySearchAppBar() {
             {/* Add post button */}
             {location.pathname !== "/upload" ? <IconButton
               className={!authenticated ? classes.toDi : classes.toN}
-
               component={Link} to="/upload" color="inherit">
               <Badge badgeContent={0} color="secondary">
                 <Add />
@@ -501,7 +560,6 @@ function PrimarySearchAppBar() {
           <div className={classes.marginLeft}>
 
             <IconButton
-
               className={!authenticated ? classes.toDi : classes.toN}
               color="inherit">
               <Badge badgeContent={1} color="secondary">
