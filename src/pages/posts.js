@@ -247,9 +247,11 @@ export class posts extends Component {
                   </Typography>
 
                   
+
+                 
                   <IconButton 
 
-                  style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px" }} 
+                  style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px",  }} 
                   onClick={
                     
 
@@ -259,8 +261,12 @@ export class posts extends Component {
 
                   }
                   >
+
+
                 <ChatBubbleOutlineIcon  color="primary"></ChatBubbleOutlineIcon>
               </IconButton>
+
+
               <Typography variant="caption" color="inherit">
                 {commentCount}
               </Typography>

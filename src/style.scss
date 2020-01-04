@@ -875,9 +875,15 @@ html {
     color: white;
 }
 
+.MuiSvgIcon-colorPrimary:hover {
+    color: #6F6F8C !important;
+    transition: 0.3s ease-out;
+}
+
+
 //tooltip
 .MuiTooltip-popper {
-    margin: -10px;
+  margin: -10px;
 
 
 }

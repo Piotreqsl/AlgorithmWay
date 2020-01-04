@@ -140,27 +140,36 @@ export default function (state = initialState, action) {
       };
 
 
-    case SUBMIT_COMMENT:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          comments: [action.payload, ...state.post.comments]
-        }
-      }
-
-      case DELETE_COMMENT:
-        let comIndex = state.post.comments.findIndex(
-          comment => comment.id === action.payload
-        );
-        state.post.comments.splice(comIndex, 1);
+      case SUBMIT_COMMENT:
+        
+       
+        
         return {
-          ...state,
-          post: {
-            ...state.post,
-            comments: [...state.post.comments]
-          }
-        }
+              ...state,
+              post: {
+                  ...state.post,
+                  comments: [action.payload, ...state.post.comments],
+                  commentCount: state.post.commentCount + 1,
+  
+              }  
+            }
+  
+            case DELETE_COMMENT:
+                let comIndex = state.post.comments.findIndex(
+                  comment => comment.id === action.payload
+                );
+                state.post.comments.splice(comIndex, 1);
+            return{
+              ...state,
+              post: {
+                  ...state.post,
+                  comments: [...state.post.comments],
+                  commentCount: state.post.commentCount - 1,
+              }
+              }
+
+
+              
 
         case APPROVE_POST:
           let indexA = state.posts.findIndex((post) => post.postId === action.payload);
