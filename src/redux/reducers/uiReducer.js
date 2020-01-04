@@ -9,7 +9,8 @@ import {
     SET_SUCCESS,
     CLEAR_SUCCESS,
     STOP_LOADING_UI,
-    PROCESSING
+    PROCESSING,
+    STOP_PROCESSING
 
 
 } from '../types';
@@ -30,53 +31,59 @@ export default function (state = initialState, action) {
                 processing: true
             }
 
-
-            case SET_ERRORS:
+            case STOP_PROCESSING:
                 return {
                     ...state,
-                    loading: false,
-                        processing: false,
-                        errors: action.payload,
-                };
-
-            case SET_SUCCESS:
-                return {
-                    ...state,
-                    loading: false,
-                        processing: false,
-                        success: action.payload,
-                };
-
-            case CLEAR_SUCCESS:
-                return {
-                    ...state,
-                    success: null
-                };
-
-            case CLEAR_ERRORS:
-                return {
-                    ...state,
-                    loading: false,
-                        processing: false,
-                        errors: null,
-                };
-
-            case LOADING_UI:
-                return {
-                    ...state,
-                    loading: true,
+                    processing: false
                 }
-                case STOP_LOADING_UI:
+
+
+                case SET_ERRORS:
                     return {
                         ...state,
                         loading: false,
+                            processing: false,
+                            errors: action.payload,
+                    };
 
+                case SET_SUCCESS:
+                    return {
+                        ...state,
+                        loading: false,
+                            processing: false,
+                            success: action.payload,
+                    };
+
+                case CLEAR_SUCCESS:
+                    return {
+                        ...state,
+                        success: null
+                    };
+
+                case CLEAR_ERRORS:
+                    return {
+                        ...state,
+                        loading: false,
+                            processing: false,
+                            errors: null,
+                    };
+
+                case LOADING_UI:
+                    return {
+                        ...state,
+                        loading: true,
                     }
+                    case STOP_LOADING_UI:
+                        return {
+                            ...state,
+                            loading: false,
+
+                        }
 
 
 
-                    default:
-                        return state;
+                        default:
+                            return state;
 
     }
 }

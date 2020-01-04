@@ -108,10 +108,23 @@ export class profile extends Component {
 
 
   renderWaypoint = () => {
+
+    let currentPosts = this.props.data.posts.filter(element => {
+      return element.userHandle === this.props.user.credentials.handle
+    });
+
+
+
+
+    console.log("Renedered wyapoint")
+
+
+
+
     if (this.props.user.loading === false && this.props.data.posts.length > 0) {
       return (
         <Waypoint
-          onEnter={this.loadMorePosts}
+          onEnter={this.loadMorePosts()}
         />
       )
 
@@ -119,8 +132,11 @@ export class profile extends Component {
   }
 
   loadMorePosts = () => {
-    console.log("hej waypoint")
 
+    console.log("łejpoint fired")
+
+
+    console.log("łej pojnt")
     this.props.loadMorePosts([], [], false);
   }
 
@@ -138,30 +154,13 @@ export class profile extends Component {
 
   componentDidUpdate(prevProps) {
 
-    /// Zobaczyć jak wyjdzie w praniu i najwyżej napisać ify na doładowanie postoów
-
-    var did = false
-    console.log("updejt")
-
-    /// Jeśli upcoming data nic nie wniosło to ładuje dalej
-    /// Zobaczyć jak wyjdzie w praniu i najwyżej napisać ify na doładowanie postoów
-
-    /// Jeśli aktualnych postów jest 5 lub mniej, to ładuje sie wiecej postów żeby zawsze trochę można było skrolować
-    if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && this.props.data.posts.length <= 5 && this.props.data.noMore === false && did === false) {
-
-
-      this.props.loadMorePosts([], [], false);
-    }
-
-
   }
 
   componentDidMount() {
 
 
 
-    if (this.props.user.credentials.handle !== undefined && this.props.user.credentials.handle !== null) { }
-    if (this.props.data.posts === undefined || this.props.data.posts.length <= 1) this.props.getPosts();
+    if (!this.props.data.noMore) this.props.getPosts();
 
 
   }
@@ -176,11 +175,7 @@ export class profile extends Component {
           <Post key={post.postId} post={post} /> : null
       )
     ) : (
-        <div>
-          <center>
-            <CircularProgress color="primary" />
-          </center>
-        </div>
+        null
       );
 
     const {
@@ -189,7 +184,7 @@ export class profile extends Component {
         credentials: { handle, createdAt, imageUrl, bio, location, reputation },
         loading,
         authenticated
-      }
+      },
     } = this.props;
 
     let profileMarkup = !loading ? (
@@ -257,10 +252,9 @@ export class profile extends Component {
 
             {recentPostsMarkup}
             <div className="infinite-scroll-example__waypoint">
-              {this.renderWaypoint()}
+              {!this.props.data.noMore ? this.renderWaypoint() : null}
               {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
                 <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
-
             </div>
 
           </div>
@@ -298,6 +292,7 @@ profile.propTypes = {
   data: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
+  onEnter: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(withSnackbar(profile)));

@@ -72,7 +72,7 @@ class admin extends Component {
       this.setState({
         editReq: res.data
       })
-    })
+    }).catch(err => { console.log(err) })
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -158,7 +158,7 @@ class admin extends Component {
     ) : (<div><center>
       <CircularProgress color="primary" /></center></div>);
 
-    if (this.state.editReq && !this.state.editReq.error !== undefined) {
+    if (this.state.editReq && typeof this.state.editReq.error !== "undefined" && typeof this.state.editReq.error !== "null") {
       editRequests = <p>{this.state.editReq.error}</p>
     }
 
@@ -258,7 +258,6 @@ const mapStateToProps = state => ({
   user: state.user,
   UI: state.UI,
   data: state.data
-
 });
 
 

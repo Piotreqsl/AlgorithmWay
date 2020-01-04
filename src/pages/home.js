@@ -579,7 +579,7 @@ export class home extends Component {
                         <div className="feed" >
                             {recentPostsMarkup}
                             <div className="infinite-scroll-example__waypoint">
-                                {this.renderWaypoint()}
+                                {!this.props.data.noMore ? this.renderWaypoint() : null}
                                 {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
                                     <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
 

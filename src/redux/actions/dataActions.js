@@ -21,6 +21,7 @@ import {
   SUBMIT_COMMENT,
   DELETE_COMMENT,
   APPROVE_POST,
+  STOP_PROCESSING
 
 
 } from "../types";
@@ -100,6 +101,9 @@ const advancedFilteringCode = (mainArray, filters) => {
 
 
 export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
+
+
+
   var link = "/posts/next/" + store.getState().data.lastId;
   console.log(link + "redux");
 
@@ -113,7 +117,7 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dis
       if (approvedOnly === true && res.data[i].verified === true) {
         filtered.push(res.data[i])
       } else {
-        filtered = res.data
+        filtered[i] = res.data[i];
       }
     }
 
@@ -130,6 +134,7 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dis
     }
 
 
+
     dispatch({
       type: LOAD_MORE_POSTS,
       payload: filtered,
@@ -142,6 +147,7 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dis
     dispatch({
       type: SET_NO_MORE
     })
+
   })
 
 

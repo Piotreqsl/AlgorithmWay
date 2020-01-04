@@ -54,7 +54,7 @@ class EditRequestList extends Component {
                         <Typography
                             className="post-title"
                             component={Link}
-                            to={`/posts/${id}`}
+                            to={`/editRequests/${id}`}
                             variant="h6"
                         >
                             {title}

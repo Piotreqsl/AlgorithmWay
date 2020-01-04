@@ -20,6 +20,7 @@ export const LOADING_DATA = "LOADING_DATA";
 export const UPLOAD_POST = "UPLOAD_POST"
 export const STOP_LOADING_UI = "STOP_LOADING_UI"
 export const PROCESSING = "PROCESSING"
+export const STOP_PROCESSING = "STOP_PROCESSING"
 
 
 //Data reducer types

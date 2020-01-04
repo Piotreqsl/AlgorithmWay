@@ -187,6 +187,7 @@ export class edit extends Component {
         });
 
 
+        console.log(document.getElementById("codeBoxing").value)
 
 
 
@@ -286,12 +287,30 @@ export class edit extends Component {
             })
         }
 
-        if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success !== null && !this.props.UI.processing && this.props.UI.success !== "Git majonezizk" && this.props.UI.success === "Edited immediately by owner") {
+        if (this.props.UI.success === "Edited immediately by owner" || this.props.UI.success === "Edited immediately by admin") {
             this.props.enqueueSnackbar(this.props.UI.success, {
                 preventDuplicate: true,
                 variant: "success",
-                autoHideDuration: 3000
+                autoHideDuration: 5000,
+
             });
+
+            this.props.history.push("/posts/" + this.state.originalID);
+        }
+
+        if (this.props.UI.success === "Edit request created successfully") {
+
+
+            this.props.enqueueSnackbar("Edit request created successfully. Now you need to wait for post owner or admin to approve your request.", {
+                preventDuplicate: true,
+                variant: "success",
+                autoHideDuration: 7000,
+
+            });
+
+        
+            this.props.history.push("/");
+
         }
 
     }
