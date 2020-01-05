@@ -25,7 +25,7 @@ import profile from "./pages/profile";
 import admin from "./pages/admin";
 import posts from './pages/posts'
 import edit from './pages/edit'
-
+import users from './pages/users'
 //Components:
 import Navbar from "./components/navbar";
 import axios from "axios";
@@ -107,6 +107,7 @@ function App(props) {
                 <Route exact path="/admin" component={admin} />
                 <Route path="/posts/" component={posts} />
                 <Route path="/editPost/" component={edit} />
+                <Route path="/users/" component={users} />
 
               </Switch>
             </Router>

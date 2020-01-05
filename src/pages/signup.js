@@ -94,7 +94,7 @@ export class signup extends Component {
 
     if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false) {
      
-      this.props.enqueueSnackbar('Successfully signed up', {
+      this.props.enqueueSnackbar('Verification email sent', {
         preventDuplicate: true,
         variant: "success",
         autoHideDuration: 3000,
