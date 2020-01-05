@@ -34,7 +34,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { height } from "@material-ui/system";
 import { withSnackbar } from 'notistack';
 
-import { getPosts, loadMorePosts } from '../redux/actions/dataActions'
+import { getPosts, loadMorePosts, synchronizePosts } from '../redux/actions/dataActions'
 import { Waypoint } from 'react-waypoint';
 
 
@@ -107,36 +107,14 @@ export class profile extends Component {
   }
 
 
-  renderWaypoint = () => {
 
-    let currentPosts = this.props.data.posts.filter(element => {
-      return element.userHandle === this.props.user.credentials.handle
-    });
-
-
-
-
-    //console.log("Renedered wyapoint")
-
-
-
-
-    if (this.props.user.loading === false && this.props.data.posts.length > 0) {
-      return (
-        <Waypoint
-          onEnter={this.loadMorePosts()}
-        />
-      )
-
-    }
-  }
 
   loadMorePosts = () => {
 
-    //console.log("łejpoint fired")
 
 
-   // console.log("łej pojnt")
+
+
     this.props.loadMorePosts([], [], false);
   }
 
@@ -154,14 +132,24 @@ export class profile extends Component {
 
   componentDidUpdate(prevProps) {
 
+
+    if (!this.props.data.noMore && this.props.data.backupdata !== prevProps.data.backupdata) {
+      let filtered = this.props.data.posts.filter(element => {
+        return element.userHandle === this.props.user.credentials.handle
+      })
+
+
+      if (filtered.length <= 5) {
+        console.log("przeszło")
+
+        this.loadMorePosts()
+      }
+    }
   }
 
   componentDidMount() {
-
-
-
     if (!this.props.data.noMore) this.props.getPosts();
-
+    if (!this.props.data.noMore && this.props.data.posts.length !== this.props.data.backupdata.length) this.props.getPosts();
 
   }
 
@@ -252,7 +240,15 @@ export class profile extends Component {
 
             {recentPostsMarkup}
             <div className="infinite-scroll-example__waypoint">
-              {!this.props.data.noMore ? this.renderWaypoint() : null}
+              {!this.props.data.noMore ? <Waypoint
+                bottomOffset={0}
+                scrollableAncestor="window"
+                onEnter={
+
+                  this.loadMorePosts
+
+                }
+              /> : null}
               {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
                 <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
             </div>
@@ -281,18 +277,25 @@ const mapStateToProps = state => ({
   data: state.data
 });
 
-const mapActionsToProps = { logoutUser, uploadImage, getPosts, loadMorePosts }
+const mapActionsToProps = { logoutUser, uploadImage, getPosts, loadMorePosts, synchronizePosts }
 
 profile.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   logoutUser: PropTypes.func.isRequired,
   uploadImage: PropTypes.func.isRequired,
+  synchronizePosts: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
   onEnter: PropTypes.func,
+  bottomOffset: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  scrollableAncestor: PropTypes.any,
+
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(withSnackbar(profile)));

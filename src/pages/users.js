@@ -151,7 +151,7 @@ export class users extends Component {
      
     
 
-     const profileMarkup = !this.props.UI.loading ? (
+     const profileMarkup = !this.props.data.loading ? (
         console.log("check"),
         <div class="main-content-squeezed">
         <Paper className={classes.paper}>

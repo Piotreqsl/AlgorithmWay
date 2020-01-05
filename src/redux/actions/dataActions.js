@@ -10,11 +10,11 @@ import {
   LOADING_UI,
   SET_SUCCESS,
   CLEAR_SUCCESS,
-  ADD_POSTS,
+  GET_EDIT_REQUEST,
   SET_NO_MORE,
   PROCESSING,
   SET_POST,
-  STOP_LOADING_UI,
+
   LOAD_MORE_POSTS,
   FILTER_POSTS,
   GET_UNAPPROVED_POSTS,
@@ -22,7 +22,9 @@ import {
   DELETE_COMMENT,
   APPROVE_POST,
   STOP_PROCESSING,
-  SET_FOREIGN_USER
+  SET_FOREIGN_USER,
+  SYNC_POSTS
+
 
 
 } from "../types";
@@ -99,6 +101,11 @@ const advancedFilteringCode = (mainArray, filters) => {
 
 }
 
+export const synchronizePosts = () => dispatch => {
+  dispatch({
+    type: SYNC_POSTS
+  })
+}
 
 
 export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
@@ -192,7 +199,6 @@ export const getPost = postId => dispatch => {
       type: LOADING_UI
     });
 
-    console.log('dopiero lołdin')
     axios.get(`/posts/${postId}`)
       .then(res => {
 
@@ -303,6 +309,92 @@ export const createEditRequest = (newPost, history) => dispatch => {
 
 
 }
+
+export const getEditRequest = editID => dispatch => {
+  dispatch({
+    type: LOADING_UI
+  });
+
+  axios.get(`/post/${editID}/editRequest`)
+    .then(res => {
+
+      console.log(res.data);
+
+      dispatch({
+        type: GET_EDIT_REQUEST,
+        payload: res.data.originalPost,
+        edit: res.data.editRequest
+      })
+
+
+
+
+
+      dispatch({
+        type: SET_SUCCESS,
+        payload: "Edit request success"
+      })
+
+    }).catch(err => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.error
+      });
+    })
+
+
+}
+
+export const approveEditRequest = editID => dispatch => {
+  dispatch({
+    type: PROCESSING
+  });
+
+  axios.post(`/post/${editID}/approveEditRequest`).then(res => {
+
+    dispatch({
+      type: SET_SUCCESS,
+      payload: "Edit request approved"
+    });
+    getPosts();
+
+
+  }).catch(err => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: err.response.data.error
+    });
+    console.log(err);
+  })
+
+}
+
+
+export const rejectEditRequest = editID => dispatch => {
+  dispatch({
+    type: PROCESSING
+  });
+
+  axios.post(`/post/${editID}/rejectEditRequest`).then(res => {
+
+    dispatch({
+      type: SET_SUCCESS,
+      payload: "Edit request rejected"
+    });
+
+  }).catch(err => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: err.response.data.error
+    });
+    console.log(err);
+  })
+
+}
+
+
+
 
 
 export const postPost = (newPost, history) => dispatch => {
