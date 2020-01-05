@@ -121,19 +121,20 @@ export const signupUser = (newUserData, history) => dispatch => {
   axios
     .post("/signup", newUserData)
     .then(res => {
-      setAuthorizationHeader(res.data.token);
+     // setAuthorizationHeader(res.data.token);
 
-      dispatch(getUserData());
+     // dispatch(getUserData());
       dispatch({
         type: CLEAR_ERRORS
       });
-      history.push("/");
+      history.push("/login");
     })
     .catch(err => {
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data
       });
+      
     });
 };
 

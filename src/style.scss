@@ -839,7 +839,8 @@ html {
     transition: 0.3 ease;
     overflow-y: scroll;
     position: relative;
-    height: 73vh;
+    //height: 73vh;
+    height: 80vh;
     scroll-behavior: initial;
 
 }
@@ -898,6 +899,9 @@ html {
 
 @media only screen and (max-width: 1140px) {
     .filtersButton {
+        width: 100% - 6%;
+    }
+    .filtersDiv {
         width: 100% - 6%;
     }
 
@@ -961,6 +965,9 @@ html {
 
     .filtersDiv {
         margin: 0 !important;
+       
+            width: 100%;
+       
     }
 
     .filtersDiv {

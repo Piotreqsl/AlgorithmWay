@@ -116,7 +116,7 @@ export class profile extends Component {
 
 
 
-    console.log("Renedered wyapoint")
+    //console.log("Renedered wyapoint")
 
 
 
@@ -133,10 +133,10 @@ export class profile extends Component {
 
   loadMorePosts = () => {
 
-    console.log("łejpoint fired")
+    //console.log("łejpoint fired")
 
 
-    console.log("łej pojnt")
+   // console.log("łej pojnt")
     this.props.loadMorePosts([], [], false);
   }
 
