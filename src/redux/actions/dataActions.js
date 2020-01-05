@@ -21,6 +21,7 @@ import {
   SUBMIT_COMMENT,
   DELETE_COMMENT,
   APPROVE_POST,
+  SYNC_POSTS
 
 
 
@@ -98,7 +99,11 @@ const advancedFilteringCode = (mainArray, filters) => {
 
 }
 
-
+export const synchronizePosts = () => dispatch => {
+  dispatch({
+    type: SYNC_POSTS
+  })
+}
 
 
 export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
