@@ -14,8 +14,7 @@ import {
   SUBMIT_COMMENT,
   DELETE_COMMENT,
   APPROVE_POST,
-
-
+  SET_FOREIGN_USER
 } from "../types";
 
 const initialState = {
@@ -29,7 +28,7 @@ const initialState = {
   }
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case LOADING_DATA:
       return {
@@ -40,8 +39,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: state.posts.concat(action.payload),
-          backupdata: state.backupdata.concat(action.backupdata),
-          lastId: action.backupdata[action.backupdata.length - 1].postId
+        backupdata: state.backupdata.concat(action.backupdata),
+        lastId: action.backupdata[action.backupdata.length - 1].postId
       };
 
     case FILTER_POSTS:
@@ -68,10 +67,10 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: action.payload,
-          noMore: false,
-          loading: false,
-          lastId: action.payload[action.payload.length - 1].postId,
-          backupdata: action.payload
+        noMore: false,
+        loading: false,
+        lastId: action.payload[action.payload.length - 1].postId,
+        backupdata: action.payload
       };
 
     case ADD_POSTS:
@@ -111,8 +110,6 @@ export default function (state = initialState, action) {
         ...state
       };
 
-
-
     case DELETE_POST:
       let index1 = state.posts.findIndex(
         post => post.postId === action.payload
@@ -139,54 +136,60 @@ export default function (state = initialState, action) {
         posts: [action.payload.resPost, ...state.posts]
       };
 
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: [action.payload, ...state.post.comments],
+          commentCount: state.post.commentCount + 1
+        }
+      };
 
-      case SUBMIT_COMMENT:
-        
-       
-        
+    case DELETE_COMMENT:
+      let comIndex = state.post.comments.findIndex(
+        comment => comment.id === action.payload
+      );
+      state.post.comments.splice(comIndex, 1);
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: [...state.post.comments],
+          commentCount: state.post.commentCount - 1
+        }
+      };
+
+    case APPROVE_POST:
+      let indexA = state.posts.findIndex(
+        post => post.postId === action.payload
+      );
+      state.posts[indexA].verified = true;
+
+      let secondIndexA = state.backupdata.findIndex(
+        post => post.postId === action.payload
+      );
+      state.backupdata[secondIndexA].verified = true;
+
+      let thirdIndexA = state.admin.unapprovedPosts.findIndex(
+        post => post.postId === action.payload
+      );
+      if (thirdIndexA >= 0) state.admin.unapprovedPosts.splice(thirdIndexA, 1);
+
+      return {
+        ...state
+      };
+
+
+      case SET_FOREIGN_USER:
         return {
-              ...state,
-              post: {
-                  ...state.post,
-                  comments: [action.payload, ...state.post.comments],
-                  commentCount: state.post.commentCount + 1,
-  
-              }  
-            }
-  
-            case DELETE_COMMENT:
-                let comIndex = state.post.comments.findIndex(
-                  comment => comment.id === action.payload
-                );
-                state.post.comments.splice(comIndex, 1);
-            return{
-              ...state,
-              post: {
-                  ...state.post,
-                  comments: [...state.post.comments],
-                  commentCount: state.post.commentCount - 1,
-              }
-              }
+          ...action.payload,
+          loading: false,
+          
+        }
 
 
-              
-
-        case APPROVE_POST:
-          let indexA = state.posts.findIndex((post) => post.postId === action.payload);
-          state.posts[indexA].verified = true;
-
-          let secondIndexA = state.backupdata.findIndex((post) => post.postId === action.payload);
-          state.backupdata[secondIndexA].verified = true;
-
-          let thirdIndexA = state.admin.unapprovedPosts.findIndex((post) => post.postId === action.payload);
-          if (thirdIndexA >= 0) state.admin.unapprovedPosts.splice(thirdIndexA, 1)
-
-          return {
-            ...state
-          }
-
-
-          default:
-            return state;
+    default:
+      return state;
   }
 }

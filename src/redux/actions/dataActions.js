@@ -21,7 +21,8 @@ import {
   SUBMIT_COMMENT,
   DELETE_COMMENT,
   APPROVE_POST,
-  STOP_PROCESSING
+  STOP_PROCESSING,
+  SET_FOREIGN_USER
 
 
 } from "../types";
@@ -105,7 +106,7 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dis
 
 
   var link = "/posts/next/" + store.getState().data.lastId;
-  console.log(link + "redux");
+  console.log(link + " redux");
 
   axios.get(link).then((res) => {
 
@@ -364,6 +365,8 @@ export const unlikePost = postId => dispatch => {
 
 
 
+
+
 export const submitComment = (postId, commentData) => dispatch => {
   axios.post(`/post/${postId}/comment`, commentData)
     .then(res => {
@@ -480,4 +483,32 @@ export const uploadPostImageEdit = (formData) => dispatch => {
       });
 
     })
+}
+
+
+
+export const getForeignUser = (username) => (dispatch) => {
+
+  dispatch({
+    type: LOADING_UI
+  });
+
+  axios.get(`/users/${username}`)
+  .then(res => {
+    dispatch({
+
+      type: SET_FOREIGN_USER,
+    
+      payload: res.data,
+
+    });
+    dispatch({
+      type: CLEAR_ERRORS
+    });
+    
+    
+  }).catch(err => {
+    console.log(err);
+  })
+
 }
