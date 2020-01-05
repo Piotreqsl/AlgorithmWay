@@ -655,8 +655,16 @@ html {
     padding-top: 20px;
     display: block;
     max-width: 300px;
+}
 
-
+.bottomPanel {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
 }
 
 .MuiExpansionPanel-root.Mui-expanded {
@@ -669,7 +677,7 @@ html {
 
     font-family: "Lucida Console", Monaco, monospace;
     font-size: 0.9rem;
-
+    transition: 0.4s;
     border: none;
     outline: none;
     width: 100%;
@@ -883,7 +891,7 @@ html {
 
 //tooltip
 .MuiTooltip-popper {
-  margin: -10px;
+    margin: -10px;
 
 
 }

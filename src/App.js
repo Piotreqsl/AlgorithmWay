@@ -25,6 +25,7 @@ import profile from "./pages/profile";
 import admin from "./pages/admin";
 import posts from './pages/posts'
 import edit from './pages/edit'
+import getEdit from './pages/getEdit'
 
 //Components:
 import Navbar from "./components/navbar";
@@ -107,6 +108,8 @@ function App(props) {
                 <Route exact path="/admin" component={admin} />
                 <Route path="/posts/" component={posts} />
                 <Route path="/editPost/" component={edit} />
+                <Route path="/editRequests/" component={getEdit} />
+
 
               </Switch>
             </Router>
