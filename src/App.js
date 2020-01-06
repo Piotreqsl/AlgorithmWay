@@ -62,7 +62,8 @@ const Page404 = ({location}) => (
 <div className="main-content-squeezed">
   <div style={{height: "200px"}}></div>
       <div style={{postition: "relative"}}> <CircularProgress style={{position: "absolute", overflow: "hidden", left: "38.3%", top:"16.5%"}} thickness={1} size={450} color="primary" /> 
-                    <div className="notfoundflex">
+                   {window.history.pushState('404', 'Algorithm Way', '/404')}
+                   <div className="notfoundflex">
                     <Typography color="primary" variant="h1">
                     404
                     </Typography>
@@ -138,7 +139,8 @@ function App(props) {
                 <Route path="/editRequests/" component={getEdit} />
 
                 <Route path="/users/" component={users} />
-                <Route component={Page404} />
+                <Route  component={Page404} />
+                <Route exact path="/404"  component={Page404} />
               </Switch>
             </Router>
           </div>

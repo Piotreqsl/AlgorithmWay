@@ -215,7 +215,7 @@ export const getPost = postId => dispatch => {
       .catch(err => {
         dispatch({
           type: SET_ERRORS,
-          payload: err.response.data.error
+          payload: err.response
         });
         console.log(err)
       });
@@ -601,6 +601,13 @@ export const getForeignUser = (username) => (dispatch) => {
     
   }).catch(err => {
     console.log(err);
-  })
+    dispatch({
+      type: SET_ERRORS,
+      payload: err.response,
+    });
+  }
+  
+  
+  )
 
 }

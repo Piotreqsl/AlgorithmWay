@@ -16,7 +16,7 @@ import { isAbsolute } from "path";
 import dayjs from "dayjs";
 import theTime from "dayjs/plugin/advancedFormat";
 
-
+import {Redirect} from 'react-router-dom';
 import { logoutUser, uploadImage } from '../redux/actions/userActions';
 import Snackbar from '../components/snackbar';
 
@@ -118,7 +118,14 @@ export class users extends Component {
   }
 
   
+componentDidUpdate(prevprops) {
+  if(prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404 ) {
+    console.log("User not found, redirecting...");
+    this.props.history.push("/404");
+    
 
+  }
+}
  
 
   render() {

@@ -124,7 +124,14 @@ export class posts extends Component {
 
   }
 
+  componentDidUpdate(prevprops) {
+    if(prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404 ) {
+      console.log("Post not found, redirecting...");
+      this.props.history.push("/404");
+      
   
+    }
+  }
 
   render() {
     const {
