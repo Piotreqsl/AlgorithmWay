@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 //redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { SET_AUTHENTICATED } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
 
@@ -58,6 +58,29 @@ const theme = createMuiTheme({
 });
 
 
+const Page404 = ({location}) => (
+<div className="main-content-squeezed">
+  <div style={{height: "200px"}}></div>
+      <div style={{postition: "relative"}}> <CircularProgress style={{position: "absolute", overflow: "hidden", left: "38.3%", top:"16.5%"}} thickness={1} size={450} color="primary" /> 
+                    <div className="notfoundflex">
+                    <Typography color="primary" variant="h1">
+                    404
+                    </Typography>
+                    
+                    <div>
+                    <Typography color="secondary" variant="button">
+                    Page not found
+                    </Typography>
+                    <Typography color="primary" variant="body2">
+                        This is not the page you are looking for!
+                    </Typography>
+                    </div>
+
+                    </div>
+                    </div>
+                
+            </div>
+)
 
 const token = localStorage.FBIdToken;
 let UIauth;
@@ -115,7 +138,7 @@ function App(props) {
                 <Route path="/editRequests/" component={getEdit} />
 
                 <Route path="/users/" component={users} />
-
+                <Route component={Page404} />
               </Switch>
             </Router>
           </div>

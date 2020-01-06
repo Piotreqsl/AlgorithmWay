@@ -132,7 +132,7 @@ html {
 }
 
 .hljs-link {
-    text-decoration: underline
+    text-decoration: underline;
 }
 
 
@@ -142,7 +142,13 @@ html {
 
 //END OF highlighter CSS
 
-
+.notfoundflex {
+   // text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
 
 //text selection override
 ::selection {

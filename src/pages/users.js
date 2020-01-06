@@ -68,23 +68,15 @@ const styles = {
 
 export class users extends Component {
     
-   componentWillMount() {
-
-  
-    let str = this.props.location.pathname;
-    let arr = str.split("/");
-    let loc = arr[2];
-    if (arr[1] === "users" && arr[2] !== "logo192.png") this.props.getForeignUser(loc);
-
-  }
+   
     
   renderWaypoint = () => {
     
-    
+   /* 
     let currentPosts = this.props.data.posts.filter(element => {
       return element.userHandle === this.props.data.user.handle
     });
- 
+  */
 
 
 
@@ -113,6 +105,10 @@ export class users extends Component {
   }
 
   componentDidMount() {
+    let str = this.props.location.pathname;
+    let arr = str.split("/");
+    let loc = arr[2];
+    if (arr[1] === "users" && arr[2] !== "logo192.png") this.props.getForeignUser(loc);
 
 
 
@@ -128,9 +124,16 @@ export class users extends Component {
   render() {
     dayjs.extend(theTime);
 
+    let str = this.props.location.pathname;
+    let arr = str.split("/");
+    let loc = arr[2];
+    if (arr[1] === "users" && arr[2] !== "logo192.png") {loc = loc} else {
+      loc = null;
+    }
+
      let recentPostsMarkup = this.props.data.posts ? (
        this.props.data.posts.map(post =>
-         (post.userHandle === this.props.data.user.handle) ?
+         (post.userHandle === loc) ?
            <Post key={post.postId} post={post} /> : null
        )
      ) : (
