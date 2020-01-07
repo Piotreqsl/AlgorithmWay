@@ -44,6 +44,10 @@ export class home extends Component {
             int: true,
             array: true,
             char: true,
+            crypt: true,
+            graphs: true,
+            AI: true,
+            DS: true
         },
         noMore: false,
         all: true,
@@ -72,11 +76,8 @@ export class home extends Component {
 
         /// Filtry na kategorie
         let arrayFilters = [];
-        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
-
+        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
         } else {
-
-
             if (this.state.categories.char) {
                 arrayFilters.push('char');
             }
@@ -91,6 +92,22 @@ export class home extends Component {
 
             if (this.state.categories.string) {
                 arrayFilters.push('string');
+            }
+
+            if (this.state.categories.crypt) {
+                arrayFilters.push('crypt');
+            }
+
+            if (this.state.categories.AI) {
+                arrayFilters.push('AI');
+            }
+
+            if (this.state.categories.DS) {
+                arrayFilters.push('DS');
+            }
+
+            if (this.state.categories.graphs) {
+                arrayFilters.push('graphs');
             }
 
         }
@@ -177,20 +194,38 @@ export class home extends Component {
             if (this.state.all) approvedOnly = false;
             if (this.state.appr) approvedOnly = true;
             let arrayFilters = [];
-            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
-
+            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
             } else {
                 if (this.state.categories.char) {
                     arrayFilters.push('char');
                 }
+
                 if (this.state.categories.int) {
                     arrayFilters.push('int');
                 }
+
                 if (this.state.categories.array) {
                     arrayFilters.push('array');
                 }
+
                 if (this.state.categories.string) {
                     arrayFilters.push('string');
+                }
+
+                if (this.state.categories.crypt) {
+                    arrayFilters.push('crypt');
+                }
+
+                if (this.state.categories.AI) {
+                    arrayFilters.push('AI');
+                }
+
+                if (this.state.categories.DS) {
+                    arrayFilters.push('DS');
+                }
+
+                if (this.state.categories.graphs) {
+                    arrayFilters.push('graphs');
                 }
 
             }
@@ -224,20 +259,38 @@ export class home extends Component {
             if (this.state.all) approvedOnly = false;
             if (this.state.appr) approvedOnly = true;
             let arrayFilters = [];
-            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
-
+            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
             } else {
                 if (this.state.categories.char) {
                     arrayFilters.push('char');
                 }
+
                 if (this.state.categories.int) {
                     arrayFilters.push('int');
                 }
+
                 if (this.state.categories.array) {
                     arrayFilters.push('array');
                 }
+
                 if (this.state.categories.string) {
                     arrayFilters.push('string');
+                }
+
+                if (this.state.categories.crypt) {
+                    arrayFilters.push('crypt');
+                }
+
+                if (this.state.categories.AI) {
+                    arrayFilters.push('AI');
+                }
+
+                if (this.state.categories.DS) {
+                    arrayFilters.push('DS');
+                }
+
+                if (this.state.categories.graphs) {
+                    arrayFilters.push('graphs');
                 }
 
             }
@@ -260,14 +313,6 @@ export class home extends Component {
             }
             this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
         }
-
-
-
-
-
-
-
-
 
 
 
@@ -331,7 +376,6 @@ export class home extends Component {
             return (
                 <Waypoint
                     onEnter={this.loadMorePosts}
-
                 />
             )
 
@@ -377,7 +421,7 @@ export class home extends Component {
 
         /// Filtry na kategorie
         let arrayFilters = [];
-        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array) {
+        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
 
         } else {
             if (this.state.categories.char) {
@@ -394,6 +438,22 @@ export class home extends Component {
 
             if (this.state.categories.string) {
                 arrayFilters.push('string');
+            }
+
+            if (this.state.categories.crypt) {
+                arrayFilters.push('crypt');
+            }
+
+            if (this.state.categories.AI) {
+                arrayFilters.push('AI');
+            }
+
+            if (this.state.categories.DS) {
+                arrayFilters.push('DS');
+            }
+
+            if (this.state.categories.graphs) {
+                arrayFilters.push('graphs');
             }
 
         }
@@ -491,30 +551,30 @@ export class home extends Component {
 
 
                                     <FormGroup className="formGroup" column style={{ marginLeft: 10, marginTop: 5, }}>
-                                        <Typography color="primary" variant="button"> Kutafiarz: </Typography>
+                                        <Typography color="primary" variant="button"> Check all to see everything </Typography>
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={this.state.categories.string} onChange={this.handleChange('string')} value="string" />
+                                                <Checkbox checked={this.state.categories.crypt} onChange={this.handleChange('crypt')} value="crypt" />
                                             }
-                                            label="Strings"
+                                            label="Cryptography"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={this.state.categories.int} onChange={this.handleChange('int')} value="int" />
+                                                <Checkbox checked={this.state.categories.graphs} onChange={this.handleChange('graphs')} value="graphs" />
                                             }
-                                            label="Integers"
+                                            label="Graphs"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={this.state.categories.array} onChange={this.handleChange('array')} value="array" />
+                                                <Checkbox checked={this.state.categories.AI} onChange={this.handleChange('AI')} value="AI" />
                                             }
-                                            label="Arrays"
+                                            label="Artificial Intelligence"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={this.state.categories.char} onChange={this.handleChange('char')} value="char" />
+                                                <Checkbox checked={this.state.categories.DS} onChange={this.handleChange('DS')} value="DS" />
                                             }
-                                            label="Characters"
+                                            label="Data Structures"
                                         />
                                     </FormGroup>
 
@@ -525,13 +585,13 @@ export class home extends Component {
 
 
                                     <RadioGroup className="formGroup" style={{ float: "left", }} aria-label="Post status" name="postStatus">
-                                        <Typography color="primary" variant="button"> Kutafiarz: </Typography>
+                                        <Typography color="primary" variant="button"> Posts status </Typography>
                                         <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
                                         <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
                                     </RadioGroup>
 
                                     <FormGroup column className="formGroup" style={{ float: "left" }}>
-                                        <Typography color="primary" variant="button"> Kutafiarz: </Typography>
+                                        <Typography color="primary" variant="button"> Code implementation </Typography>
                                         <FormControlLabel
                                             control={
                                                 <Checkbox checked={this.state.code.java} onChange={this.handleChangeCode('java')} value="java" />

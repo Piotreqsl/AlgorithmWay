@@ -14,6 +14,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Tooltip from "@material-ui/core/Tooltip";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { withSnackbar } from 'notistack';
 
 import Grid from "@material-ui/core/Grid";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -32,6 +33,9 @@ import Comments from '../components/comments'
 import CommentInput from '../components/comment_input'
 import NotFound from './notFound'
 
+import Button from '@material-ui/core/Button';
+import DeletePost from '../components/delete_post'
+import EditIcon from '@material-ui/icons/Edit';
 
 
 
@@ -56,7 +60,7 @@ export class posts extends Component {
     postId: "",
     expanded: false,
     expandedC: false,
-   
+
     alignment: "",
     currentCode: "java",
     img: []
@@ -91,6 +95,13 @@ export class posts extends Component {
     }
   };
 
+  handleEdit = () => {
+    let str = this.props.location.pathname;
+    let arr = str.split("/");
+    let loc = arr[2];
+    this.props.history.push('/editPost/' + loc)
+  }
+
   handleExpand = () => {
 
     if (this.state.expandedC == false) {
@@ -119,22 +130,30 @@ export class posts extends Component {
     this.props.unlikePost(this.props.post.postId);
   }
 
-   componentDidMount() {
+  componentDidMount() {
     let str = this.props.location.pathname;
     let arr = str.split("/");
     let loc = arr[2];
     if (arr[1] === "posts" && arr[2] !== "logo192.png") this.props.getPost(loc);
 
-  
+
 
   }
 
   componentDidUpdate(prevprops) {
-    if(prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404 ) {
+    if (prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404) {
       console.log("Post not found, redirecting...");
-     
-      
-  
+    }
+
+    if (prevprops.UI.success !== this.props.UI.success && this.props.UI.success === "Deleted succesfully") {
+      this.props.enqueueSnackbar('Deleted succesfully', {
+        preventDuplicate: true,
+        variant: "success",
+        autoHideDuration: 3000,
+
+      });
+
+      this.props.history.push("/");
     }
   }
 
@@ -165,11 +184,28 @@ export class posts extends Component {
       UI: { loading }
     } = this.props;
 
+    const deleteButton = (authenticated && userHandle === handle) || (authenticated && this.props.user.adminPrivileges) ? (
+
+      <DeletePost postId={postId} />
+
+    ) : null
+
+
+    const editButton = (authenticated) ? (
+      <Tooltip title={userHandle === handle || this.props.user.adminPrivileges ? "Edit post" : "Create edit request"} placement="top">
+        <IconButton onClick={this.handleEdit}
+        >
+
+          <EditIcon color="primary" />
+
+        </IconButton>
+      </Tooltip>
+    ) : null
 
 
     dayjs.extend(relativeTime);
 
-    
+
     const likeButton = !authenticated ? (
       <IconButton style={{ backgroundColor: 'transparent', marginRight: '-12px' }} component={Link} to="/login" >
         <LikeIcon color="primary" />
@@ -201,8 +237,10 @@ export class posts extends Component {
     }
 
     return (
+
+
       <div className="main-content-squeezed">
-        
+
         {!loading && !this.props.UI.errors ? (
           <div>
             <Paper className={classes.paper}>
@@ -259,31 +297,31 @@ export class posts extends Component {
                     {likeCount}
                   </Typography>
 
-                  
 
-                 
-                  <IconButton 
 
-                  style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px",  }} 
-                  onClick={
-                    
 
-                   scrolltocomment
-                     
-                    
+                  <IconButton
 
-                  }
+                    style={{ backgroundColor: 'transparent', marginRight: '-8px', marginTop: "3px", }}
+                    onClick={
+
+
+                      scrolltocomment
+
+
+
+                    }
                   >
 
 
-                <ChatBubbleOutlineIcon  color="primary"></ChatBubbleOutlineIcon>
-              </IconButton>
+                    <ChatBubbleOutlineIcon color="primary"></ChatBubbleOutlineIcon>
+                  </IconButton>
 
 
-              <Typography variant="caption" color="inherit">
-                {commentCount}
-              </Typography>
-                    
+                  <Typography variant="caption" color="inherit">
+                    {commentCount}
+                  </Typography>
+
                 </div>
 
 
@@ -375,80 +413,91 @@ export class posts extends Component {
 |   /* Choose desired programming language */   |
 |                                               |
 |===============================================| `}
-                    </Highlight>
-                  ) : null}
+                        </Highlight>
+                      ) : null}
 
-                  {this.props.post.java && this.state.currentCode === "java" ? (
-                    <Highlight language={"java"}>
-                      {this.props.post.java}
-                    </Highlight>
-                  ) : null}
+                      {this.props.post.java && this.state.currentCode === "java" ? (
+                        <Highlight language={"java"}>
+                          {this.props.post.java}
+                        </Highlight>
+                      ) : null}
 
-                  {this.props.post.python &&
-                  this.state.currentCode === "python" ? (
-                    <Highlight language={"python"}>
-                      {this.props.post.python}
-                    </Highlight>
-                  ) : null}
+                      {this.props.post.python &&
+                        this.state.currentCode === "python" ? (
+                          <Highlight language={"python"}>
+                            {this.props.post.python}
+                          </Highlight>
+                        ) : null}
 
-                  {this.props.post.cpp && this.state.currentCode === "cpp" ? (
-                    <Highlight language={"c++"}>
-                      {this.props.post.cpp}
-                    </Highlight>
-                  ) : null}
-                </div>
-              </div>
-            ) : null}
+                      {this.props.post.cpp && this.state.currentCode === "cpp" ? (
+                        <Highlight language={"c++"}>
+                          {this.props.post.cpp}
+                        </Highlight>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : null}
 
-            {(!this.props.UI.loading && this.props.UI.success !== null ? (
-              this.props.post.images
-            ) : null) ? (
-              <div className="DialogIMG-flexContainer">
-                {(() => {
-                  const arr =
-                    !this.props.UI.loading && this.props.UI.success !== null
-                      ? this.props.post.images
-                      : null;
+              {(!this.props.UI.loading && this.props.UI.success !== null ? (
+                this.props.post.images
+              ) : null) ? (
+                  <div className="DialogIMG-flexContainer">
+                    {(() => {
+                      const arr =
+                        !this.props.UI.loading && this.props.UI.success !== null
+                          ? this.props.post.images
+                          : null;
 
-                //  console.log(arr);
+                      //  console.log(arr);
 
-                  const imgs = [];
+                      const imgs = [];
 
-                  if (arr) {
-                    for (
-                      let i = 0;
-                      i <
-                      (!this.props.UI.loading && this.props.UI.success !== null
-                        ? this.props.post.images.length
-                        : null);
-                      i++
-                    ) {
-                      imgs.push(
-                        <DialogIMG
-                          value={
-                            !this.props.UI.loading &&
-                            this.props.UI.success !== null
-                              ? this.props.post.images[i]
-                              : null
-                          }
-                        />
-                      );
-                    }
-                  }
-                  return imgs;
-                })()}
-              </div>
-            ) : null}
-          </Paper>
-          <div id="commentWaypoint" > </div>
-                <CommentInput postId={postId} />
-<Comments comments={comments} currentUserHandle={this.props.user.credentials.handle} />
-</div>
+                      if (arr) {
+                        for (
+                          let i = 0;
+                          i <
+                          (!this.props.UI.loading && this.props.UI.success !== null
+                            ? this.props.post.images.length
+                            : null);
+                          i++
+                        ) {
+                          imgs.push(
+                            <DialogIMG
+                              value={
+                                !this.props.UI.loading &&
+                                  this.props.UI.success !== null
+                                  ? this.props.post.images[i]
+                                  : null
+                              }
+                            />
+                          );
+                        }
+                      }
+                      return imgs;
+                    })()}
+
+
+                  </div>
+
+
+
+
+                ) : null}
+              {deleteButton}
+              {editButton}
+
+            </Paper>
+
+
+            <div id="commentWaypoint" > </div>
+            <CommentInput postId={postId} />
+            <Comments comments={comments} currentUserHandle={this.props.user.credentials.handle} />
+          </div>
 
         ) : (
 
             (!this.props.UI.errors ? (<LinearProgress color="primary" />) : <NotFound />)
-            
+
 
 
           )}
@@ -483,4 +532,4 @@ const mapActionsToProps = {
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(withStyles(styles)(posts));
+)(withStyles(styles)(withSnackbar(posts)));

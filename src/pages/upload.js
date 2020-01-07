@@ -82,18 +82,18 @@ export class upload extends Component {
 
 
   handleImageDelete = event => {
-//console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
+    //console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
 
-      var arrForms = [...this.state.formdatas];
-      var arrUrls = [...this.state.urls];
-      var index = arrUrls.indexOf(event.currentTarget.parentElement.parentElement.querySelector('img').src);
-      if (index !== -1) {
-        arrForms.splice(index,1);
-        arrUrls.splice(index, 1);
-        this.setState({ urls: arrUrls });
-        this.setState({formdatas: arrForms});
-        //console.log(this.state.urls);console.log(this.state.formdatas);
-      }
+    var arrForms = [...this.state.formdatas];
+    var arrUrls = [...this.state.urls];
+    var index = arrUrls.indexOf(event.currentTarget.parentElement.parentElement.querySelector('img').src);
+    if (index !== -1) {
+      arrForms.splice(index, 1);
+      arrUrls.splice(index, 1);
+      this.setState({ urls: arrUrls });
+      this.setState({ formdatas: arrForms });
+      //console.log(this.state.urls);console.log(this.state.formdatas);
+    }
 
 
   }
@@ -102,9 +102,9 @@ export class upload extends Component {
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append("image", image, image.name);
-    
 
-    
+
+
     const isType = image.type;
     if (
       isType === "image/png" ||
@@ -115,19 +115,19 @@ export class upload extends Component {
       if (image.size < 5000000) {
 
 
-       // console.log(formData);
+        // console.log(formData);
         this.setState({
-      formdatas: [...this.state.formdatas, {formData} ]
-      });
-       // console.log(this.state.formdatas);
+          formdatas: [...this.state.formdatas, { formData }]
+        });
+        // console.log(this.state.formdatas);
 
         const objUrl = window.URL.createObjectURL(image);
         this.setState({
           urls: [...this.state.urls, objUrl],
         })
-        
 
-       // this.props.uploadPostImage(formData);
+
+        // this.props.uploadPostImage(formData);
       } else {
         this.props.enqueueSnackbar(`Selected file is too big (Max. 5MB)`, {
           preventDuplicate: true,
@@ -196,7 +196,7 @@ export class upload extends Component {
   componentWillReceiveProps(nextProps) {
     //console.log(nextProps);
     if (nextProps.UI.errors && !nextProps.UI.loading) {
-     // console.log(nextProps.UI.errors);
+      // console.log(nextProps.UI.errors);
       this.props.enqueueSnackbar("Fatal error occurred", {
         preventDuplicate: true,
         variant: "error",
@@ -205,8 +205,7 @@ export class upload extends Component {
     }
 
 
-    if (nextProps.UI.success === "Successfully posted" && !nextProps.UI.loading)
-    {
+    if (nextProps.UI.success === "Successfully posted" && !nextProps.UI.loading) {
       this.props.enqueueSnackbar("Successfully uploaded,  your post needs to be approved", {
         preventDuplicate: true,
         variant: "success",
@@ -214,17 +213,18 @@ export class upload extends Component {
       });
     }
     if (nextProps.UI.success && !nextProps.UI.loading) {
-      
 
-      if(!this.state.images.includes(nextProps.UI.success.url)) {
-      this.setState({
-        images: [...this.state.images, nextProps.UI.success.url]
-      });}
-      
+
+      if (!this.state.images.includes(nextProps.UI.success.url)) {
+        this.setState({
+          images: [...this.state.images, nextProps.UI.success.url]
+        });
+      }
+
       //console.log(nextProps.UI.success.url);
-       
-      if(this.state.urls.length === this.state.images.length && this.state.sent === false && this.state.urls.length !== 0) {
-        
+
+      if (this.state.urls.length === this.state.images.length && this.state.sent === false && this.state.urls.length !== 0) {
+
 
 
         //console.log(this.state.urls);
@@ -234,60 +234,61 @@ export class upload extends Component {
           sent: true,
         })
         this.handlePostUpload();
-  
-      }}
 
-      
-
-
+      }
     }
 
 
-    
 
 
-  
-
-  
+  }
 
 
-  
+
+
+
+
+
+
+
+
+
 
   handleSubmit = event => {
     event.preventDefault();
 
 
-   
 
-    if(this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
+
+    if (this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
       this.handlePostUpload();
     } else {
 
 
-      if(document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
+      if (document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
 
-      const arr = this.state.formdatas;
-      for(let i = 0; i<arr.length; i++) {
+        const arr = this.state.formdatas;
+        for (let i = 0; i < arr.length; i++) {
 
-      const formData = this.state.formdatas[i].formData;
-      this.props.uploadPostImage(formData);
-      //console.log(i);  
+          const formData = this.state.formdatas[i].formData;
+          this.props.uploadPostImage(formData);
+          //console.log(i);  
+        }
+
+      } else {
+        this.props.enqueueSnackbar(`"Title" and "Short description" cannot be empty`, {
+          preventDuplicate: true,
+          variant: "error",
+          autoHideDuration: 2000
+        });
+      }
+
     }
-      
-    } else {
-      this.props.enqueueSnackbar(`"Title" and "Short description" cannot be empty`, {
-        preventDuplicate: true,
-        variant: "error",
-        autoHideDuration: 2000
-      });
-    }
 
-  }
-    
 
-    
 
-  
+
+
   };
 
   handlePostUpload = () => {
@@ -304,19 +305,19 @@ export class upload extends Component {
       categories: this.state.categories,
     };
 
-    
 
-    
-      this.props.postPost(postStruct, this.props.history);
-    
+
+
+    this.props.postPost(postStruct, this.props.history);
+
 
   }
 
   handleCodeChange = event => {
 
-//console.log(document.getElementById("postTitle").value.length);
-//console.log(document.getElementById("shortDesc").value.length);
-    
+    //console.log(document.getElementById("postTitle").value.length);
+    //console.log(document.getElementById("shortDesc").value.length);
+
     if (this.state.alignment == "js") {
       this.setState({ javaCode: event.target.value });
 
@@ -366,210 +367,210 @@ export class upload extends Component {
           <Typography className={classes.head1} variant="h4" color="primary">
             Create a post
           </Typography>
-         
-            <TextField
-              name="title"
-              type="text"
-              label="Post title*"
-              variant="outlined"
-              error={errors.body ? true : false}
-              fullWidth
-              helperText="0/50"
-              onChange={this.handleChange}
-              inputProps={{ maxLength: 50 }}
-              className={classes.input}
-              id="postTitle"
-            />
 
-            <TextField
-              name="shortDesc"
-              type="text"
-              label="Short description*"
-              variant="outlined"
-              error={errors.body ? true : false}
-              fullWidth
-              helperText="0/250"
-              onChange={this.handleChange}
-              inputProps={{ maxLength: 250 }}
-              className={classes.input}
-              multiline="true"
-              rows="3"
-              rowsMax="4"
-              id="shortDesc"
-            />
-            <TextField
-              name="desc"
-              type="text"
-              label="Description"
-              variant="outlined"
-              error={errors.body ? true : false}
-              fullWidth
-              helperText="0/750"
-              onChange={this.handleChange}
-              inputProps={{ maxLength: 750 }}
-              className={classes.input}
-              multiline="true"
-              rows="7"
-              rowsMax="8"
-            />
-            <div>
-              <div> Categories: </div>
-              <FormGroup
-                className="formGroup"
-                column
-                style={{ marginLeft: 10, marginTop: 5 }}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.string}
-                      onChange={this.handleFormChange("string")}
-                      value="string"
-                    />
-                  }
-                  label="Strings"
-                  style={{ paddingLeft: 10 }}
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.int}
-                      onChange={this.handleFormChange("int")}
-                      value="int"
-                    />
-                  }
-                  label="Integers"
-                  style={{ paddingLeft: 10 }}
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.array}
-                      onChange={this.handleFormChange("array")}
-                      value="array"
-                    />
-                  }
-                  label="Arrays"
-                  style={{ paddingLeft: 10 }}
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.char}
-                      onChange={this.handleFormChange("char")}
-                      value="char"
-                    />
-                  }
-                  label="Characters"
-                  style={{ paddingLeft: 10 }}
-                />
-              </FormGroup>
+          <TextField
+            name="title"
+            type="text"
+            label="Post title*"
+            variant="outlined"
+            error={errors.body ? true : false}
+            fullWidth
+            helperText="0/50"
+            onChange={this.handleChange}
+            inputProps={{ maxLength: 50 }}
+            className={classes.input}
+            id="postTitle"
+          />
 
-              <FormGroup
-                className="formGroup"
-                column
-                style={{ marginLeft: 10, marginTop: 5 }}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.string}
-                      onChange={this.handleFormChange("string")}
-                      value="string"
-                    />
-                  }
-                  label="Strings"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.int}
-                      onChange={this.handleFormChange("int")}
-                      value="int"
-                    />
-                  }
-                  label="Integers"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.array}
-                      onChange={this.handleFormChange("array")}
-                      value="array"
-                    />
-                  }
-                  label="Arrays"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.categories.char}
-                      onChange={this.handleFormChange("char")}
-                      value="char"
-                    />
-                  }
-                  label="Characters"
-                />
-              </FormGroup>
-            </div>
-
-            <Grid container spacing={1}>
-              <Grid item sm={12} md={12}>
-                <div className="codeBoxNav">
-                  <ToggleButtonGroup
-                    value={this.state.alignment}
-                    exclusive
-                    onChange={this.handleAlignment}
-                  >
-                    <ToggleButton value="js">
-                      <img
-                        draggable="false"
-                        src={"java_logo.png"}
-                        height="24px"
-                      />
-                    </ToggleButton>
-                    <ToggleButton value="py">
-                      <img
-                        draggable="false"
-                        src={"python_logo.png"}
-                        height="24px"
-                      />
-                    </ToggleButton>
-                    <ToggleButton value="cpp">
-                      <img
-                        draggable="false"
-                        src={"cpp_logo.png"}
-                        height="24px"
-                      />
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                  <IconButton
-                    onClick={this.handleExpand}
-                    className="codeBoxingCrop"
-                  >
-                    <CropFreeIcon />
-                  </IconButton>
-                </div>
-              </Grid>
-            </Grid>
-
-            <div>
-              <textarea
-                id="codeBoxing"
-                onChange={this.handleCodeChange}
-                type="text"
-                className="blackBox"
+          <TextField
+            name="shortDesc"
+            type="text"
+            label="Short description*"
+            variant="outlined"
+            error={errors.body ? true : false}
+            fullWidth
+            helperText="0/250"
+            onChange={this.handleChange}
+            inputProps={{ maxLength: 250 }}
+            className={classes.input}
+            multiline="true"
+            rows="3"
+            rowsMax="4"
+            id="shortDesc"
+          />
+          <TextField
+            name="desc"
+            type="text"
+            label="Description"
+            variant="outlined"
+            error={errors.body ? true : false}
+            fullWidth
+            helperText="0/750"
+            onChange={this.handleChange}
+            inputProps={{ maxLength: 750 }}
+            className={classes.input}
+            multiline="true"
+            rows="7"
+            rowsMax="8"
+          />
+          <div>
+            <div> Categories: </div>
+            <FormGroup
+              className="formGroup"
+              column
+              style={{ marginLeft: 10, marginTop: 5 }}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.string}
+                    onChange={this.handleFormChange("string")}
+                    value="string"
+                  />
+                }
+                label="Strings"
+                style={{ paddingLeft: 10 }}
               />
-            </div>
-         
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.int}
+                    onChange={this.handleFormChange("int")}
+                    value="int"
+                  />
+                }
+                label="Integers"
+                style={{ paddingLeft: 10 }}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.array}
+                    onChange={this.handleFormChange("array")}
+                    value="array"
+                  />
+                }
+                label="Arrays"
+                style={{ paddingLeft: 10 }}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.char}
+                    onChange={this.handleFormChange("char")}
+                    value="char"
+                  />
+                }
+                label="Characters"
+                style={{ paddingLeft: 10 }}
+              />
+            </FormGroup>
+
+            <FormGroup
+              className="formGroup"
+              column
+              style={{ marginLeft: 10, marginTop: 5 }}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.crypt}
+                    onChange={this.handleFormChange("crypt")}
+                    value="crypt"
+                  />
+                }
+                label="Cryptography"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.graphs}
+                    onChange={this.handleFormChange("graphs")}
+                    value="graphs"
+                  />
+                }
+                label="Graphs"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.AI}
+                    onChange={this.handleFormChange("AI")}
+                    value="AI"
+                  />
+                }
+                label="Artificial Intelligence"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.DS}
+                    onChange={this.handleFormChange("DS")}
+                    value="DS"
+                  />
+                }
+                label="Data Structures"
+              />
+            </FormGroup>
+          </div>
+
+          <Grid container spacing={1}>
+            <Grid item sm={12} md={12}>
+              <div className="codeBoxNav">
+                <ToggleButtonGroup
+                  value={this.state.alignment}
+                  exclusive
+                  onChange={this.handleAlignment}
+                >
+                  <ToggleButton value="js">
+                    <img
+                      draggable="false"
+                      src={"java_logo.png"}
+                      height="24px"
+                    />
+                  </ToggleButton>
+                  <ToggleButton value="py">
+                    <img
+                      draggable="false"
+                      src={"python_logo.png"}
+                      height="24px"
+                    />
+                  </ToggleButton>
+                  <ToggleButton value="cpp">
+                    <img
+                      draggable="false"
+                      src={"cpp_logo.png"}
+                      height="24px"
+                    />
+                  </ToggleButton>
+                </ToggleButtonGroup>
+                <IconButton
+                  onClick={this.handleExpand}
+                  className="codeBoxingCrop"
+                >
+                  <CropFreeIcon />
+                </IconButton>
+              </div>
+            </Grid>
+          </Grid>
+
+          <div>
+            <textarea
+              id="codeBoxing"
+              onChange={this.handleCodeChange}
+              type="text"
+              className="blackBox"
+            />
+          </div>
+
 
           <div class="imageUploadBox">
             {this.state.urls.length !== 0 ? (
-             
-             <div id="imagesHolder" className="imagesHolder">
-               
-              
-               
+
+              <div id="imagesHolder" className="imagesHolder">
+
+
+
                 <div className="imagesUploadPreview">
                   <div className="containerIU">
                     <img src={this.state.urls[0]} />
@@ -599,8 +600,8 @@ export class upload extends Component {
                     </div>
                   </div>
                 </div>) : null}
-                
-                {this.state.urls.length >= 3? (<div className="imagesUploadPreview">
+
+                {this.state.urls.length >= 3 ? (<div className="imagesUploadPreview">
                   <div className="containerIU">
                     <img src={this.state.urls[2]} />
                     <div className="overlayIU">
@@ -632,40 +633,40 @@ export class upload extends Component {
 
 
 
-                  {this.state.urls.length<4 ? (
-    
-              <div className="additionalIconDiv" >
-                <IconButton onClick={this.handleOpenInput}>
-                  <AddCircleOutlineIcon fontSize="large" />
-                </IconButton>
-                <input
-                  type="file"
-                  id="imageInput"
-                  hidden="hidden"
-                  onChange={this.handleImageUpload}
-                />
-              </div> 
+                {this.state.urls.length < 4 ? (
 
-                  ) : null}
+                  <div className="additionalIconDiv" >
+                    <IconButton onClick={this.handleOpenInput}>
+                      <AddCircleOutlineIcon fontSize="large" />
+                    </IconButton>
+                    <input
+                      type="file"
+                      id="imageInput"
+                      hidden="hidden"
+                      onChange={this.handleImageUpload}
+                    />
+                  </div>
+
+                ) : null}
 
 
 
               </div>
             ) : (
-              <div className="imageUploadBtn">
-                <IconButton onClick={this.handleOpenInput}>
-                  <ImageIcon fontSize="large" />
-                </IconButton>
-                <input
-                  type="file"
-                  id="imageInput"
-                  hidden="hidden"
-                  onChange={this.handleImageUpload}
-                />{" "}
-                <br></br>
-                <Typography variant="button">Upload up to 4 images</Typography>
-              </div>
-            )}
+                <div className="imageUploadBtn">
+                  <IconButton onClick={this.handleOpenInput}>
+                    <ImageIcon fontSize="large" />
+                  </IconButton>
+                  <input
+                    type="file"
+                    id="imageInput"
+                    hidden="hidden"
+                    onChange={this.handleImageUpload}
+                  />{" "}
+                  <br></br>
+                  <Typography variant="button">Upload up to 4 images</Typography>
+                </div>
+              )}
           </div>
 
           <Tooltip placement="left" title="Upload">
@@ -686,9 +687,9 @@ export class upload extends Component {
             </IconButton>
           </Tooltip>
           <div style={{ clear: "both" }}></div>
-         
+
         </Paper>
-        
+
       </div>
     );
   }

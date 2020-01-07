@@ -143,12 +143,12 @@ html {
 //END OF highlighter CSS
 
 .notfoundflex {
-   // text-align: center;
+    // text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 5px solid #2e2e3a;
-    
+
 }
 
 //text selection override
@@ -784,7 +784,7 @@ html {
     justify-content: center;
     flex-wrap: wrap;
     justify-content: space-around;
-    background-color: #fdfdfd;
+
     padding: 5px;
     box-sizing: border-box;
     border-radius: 7px;
@@ -908,6 +908,7 @@ html {
     .filtersButton {
         width: 100% - 6%;
     }
+
     .filtersDiv {
         width: 100% - 6%;
     }
@@ -972,9 +973,9 @@ html {
 
     .filtersDiv {
         margin: 0 !important;
-       
-            width: 100%;
-       
+
+        width: 100%;
+
     }
 
     .filtersDiv {

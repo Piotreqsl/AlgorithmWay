@@ -614,42 +614,42 @@ export class edit extends Component {
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={this.state.categories.string}
-                                    onChange={this.handleFormChange("string")}
-                                    value="string"
+                                    checked={this.state.categories.crypt}
+                                    onChange={this.handleFormChange("crypt")}
+                                    value="crpyt"
                                 />
                             }
-                            label="Strings"
+                            label="Cryptography"
                         />
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={this.state.categories.int}
-                                    onChange={this.handleFormChange("int")}
-                                    value="int"
+                                    checked={this.state.categories.graphs}
+                                    onChange={this.handleFormChange("graphs")}
+                                    value="graphs"
                                 />
                             }
-                            label="Integers"
+                            label="Graphs"
                         />
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={this.state.categories.array}
-                                    onChange={this.handleFormChange("array")}
-                                    value="array"
+                                    checked={this.state.categories.AI}
+                                    onChange={this.handleFormChange("AI")}
+                                    value="AI"
                                 />
                             }
-                            label="Arrays"
+                            label="Artificial Intelligence"
                         />
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={this.state.categories.char}
-                                    onChange={this.handleFormChange("char")}
-                                    value="char"
+                                    checked={this.state.categories.DS}
+                                    onChange={this.handleFormChange("DS")}
+                                    value="DS"
                                 />
                             }
-                            label="Characters"
+                            label="Data Structures"
                         />
                     </FormGroup>
                 </div>

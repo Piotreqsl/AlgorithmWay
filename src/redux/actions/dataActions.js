@@ -48,6 +48,10 @@ export const getPosts = () => dispatch => {
   axios
     .get("/posts")
     .then(res => {
+      if (res.data.length < 15) dispatch({
+        type: SET_NO_MORE
+      });
+
       dispatch({
         type: SET_POSTS,
         payload: res.data
@@ -129,11 +133,13 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dis
       }
     }
 
+    console.log(categoryFilters)
+
     if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
     if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
 
 
-    console.log(filtered.length)
+
 
 
     if (filtered.length === 0) {
@@ -503,6 +509,11 @@ export const deletePost = postId => dispatch => {
         type: DELETE_POST,
         payload: postId
       });
+
+      dispatch({
+        type: SET_SUCCESS,
+        payload: "Deleted succesfully"
+      })
     })
     .catch(err => console.log(err));
 };
@@ -586,28 +597,28 @@ export const getForeignUser = (username) => (dispatch) => {
   });
 
   axios.get(`/users/${username}`)
-  .then(res => {
-    dispatch({
+    .then(res => {
+      dispatch({
 
-      type: SET_FOREIGN_USER,
-    
-      payload: res.data,
+        type: SET_FOREIGN_USER,
 
-    });
-    dispatch({
-      type: CLEAR_ERRORS
-    });
-    
-    
-  }).catch(err => {
-    console.log(err);
-    dispatch({
-      type: SET_ERRORS,
-      payload: err.response,
-    });
-  }
-  
-  
-  )
+        payload: res.data,
+
+      });
+      dispatch({
+        type: CLEAR_ERRORS
+      });
+
+
+    }).catch(err => {
+        console.log(err);
+        dispatch({
+          type: SET_ERRORS,
+          payload: err.response,
+        });
+      }
+
+
+    )
 
 }
