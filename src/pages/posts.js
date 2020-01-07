@@ -30,6 +30,11 @@ import { likePost, unlikePost } from '../redux/actions/dataActions'
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline"
 import Comments from '../components/comments'
 import CommentInput from '../components/comment_input'
+import NotFound from './notFound'
+
+
+
+
 
 const styles = {
   paper: {
@@ -127,7 +132,7 @@ export class posts extends Component {
   componentDidUpdate(prevprops) {
     if(prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404 ) {
       console.log("Post not found, redirecting...");
-      this.props.history.push("/404");
+     
       
   
     }
@@ -197,7 +202,8 @@ export class posts extends Component {
 
     return (
       <div className="main-content-squeezed">
-        {!loading ? (
+        
+        {!loading && !this.props.UI.errors ? (
           <div>
             <Paper className={classes.paper}>
               <ExpansionPanel
@@ -440,7 +446,11 @@ export class posts extends Component {
 </div>
 
         ) : (
-            <LinearProgress color="primary" />
+
+            (!this.props.UI.errors ? (<LinearProgress color="primary" />) : <NotFound />)
+            
+
+
           )}
       </div>
     );

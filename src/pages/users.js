@@ -3,7 +3,7 @@ import {getForeignUser} from "../redux/actions/dataActions"
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import NotFound from './notFound'
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
@@ -104,6 +104,8 @@ export class users extends Component {
     this.props.loadMorePosts([], [], false);
   }
 
+
+  
   componentDidMount() {
     let str = this.props.location.pathname;
     let arr = str.split("/");
@@ -121,7 +123,7 @@ export class users extends Component {
 componentDidUpdate(prevprops) {
   if(prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404 ) {
     console.log("User not found, redirecting...");
-    this.props.history.push("/404");
+    //this.props.history.push("/404");
     
 
   }
@@ -158,10 +160,9 @@ componentDidUpdate(prevprops) {
  
      } = this.props;
   
-     
     
 
-     const profileMarkup = !this.props.data.loading ? (
+     const profileMarkup = !this.props.data.loading && !this.props.UI.errors ? (
         console.log("check"),
         <div class="main-content-squeezed">
         <Paper className={classes.paper}>
@@ -240,9 +241,16 @@ componentDidUpdate(prevprops) {
       </div>
 
 
-     ) : (<div class="main-content-squeezed">
-     <LinearProgress color="primary" />
-   </div>)    
+     ) : (
+   (!this.props.UI.errors ? (<div class="main-content-squeezed">
+   <LinearProgress color="primary" />
+ </div>): <NotFound />
+ 
+ 
+ )  
+     
+   
+   )    
     
 
 
