@@ -15,6 +15,8 @@ import Typography from "@material-ui/core/Typography";
 import jwtDecode from "jwt-decode";
 import withStyles from '@material-ui/core/styles/withStyles'
 import AuthRoute from "./utils/AuthRoute";
+
+
 import PropTypes from 'prop-types'
 // Pages:
 import home from "./pages/home";

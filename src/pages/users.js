@@ -111,8 +111,14 @@ export class users extends Component {
     let arr = str.split("/");
     let loc = arr[2];
     if (arr[1] === "users" && arr[2] !== "logo192.png") this.props.getForeignUser(loc);
+    
+    console.log(loc);
+    console.log(this.props.user.credentials.handle);
 
-
+    if(loc === this.props.user.credentials.handle) {
+      this.props.history.push('/user');
+      console.log("redi");
+     } 
 
     if (!this.props.data.noMore) this.props.getPosts();
 
@@ -133,12 +139,17 @@ componentDidUpdate(prevprops) {
   render() {
     dayjs.extend(theTime);
 
+
     let str = this.props.location.pathname;
     let arr = str.split("/");
     let loc = arr[2];
     if (arr[1] === "users" && arr[2] !== "logo192.png") {loc = loc} else {
       loc = null;
     }
+
+   
+    
+    
 
      let recentPostsMarkup = this.props.data.posts ? (
        this.props.data.posts.map(post =>
@@ -273,7 +284,7 @@ users.propTypes = {
     data: PropTypes.object.isRequired,
     
     UI: PropTypes.object.isRequired,
-    //user: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     getForeignUser: PropTypes.func.isRequired,
     loadMorePosts: PropTypes.func.isRequired,
     getPosts : PropTypes.func.isRequired,
@@ -283,7 +294,7 @@ users.propTypes = {
     data: state.data,
     
     UI: state.UI,
-    //user: state.user
+    user: state.user
   });
   
   const mapActionsToProps = {
