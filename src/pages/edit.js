@@ -60,8 +60,12 @@ import Avatar from "@material-ui/core/Avatar";
 
 const styles = theme => ({
     paper: {
-        padding: "25px"
+        padding: "20px"
     },
+
+expansion:{
+margin: "-20px"
+},
 
     head1: {
         marginBottom: "25px"
@@ -501,10 +505,12 @@ export class edit extends Component {
 
 
         return (
-            <Paper className={classes.paper}>
+            <div>
                 <Typography className={classes.head1} variant="h4" color="primary">
                     Edit post
             </Typography>
+            <Paper className={classes.paper}>
+                
 
                 <TextField
                     name="title"
@@ -873,6 +879,7 @@ export class edit extends Component {
                 <div style={{ clear: "both" }}></div>
 
             </Paper>
+            </div>
         )
     }
 
@@ -920,9 +927,9 @@ export class edit extends Component {
                 {!loading ? (
 
                     <div>
-
-                        <Paper className={classes.paper}><Typography className={classes.head1} variant="h4" color="primary">
+<Typography className={classes.head1} variant="h4" color="primary">
                             Original post </Typography>
+                        <Paper className={classes.paper}>
                             <ExpansionPanel
                                 className={classes.expansion}
                                 expanded={this.state.expanded1}

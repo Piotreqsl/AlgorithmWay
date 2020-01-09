@@ -62,7 +62,10 @@ import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
     paper: {
-        padding: "25px"
+        padding: "20px"
+    },
+    expansion: {
+        margin: "-20px"
     },
 
     head1: {
@@ -325,9 +328,9 @@ export class getEdit extends Component {
                 {!loading ? (
 
                     <div>
-
-                        <Paper className={classes.paper}><Typography className={classes.head1} variant="h4" color="primary">
+<div><Typography className={classes.head1} variant="h4" color="primary">
                             Edited post </Typography>
+                        <Paper className={classes.paper}>
                             <ExpansionPanel
                                 className={classes.expansion}
                                 expanded={this.state.expanded2}
@@ -535,46 +538,8 @@ export class getEdit extends Component {
                                 ) : null}
 
                         </Paper>
-
-
-                        <Tooltip placement="top" title="Approve">
-                    <IconButton
-                        onClick={this.handleApprove}
-                        type="submit"
-                        style={{
-                            backgroundColor: "#ebebeb",
-                            float: "right",
-                            marginTop: "5px",
-                            marginLeft: "10px"
-                        }}
-                        disabled={processing}
-                    >
-                        <CheckIcon color="primary" />
-                        {processing && (
-                            <CircularProgress size={50} style={{ position: "absolute" }} />
-                        )}
-                    </IconButton>
-                </Tooltip>
-
-
-                <Tooltip placement="top" title="Reject">
-                    <IconButton
-                        onClick={this.handleReject}
-                        type="submit"
-                        style={{
-                            backgroundColor: "#ebebeb",
-                            float: "right",
-                            marginTop: "5px",
-                            marginLeft: "10px"
-                        }}
-                        disabled={processing}
-                    >
-                        <CloseIcon color="primary" />
-                        {processing && (
-                            <CircularProgress size={50} style={{ position: "absolute" }} />
-                        )}
-                    </IconButton>
-                </Tooltip>
+</div>
+                        
                 <div style={{ clear: "both" }}></div>
 
 
@@ -631,9 +596,9 @@ export class getEdit extends Component {
                 {!loading ? (
 
                     <div>
-
-                        <Paper className={classes.paper}><Typography className={classes.head1} variant="h4" color="primary">
+<Typography className={classes.head1} variant="h4" color="primary">
                             Original post </Typography>
+                        <Paper className={classes.paper}>
                             <ExpansionPanel
                                 className={classes.expansion}
                                 expanded={this.state.expanded1}
@@ -877,7 +842,46 @@ export class getEdit extends Component {
                             <Grid item xs>{this.renderPost()}</Grid>
                             <Grid item xs>{this.renderEdit()}</Grid>
                         </Grid>
-           
+                        <div>                   
+                        <Tooltip placement="top" title="Approve">
+                    <IconButton
+                        onClick={this.handleApprove}
+                        type="submit"
+                        style={{
+                            backgroundColor: "#ebebeb",
+                            float: "right",
+                            marginTop: "5px",
+                            marginLeft: "10px"
+                        }}
+                        disabled={processing}
+                    >
+                        <CheckIcon color="primary" />
+                        {processing && (
+                            <CircularProgress size={50} style={{ position: "absolute" }} />
+                        )}
+                    </IconButton>
+                </Tooltip>
+
+
+                <Tooltip placement="top" title="Reject">
+                    <IconButton
+                        onClick={this.handleReject}
+                        type="submit"
+                        style={{
+                            backgroundColor: "#ebebeb",
+                            float: "right",
+                            marginTop: "5px",
+                            marginLeft: "10px"
+                        }}
+                        disabled={processing}
+                    >
+                        <CloseIcon color="primary" />
+                        {processing && (
+                            <CircularProgress size={50} style={{ position: "absolute" }} />
+                        )}
+                    </IconButton>
+                </Tooltip>
+                </div> 
 </div>
 
        
