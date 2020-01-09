@@ -20,6 +20,8 @@ import { Link } from "react-router-dom";
 import { logoutUser, uploadImage } from '../redux/actions/userActions';
 import Snackbar from '../components/snackbar';
 
+import FeedbackIcon from '@material-ui/icons/Feedback';
+
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -272,12 +274,21 @@ export class profile extends Component {
               {bio}{" "}
             </Typography>
 
-            {this.props.user.editRequests.length > 0 ? <Button onClick={this.toggleDrawer('right', true)}>Open Right</Button> : null}
+           
 
 
 
+            <div> 
+            {this.props.user.editRequests.length > 0 ? (
 
+              <Tooltip placement="right" title="Edit requests"> 
+                <FeedbackIcon color="primary" style={{backgroundColor: "transparent"}} onClick={this.toggleDrawer('right', true)} className="editIco"/>
+                </Tooltip>
+
+            ) : null }
+              
             <Dialog />
+            </div>
 
           </Paper>
 
