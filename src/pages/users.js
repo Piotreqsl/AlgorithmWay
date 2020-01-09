@@ -85,13 +85,8 @@ export class users extends Component {
     let loc = arr[2];
     if (arr[1] === "users" && arr[2] !== "logo192.png") this.props.getForeignUser(loc);
 
-    console.log(loc);
-    console.log(this.props.user.credentials.handle);
-
-    if (loc === this.props.user.credentials.handle) {
-      this.props.history.push('/user');
-      console.log("redi");
-    }
+   
+   
 
     if (!this.props.data.noMore) this.props.getPosts();
 
@@ -101,7 +96,17 @@ export class users extends Component {
 
   componentDidUpdate(prevProps) {
 
+    
 
+    let str = this.props.location.pathname;
+    let arr = str.split("/");
+    let loc = arr[2];
+    console.log(loc);
+    console.log(this.props.user.credentials.handle);
+    if (loc === this.props.user.credentials.handle) {
+      this.props.history.push('/user');
+      console.log("redi");
+    }
 
 
     if (!this.props.data.noMore && this.props.data.backupdata !== prevProps.data.backupdata && this.props.data.user) {
