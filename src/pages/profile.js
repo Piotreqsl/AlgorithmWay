@@ -14,13 +14,17 @@ import axios from "axios";
 import { isAbsolute } from "path";
 import dayjs from "dayjs";
 import theTime from "dayjs/plugin/advancedFormat";
-
+import Button from '@material-ui/core/Button';
 import Dialog from "../components/dialog_change";
-
+import { Link } from "react-router-dom";
 import { logoutUser, uploadImage } from '../redux/actions/userActions';
 import Snackbar from '../components/snackbar';
 
-
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 //icons
 import Location from "@material-ui/icons/LocationOn";
 import EventIcon from "@material-ui/icons/Event";
@@ -32,11 +36,12 @@ import { LinearProgress } from '@material-ui/core';
 
 import Tooltip from "@material-ui/core/Tooltip";
 import { height } from "@material-ui/system";
-import { withSnackbar } from 'notistack';
+import { withSnackbar } from 'notistack'; import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
 import { getPosts, loadMorePosts, synchronizePosts } from '../redux/actions/dataActions'
 import { Waypoint } from 'react-waypoint';
-
+import Drawer from '@material-ui/core/Drawer';
 
 
 const styles = {
@@ -67,6 +72,11 @@ const styles = {
 };
 
 export class profile extends Component {
+  state = {
+    right: false,
+  }
+
+
   handleImageChange = (event) => {
     const image = event.target.files[0];
     const formData = new FormData();
@@ -127,7 +137,13 @@ export class profile extends Component {
     fileInput.click();
   }
 
+  toggleDrawer = (side, open) => event => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
 
+    this.setState({ [side]: open });
+  };
 
 
   componentDidUpdate(prevProps) {
@@ -174,6 +190,30 @@ export class profile extends Component {
         authenticated
       },
     } = this.props;
+
+    const sideList = side => (
+      <div
+        className={classes.list}
+        role="presentation"
+        onClick={this.toggleDrawer(side, false)}
+        onKeyDown={this.toggleDrawer(side, false)}
+      >
+        <List>
+          {this.props.user.editRequests.map(((req) => (
+            <ListItem button key={req.id} component={Link} to={`/editRequests/${req.id}`}>
+              <ListItemIcon>  <EditIcon /> </ListItemIcon>
+              <ListItemText primary={req.title} />
+
+            </ListItem>
+          )))}
+
+        </List>
+      </div>
+    );
+
+
+
+
 
     let profileMarkup = !loading ? (
       authenticated ? (
@@ -232,9 +272,18 @@ export class profile extends Component {
               {bio}{" "}
             </Typography>
 
+            {this.props.user.editRequests.length > 0 ? <Button onClick={this.toggleDrawer('right', true)}>Open Right</Button> : null}
+
+
+
+
             <Dialog />
 
           </Paper>
+
+          <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer('right', false)}>
+            {sideList('right')}
+          </Drawer>
 
           <div className={classes.profilePosts}>
 

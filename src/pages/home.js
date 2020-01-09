@@ -172,15 +172,23 @@ export class home extends Component {
 
             });
 
-            if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Edited immediately by owner")
-                this.props.enqueueSnackbar("Edited immediately by owner", {
-                    variant: "success",
-                    autoHideDuration: 3000,
-                    preventDuplicate: false,
+        } if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Edited immediately by owner") {
+            this.props.enqueueSnackbar("Edited immediately by owner", {
+                variant: "success",
+                autoHideDuration: 3000,
+                preventDuplicate: false,
 
-                });
+            });
         }
 
+        if (this.props.UI.success === "Deleted succesfully" && prevProps.UI.success !== this.props.UI.success) {
+            this.props.enqueueSnackbar("Deleted successfully", {
+                variant: "success",
+                autoHideDuration: 3000,
+                preventDuplicate: false,
+
+            });
+        }
 
         // zmienna pomocnicza, żeby nigdy dwa na raz się nie robuły
         var did = false

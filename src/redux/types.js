@@ -4,6 +4,7 @@ export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED';
 export const SET_USER = 'SET_USER';
 export const LOADING_USER = "LOADING_USER";
 export const SET_USERDET = "SET_USERDET"
+export const REDUCE_EDIT_REQUEST_LIST = "REDUCE_EDIT_REQUEST_LIST"
 
 // Data actions
 

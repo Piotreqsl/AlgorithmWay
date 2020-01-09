@@ -8,6 +8,7 @@ import {
   LOADING_USER,
   LIKE_POST,
   UNLIKE_POST,
+  REDUCE_EDIT_REQUEST_LIST
 } from "../types";
 
 const initialState = {
@@ -17,9 +18,10 @@ const initialState = {
   likes: [],
   notifications: [],
   adminPrivileges: false,
-  userPrivileges: false
+  userPrivileges: false,
+  editRequests: []
 };
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case SET_AUTHENTICATED:
       return {
@@ -32,8 +34,8 @@ export default function(state = initialState, action) {
     case SET_USER:
       return {
         authenticated: true,
-        ...action.payload,
-        loading: false
+          ...action.payload,
+          loading: false
       };
 
     case LOADING_USER:
@@ -54,13 +56,23 @@ export default function(state = initialState, action) {
         ]
       };
 
-    case UNLIKE_POST:
-      return {
-        ...state,
-        likes: state.likes.filter(like => like.postId !== action.payload.postId)
-      };
+    case REDUCE_EDIT_REQUEST_LIST:
 
-    default:
-      return state;
+      let secondindex1 = state.editRequests.findIndex(
+        post => post.id === action.payload
+      );
+      state.editRequests.splice(secondindex1, 1);
+      return {
+        ...state
+      }
+
+      case UNLIKE_POST:
+        return {
+          ...state,
+          likes: state.likes.filter(like => like.postId !== action.payload.postId)
+        };
+
+      default:
+        return state;
   }
 }

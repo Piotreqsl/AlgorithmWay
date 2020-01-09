@@ -23,7 +23,8 @@ import {
   APPROVE_POST,
   STOP_PROCESSING,
   SET_FOREIGN_USER,
-  SYNC_POSTS
+  SYNC_POSTS,
+  REDUCE_EDIT_REQUEST_LIST
 
 
 
@@ -363,7 +364,16 @@ export const approveEditRequest = editID => dispatch => {
       type: SET_SUCCESS,
       payload: "Edit request approved"
     });
+
+    dispatch({
+      type: REDUCE_EDIT_REQUEST_LIST,
+      payload: editID
+    })
+
+
     getPosts();
+
+
 
 
   }).catch(err => {
@@ -388,6 +398,10 @@ export const rejectEditRequest = editID => dispatch => {
       type: SET_SUCCESS,
       payload: "Edit request rejected"
     });
+    dispatch({
+      type: REDUCE_EDIT_REQUEST_LIST,
+      payload: editID
+    })
 
   }).catch(err => {
     dispatch({
@@ -398,8 +412,6 @@ export const rejectEditRequest = editID => dispatch => {
   })
 
 }
-
-
 
 
 
@@ -502,6 +514,10 @@ export const deleteComment = (commentId) => dispatch => {
 
 
 export const deletePost = postId => dispatch => {
+  dispatch({
+    type: CLEAR_SUCCESS
+  });
+
   axios
     .delete(`/post/${postId}`)
     .then(() => {
