@@ -36,7 +36,7 @@ import { Link } from 'react-router-dom';
 import { logoutUser } from '../redux/actions/userActions';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-
+import Notifications from './notifications'
 import { logo } from "./logo.png"
 
 //of auth
@@ -559,13 +559,12 @@ function PrimarySearchAppBar() {
 
           <div className={classes.marginLeft}>
 
-            <IconButton
-              className={!authenticated ? classes.toDi : classes.toN}
-              color="inherit">
-              <Badge badgeContent={1} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+           
+            {authenticated ? (<Notifications/>) : null}
+              
+
+
+            
           </div>
 
 

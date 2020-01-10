@@ -108,7 +108,6 @@ export class users extends Component {
 
     if (loc === this.props.user.credentials.handle) {
       this.props.history.push('/user');
-
     }
 
 
