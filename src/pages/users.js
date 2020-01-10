@@ -105,7 +105,7 @@ export class users extends Component {
     console.log(this.props.user.credentials.handle);
     if (loc === this.props.user.credentials.handle) {
       this.props.history.push('/user');
-      console.log("redi");
+      
     }
 
 

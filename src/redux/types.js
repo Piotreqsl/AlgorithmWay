@@ -5,7 +5,7 @@ export const SET_USER = 'SET_USER';
 export const LOADING_USER = "LOADING_USER";
 export const SET_USERDET = "SET_USERDET"
 export const REDUCE_EDIT_REQUEST_LIST = "REDUCE_EDIT_REQUEST_LIST"
-
+export const MARK_NOTIFICATIONS_READ = "MARK_NOTIFICATIONS_READ"
 // Data actions
 
 

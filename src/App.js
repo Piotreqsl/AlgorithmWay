@@ -42,6 +42,9 @@ const font = "'Source Sans Pro', sans-serif";
 
 const theme = createMuiTheme({
   palette: {
+    white: {
+      main: "#FFFFFF"
+    },
     primary: {
       main: "#2E2E3A",
       dark: "#202028",
@@ -113,11 +116,11 @@ function App(props) {
                 <Route exact path="/upload" component={upload} />
                 <Route exact path="/user" component={profile} />
                 <Route exact path="/admin" component={admin} />
-                <Route path="/posts/" component={posts} />
+                <Route path="/posts/:postId" component={posts} />
                 <Route path="/editPost/" component={edit} />
                 <Route path="/editRequests/" component={getEdit} />
 
-                <Route path="/users/" component={users} />
+                <Route exact path="/users/:handle" component={users} />
                 <Route  component={notFound} />
                
               </Switch>
