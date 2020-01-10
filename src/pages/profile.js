@@ -173,7 +173,7 @@ export class profile extends Component {
 
 
 
-    if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && this.props.data.length <= 4 && prevProps.data.lastId !== this.props.data.lastId && this.props.user) {
+    if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && this.props.data.posts.length <= 4 && prevProps.data.lastId !== this.props.data.lastId && this.props.user) {
 
 
       console.log("updejt");
