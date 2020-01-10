@@ -41,181 +41,185 @@ export default function (state = initialState, action) {
         loading: true
       };
     case LOAD_MORE_POSTS:
+      let indext = state.backupdata.findIndex(el => el.postId === action.backupdata[1].postId);
+      console.log(indext);
+
       return {
         ...state,
         posts: state.posts.concat(action.payload),
           backupdata: state.backupdata.concat(action.backupdata),
           lastId: action.backupdata[action.backupdata.length - 1].postId
-      };
-
-    case FILTER_POSTS:
-      return {
-        ...state,
-        posts: action.payload
-      };
-
-    case SET_NO_MORE:
-      return {
-        ...state,
-        noMore: true
-      };
-    case GET_UNAPPROVED_POSTS:
-      return {
-        ...state,
-        admin: {
-          ...state.admin,
-          unapprovedPosts: action.payload
-        }
-      };
-    case SYNC_POSTS:
-      return {
-        ...state,
-        posts: action.payload,
-          noMore: false,
-          loading: false,
-          lastId: action.payload[action.payload.length - 1].postId,
-          backupdata: action.payload,
-          posts: state.backupdata
-      };
-
-
-
-    case GET_EDIT_REQUEST:
-      return {
-        ...state,
-        post: action.payload,
-          editPost: action.edit
       }
 
-      case SET_POSTS:
+
+      case FILTER_POSTS:
+        return {
+          ...state,
+          posts: action.payload
+        };
+
+      case SET_NO_MORE:
+        return {
+          ...state,
+          noMore: true
+        };
+      case GET_UNAPPROVED_POSTS:
+        return {
+          ...state,
+          admin: {
+            ...state.admin,
+            unapprovedPosts: action.payload
+          }
+        };
+      case SYNC_POSTS:
         return {
           ...state,
           posts: action.payload,
             noMore: false,
             loading: false,
             lastId: action.payload[action.payload.length - 1].postId,
-            backupdata: action.backupdata
+            backupdata: action.payload,
+            posts: state.backupdata
         };
 
-      case ADD_POSTS:
+
+
+      case GET_EDIT_REQUEST:
         return {
           ...state,
-          posts: state.posts.concat(action.payload)
-        };
-
-      case SET_POST:
-        return {
-          ...state,
-          post: action.payload
-        };
-
-      case UNLIKE_POST:
-      case LIKE_POST:
-        let index = state.posts.findIndex(
-          post => post.postId === action.payload.postId
-        );
-        state.posts[index] = action.payload;
-
-        let secondIndex = state.backupdata.findIndex(
-          post => post.postId === action.payload.postId
-        );
-        state.backupdata[secondIndex] = action.payload;
-
-        let thirdIndex = state.admin.unapprovedPosts.findIndex(
-          post => post.postId === action.payload.postId
-        );
-        if (thirdIndex >= 0)
-          state.admin.unapprovedPosts[thirdIndex] = action.payload;
-
-        if (state.post.postId === action.payload.postId) {
-          state.post.likeCount = action.payload.likeCount;
+          post: action.payload,
+            editPost: action.edit
         }
-        return {
-          ...state
-        };
 
-      case DELETE_POST:
-        let index1 = state.posts.findIndex(
-          post => post.postId === action.payload
-        );
-        state.posts.splice(index1, 1);
+        case SET_POSTS:
+          return {
+            ...state,
+            posts: action.payload,
+              noMore: false,
+              loading: false,
+              lastId: action.backupdata[action.backupdata.length - 1].postId,
+              backupdata: action.backupdata
+          };
 
-        let secondindex1 = state.backupdata.findIndex(
-          post => post.postId === action.payload
-        );
-        state.backupdata.splice(secondindex1, 1);
+        case ADD_POSTS:
+          return {
+            ...state,
+            posts: state.posts.concat(action.payload)
+          };
 
-        let thirdindex1 = state.admin.unapprovedPosts.findIndex(
-          post => post.postId === action.payload
-        );
-        if (thirdindex1 >= 0) state.admin.unapprovedPosts.splice(thirdindex1, 1);
+        case SET_POST:
+          return {
+            ...state,
+            post: action.payload
+          };
 
-        return {
-          ...state
-        };
+        case UNLIKE_POST:
+        case LIKE_POST:
+          let index = state.posts.findIndex(
+            post => post.postId === action.payload.postId
+          );
+          state.posts[index] = action.payload;
 
-      case UPLOAD_POST:
-        return {
-          ...state,
-          posts: [action.payload.resPost, ...state.posts]
-        };
+          let secondIndex = state.backupdata.findIndex(
+            post => post.postId === action.payload.postId
+          );
+          state.backupdata[secondIndex] = action.payload;
 
-      case SUBMIT_COMMENT:
-        return {
-          ...state,
-          post: {
-            ...state.post,
-            comments: [action.payload, ...state.post.comments],
-            commentCount: state.post.commentCount + 1
+          let thirdIndex = state.admin.unapprovedPosts.findIndex(
+            post => post.postId === action.payload.postId
+          );
+          if (thirdIndex >= 0)
+            state.admin.unapprovedPosts[thirdIndex] = action.payload;
+
+          if (state.post.postId === action.payload.postId) {
+            state.post.likeCount = action.payload.likeCount;
           }
-        };
-
-      case DELETE_COMMENT:
-        let comIndex = state.post.comments.findIndex(
-          comment => comment.id === action.payload
-        );
-        state.post.comments.splice(comIndex, 1);
-        return {
-          ...state,
-          post: {
-            ...state.post,
-            comments: [...state.post.comments],
-            commentCount: state.post.commentCount - 1
-          }
-        };
-
-      case APPROVE_POST:
-        let indexA = state.posts.findIndex(
-          post => post.postId === action.payload
-        );
-        state.posts[indexA].verified = true;
-
-        let secondIndexA = state.backupdata.findIndex(
-          post => post.postId === action.payload
-        );
-        state.backupdata[secondIndexA].verified = true;
-
-        let thirdIndexA = state.admin.unapprovedPosts.findIndex(
-          post => post.postId === action.payload
-        );
-        if (thirdIndexA >= 0) state.admin.unapprovedPosts.splice(thirdIndexA, 1);
-
-        return {
-          ...state
-        };
-
-
-      case SET_FOREIGN_USER:
-        return {
-          ...action.payload,
-            loading: false,
+          return {
             ...state
+          };
 
-        }
+        case DELETE_POST:
+          let index1 = state.posts.findIndex(
+            post => post.postId === action.payload
+          );
+          state.posts.splice(index1, 1);
+
+          let secondindex1 = state.backupdata.findIndex(
+            post => post.postId === action.payload
+          );
+          state.backupdata.splice(secondindex1, 1);
+
+          let thirdindex1 = state.admin.unapprovedPosts.findIndex(
+            post => post.postId === action.payload
+          );
+          if (thirdindex1 >= 0) state.admin.unapprovedPosts.splice(thirdindex1, 1);
+
+          return {
+            ...state
+          };
+
+        case UPLOAD_POST:
+          return {
+            ...state,
+            posts: [action.payload.resPost, ...state.posts]
+          };
+
+        case SUBMIT_COMMENT:
+          return {
+            ...state,
+            post: {
+              ...state.post,
+              comments: [action.payload, ...state.post.comments],
+              commentCount: state.post.commentCount + 1
+            }
+          };
+
+        case DELETE_COMMENT:
+          let comIndex = state.post.comments.findIndex(
+            comment => comment.id === action.payload
+          );
+          state.post.comments.splice(comIndex, 1);
+          return {
+            ...state,
+            post: {
+              ...state.post,
+              comments: [...state.post.comments],
+              commentCount: state.post.commentCount - 1
+            }
+          };
+
+        case APPROVE_POST:
+          let indexA = state.posts.findIndex(
+            post => post.postId === action.payload
+          );
+          state.posts[indexA].verified = true;
+
+          let secondIndexA = state.backupdata.findIndex(
+            post => post.postId === action.payload
+          );
+          state.backupdata[secondIndexA].verified = true;
+
+          let thirdIndexA = state.admin.unapprovedPosts.findIndex(
+            post => post.postId === action.payload
+          );
+          if (thirdIndexA >= 0) state.admin.unapprovedPosts.splice(thirdIndexA, 1);
+
+          return {
+            ...state
+          };
 
 
-        default:
-          return state;
+        case SET_FOREIGN_USER:
+          return {
+            ...action.payload,
+              loading: false,
+              ...state
+
+          }
+
+
+          default:
+            return state;
 
   }
 }

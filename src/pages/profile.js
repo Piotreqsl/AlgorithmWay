@@ -84,6 +84,7 @@ const styles = {
 export class profile extends Component {
   state = {
     right: false,
+    waiting: true
 
   }
   _cache = new CellMeasurerCache({ minHeight: 0, fixedWidth: true, defaultHeight: 190 });
@@ -153,24 +154,30 @@ export class profile extends Component {
   };
 
 
+
+
   componentDidUpdate(prevProps) {
 
     if (this.list) {
       this.list.forceUpdateGrid();
-      this.list.recomputeRowHeights()
+      this.list.recomputeRowHeights();
     }
 
-    if (this.props.user !== prevProps.user && this.props.user.credentials !== prevProps.user.credentials) {
+    if (this.props.user.credentials && this.state.waiting) {
       this.props.getUserPosts(this.props.user.credentials.handle);
+      this.setState({
+        waiting: false
+      })
     }
 
 
 
 
-    if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && prevProps.data.lastId !== this.props.data.lastId && this.props.user) {
+    if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && this.props.data.length <= 4 && prevProps.data.lastId !== this.props.data.lastId && this.props.user) {
 
 
-
+      console.log("updejt");
+      this.loadMorePosts();
     }
 
 
@@ -190,8 +197,8 @@ export class profile extends Component {
 
   loadMoreRows = ({ startIndex, stopIndex }) => {
 
-
-    this.loadMorePosts()
+    console.log('łej ' + this.props.data.posts.length)
+    if (this.props.data.posts.length > 4 && !this.props.data.noMore) this.props.loadMoreUserPosts(this.props.user.credentials.handle)
   }
 
 
@@ -351,7 +358,7 @@ export class profile extends Component {
 
               <InfiniteLoader
                 isRowLoaded={this.isRowLoaded}
-                loadMoreRows={this.loadMorePosts}
+                loadMoreRows={this.loadMoreRows}
                 rowCount={10000000}
               >
                 {({ onRowsRendered, registerChild }) => (
@@ -383,15 +390,6 @@ export class profile extends Component {
 
             </div>
           </div>
-
-
-
-
-
-
-
-
-
 
         </div>
       ) : (
@@ -428,12 +426,7 @@ profile.propTypes = {
   data: PropTypes.object.isRequired,
   getUserPosts: PropTypes.func.isRequired,
   loadMoreUserPosts: PropTypes.func.isRequired,
-  onEnter: PropTypes.func,
-  bottomOffset: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  scrollableAncestor: PropTypes.any,
+
 
 };
 

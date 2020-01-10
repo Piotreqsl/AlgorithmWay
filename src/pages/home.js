@@ -36,7 +36,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 
 
 import { Waypoint } from 'react-waypoint';
-import { getPosts, loadMorePosts, filterPosts } from '../redux/actions/dataActions'
+import { getPosts, loadMorePosts, filterPosts, synchronizePosts } from '../redux/actions/dataActions'
 
 export class home extends Component {
 
@@ -154,10 +154,10 @@ export class home extends Component {
 
 
 
-        if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore)) {
+        if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore && !this.props.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore && !this.props.noMore)) {
 
-
-            this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
+            console.log("udpejt");
+            this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly);
         }
 
 
@@ -170,19 +170,6 @@ export class home extends Component {
 
     componentDidMount() {
         this.props.getPosts();
-    }
-
-
-
-    renderWaypoint = () => {
-        if (this.props.user.loading === false && this.props.data.posts.length > 0) {
-            return (
-                <Waypoint
-                    onEnter={this.loadMorePosts}
-                />
-            )
-
-        }
     }
 
 
@@ -309,7 +296,9 @@ export class home extends Component {
     }
 
     loadMoreRows = ({ startIndex, stopIndex }) => {
-        this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
+
+        console.log("łejpojnt " + startIndex + stopIndex);
+        if (!this.props.UI.processing && !this.props.data.noMore) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
     }
 
 
@@ -343,16 +332,6 @@ export class home extends Component {
 
     render() {
         const { loading } = this.props.data;
-
-
-
-
-
-
-
-
-
-
 
         return (
 
@@ -498,7 +477,7 @@ export class home extends Component {
 
                                 <InfiniteLoader
                                     isRowLoaded={this.isRowLoaded}
-                                    loadMoreRows={this.loadMorePosts}
+                                    loadMoreRows={this.loadMoreRows}
                                     rowCount={10000000}
                                 >
                                     {({ onRowsRendered, registerChild }) => (
@@ -553,6 +532,7 @@ home.PropTypes = {
     getPosts: PropTypes.func.isRequired,
     loadMorePosts: PropTypes.func.isRequired,
     filterPosts: PropTypes.func.isRequired,
+    synchronizePosts: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -569,4 +549,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getPosts, loadMorePosts, filterPosts })(withSnackbar(home));
+export default connect(mapStateToProps, { getPosts, loadMorePosts, filterPosts, synchronizePosts })(withSnackbar(home));

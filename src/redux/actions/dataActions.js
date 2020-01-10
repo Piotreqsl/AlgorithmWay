@@ -114,6 +114,10 @@ export const loadMoreUserPosts = (handle) => dispatch => {
   var link = "/posts/next/" + store.getState().data.lastId;
   console.log(link + " redux");
 
+  dispatch({
+    type: PROCESSING
+  })
+
   axios.get(link).then((res) => {
 
 
@@ -125,13 +129,76 @@ export const loadMoreUserPosts = (handle) => dispatch => {
     }
 
 
-    if (store.getState().data.lastId !== res.data[res.data.length - 1].postId) {
-      dispatch({
-        type: LOAD_MORE_POSTS,
-        payload: posts,
-        backupdata: res.data
-      })
+
+    dispatch({
+      type: LOAD_MORE_POSTS,
+      payload: posts,
+      backupdata: res.data
+    })
+
+
+
+  }).catch(err => {
+    dispatch({
+      type: SET_NO_MORE
+    })
+
+  })
+
+
+
+
+
+
+}
+
+export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
+
+  dispatch({
+    type: PROCESSING
+  })
+
+
+
+  var link = "/posts/next/" + store.getState().data.lastId;
+  console.log(link + " redux");
+
+  axios.get(link).then((res) => {
+
+
+
+    let filtered = [];
+
+    for (var i = 0; i < res.data.length; i++) {
+      if (approvedOnly === true && res.data[i].verified === true) {
+        filtered.push(res.data[i])
+      } else {
+        filtered[i] = res.data[i];
+      }
     }
+
+    console.log(categoryFilters)
+
+    if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
+    if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
+
+
+
+
+
+    if (filtered.length === 0) {
+      loadMorePosts(categoryFilters, codeFilters, approvedOnly);
+      console.log("przeszedł" + "tersad")
+    }
+
+
+
+    dispatch({
+      type: LOAD_MORE_POSTS,
+      payload: filtered,
+      backupdata: res.data
+    })
+
 
 
   }).catch(err => {
@@ -195,64 +262,6 @@ export const synchronizePosts = () => dispatch => {
 }
 
 
-export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
-
-
-
-  var link = "/posts/next/" + store.getState().data.lastId;
-  console.log(link + " redux");
-
-  axios.get(link).then((res) => {
-
-
-
-    let filtered = [];
-
-    for (var i = 0; i < res.data.length; i++) {
-      if (approvedOnly === true && res.data[i].verified === true) {
-        filtered.push(res.data[i])
-      } else {
-        filtered[i] = res.data[i];
-      }
-    }
-
-    console.log(categoryFilters)
-
-    if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
-    if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
-
-
-
-
-
-    if (filtered.length === 0) {
-      loadMorePosts(categoryFilters, codeFilters, approvedOnly);
-      console.log("przeszedł" + "tersad")
-    }
-
-
-
-    dispatch({
-      type: LOAD_MORE_POSTS,
-      payload: filtered,
-      backupdata: res.data
-    })
-
-
-
-  }).catch(err => {
-    dispatch({
-      type: SET_NO_MORE
-    })
-
-  })
-
-
-
-
-
-
-}
 
 
 export const filterPosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
