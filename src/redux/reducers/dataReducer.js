@@ -94,7 +94,7 @@ export default function (state = initialState, action) {
             noMore: false,
             loading: false,
             lastId: action.payload[action.payload.length - 1].postId,
-            backupdata: action.payload
+            backupdata: action.backupdata
         };
 
       case ADD_POSTS:

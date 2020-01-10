@@ -847,19 +847,12 @@ html {
     overflow-y: scroll;
     position: relative;
     //height: 73vh;
-    height: 80vh;
+    height: 79vh;
     scroll-behavior: initial;
 
 }
 
-.profilePosts {
-    transition: 0.3 ease;
-    overflow-y: scroll;
-    position: relative;
-    scroll-behavior: initial;
-    height: auto;
-    margin-top: 20px
-}
+
 
 /* Make the image to responsive */
 

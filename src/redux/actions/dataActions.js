@@ -55,7 +55,8 @@ export const getPosts = () => dispatch => {
 
       dispatch({
         type: SET_POSTS,
-        payload: res.data
+        payload: res.data,
+        backupdata: res.data
       });
     })
     .catch(err => {
@@ -65,6 +66,87 @@ export const getPosts = () => dispatch => {
       });
     });
 };
+
+export const getUserPosts = (handle) => dispatch => {
+  dispatch({
+    type: CLEAR_ERRORS
+  })
+  dispatch({
+    type: CLEAR_SUCCESS
+  })
+
+  dispatch({
+    type: LOADING_DATA
+  });
+  axios
+    .get("/posts")
+    .then(res => {
+      if (res.data.length < 15) dispatch({
+        type: SET_NO_MORE
+      });
+
+      let posts = [];
+      for (var i = 0; i < res.data.length; i++) {
+        if (res.data[i].userHandle === handle) {
+          posts.push(res.data[i])
+        }
+      }
+
+      dispatch({
+        type: SET_POSTS,
+        payload: posts,
+        backupdata: res.data
+
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_POSTS,
+        payload: []
+      });
+    });
+}
+
+export const loadMoreUserPosts = (handle) => dispatch => {
+
+
+
+  var link = "/posts/next/" + store.getState().data.lastId;
+  console.log(link + " redux");
+
+  axios.get(link).then((res) => {
+
+
+    let posts = [];
+    for (var i = 0; i < res.data.length; i++) {
+      if (res.data[i].userHandle === handle) {
+        posts.push(res.data[i])
+      }
+    }
+
+
+    if (store.getState().data.lastId !== res.data[res.data.length - 1].postId) {
+      dispatch({
+        type: LOAD_MORE_POSTS,
+        payload: posts,
+        backupdata: res.data
+      })
+    }
+
+
+  }).catch(err => {
+    dispatch({
+      type: SET_NO_MORE
+    })
+
+  })
+
+
+
+
+
+
+}
 
 const advancedFiltering = (mainArray, filters) => {
   let filtered = [];
@@ -228,6 +310,7 @@ export const getPost = postId => dispatch => {
       });
   }
 }
+
 
 
 export const getUnapprovedPosts = () => dispatch => {

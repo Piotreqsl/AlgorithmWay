@@ -36,7 +36,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { height } from "@material-ui/system";
 import { withSnackbar } from 'notistack';
 
-import { loadMorePosts, getPosts } from '../redux/actions/dataActions'
+import { loadMoreUserPosts, getUserPosts } from '../redux/actions/dataActions'
 import { Waypoint } from 'react-waypoint';
 
 
@@ -69,13 +69,17 @@ const styles = {
 
 export class users extends Component {
 
+  state = {
+    filtered: 0
+  }
+
   _cache = new CellMeasurerCache({ minHeight: 150, fixedWidth: true, defaultHeight: 190 });
 
 
 
   loadMorePosts = () => {
 
-    if (!this.props.data.noMore) this.props.loadMorePosts([], [], false);
+    if (!this.props.data.noMore && this.props.data.user) this.props.loadMoreUserPosts(this.props.data.user.handle);
   }
 
 
@@ -89,7 +93,7 @@ export class users extends Component {
 
 
 
-    if (!this.props.data.noMore) this.props.getPosts();
+    if (!this.props.data.noMore) this.props.getUserPosts(loc);
 
 
   }
@@ -111,15 +115,9 @@ export class users extends Component {
     }
 
 
-    if (!this.props.data.noMore && this.props.data.backupdata !== prevProps.data.backupdata && this.props.data.user) {
-      let filtered = this.props.data.posts.filter(element => {
-        return element.userHandle === this.props.data.user.handle
-      })
-      if (filtered.length <= 5) {
-
-        this.loadMorePosts();
-
-      }
+    if (!this.props.data.noMore && this.props.data.backupdata !== prevProps.data.backupdata && prevProps.data.lastId !== this.props.data.lastId && this.props.data.user) {
+      console.log("if");
+      this.loadMorePosts();
     }
   }
 
@@ -135,7 +133,9 @@ export class users extends Component {
   }
 
   loadMoreRows = ({ startIndex, stopIndex }) => {
-    this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
+
+    console.log("z loład")
+    this.loadMorePosts()
   }
 
 
@@ -143,7 +143,6 @@ export class users extends Component {
 
   rowRenderer = ({ index, isScrolling, key, parent, style }) => {
 
-    console.log(index)
 
     return (
 
@@ -183,11 +182,9 @@ export class users extends Component {
 
 
 
+
     const {
       classes,
-
-
-
       UI: { loading },
 
     } = this.props;
@@ -263,7 +260,7 @@ export class users extends Component {
 
         <div style={{ display: 'flex', marginTop: "20px" }}>
 
-          <div style={{ flex: '1 1 auto', height: '100vh' }}>
+          <div style={{ flex: '1 1 auto', height: '57vh' }}>
 
 
 
@@ -342,8 +339,8 @@ users.propTypes = {
   UI: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   getForeignUser: PropTypes.func.isRequired,
-  loadMorePosts: PropTypes.func.isRequired,
-  getPosts: PropTypes.func.isRequired,
+  loadMoreUserPosts: PropTypes.func.isRequired,
+  getUserPosts: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   onEnter: PropTypes.func,
   bottomOffset: PropTypes.oneOfType([
@@ -360,7 +357,7 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
-  getForeignUser, loadMorePosts, getPosts
+  getForeignUser, loadMoreUserPosts, getUserPosts
 };
 
 export default connect(

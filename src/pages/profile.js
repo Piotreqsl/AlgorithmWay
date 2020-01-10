@@ -36,12 +36,20 @@ import PublishIcon from '@material-ui/icons/Publish';
 
 import { LinearProgress } from '@material-ui/core';
 
+import {
+  AutoSizer, CellMeasurerCache,
+  CellMeasurer, InfiniteLoader
+} from "react-virtualized";
+import 'react-virtualized/styles.css';
+
+import { List as ListR } from "react-virtualized";
+
 import Tooltip from "@material-ui/core/Tooltip";
 import { height } from "@material-ui/system";
 import { withSnackbar } from 'notistack'; import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
-import { getPosts, loadMorePosts, synchronizePosts } from '../redux/actions/dataActions'
+import { synchronizePosts, getUserPosts, loadMoreUserPosts } from '../redux/actions/dataActions'
 import { Waypoint } from 'react-waypoint';
 import Drawer from '@material-ui/core/Drawer';
 
@@ -76,7 +84,9 @@ const styles = {
 export class profile extends Component {
   state = {
     right: false,
+
   }
+  _cache = new CellMeasurerCache({ minHeight: 0, fixedWidth: true, defaultHeight: 190 });
 
 
   handleImageChange = (event) => {
@@ -122,12 +132,7 @@ export class profile extends Component {
 
 
   loadMorePosts = () => {
-
-
-
-
-
-    this.props.loadMorePosts([], [], false);
+    if (!this.props.data.noMore) this.props.loadMoreUserPosts(this.props.user.credentials.handle);
   }
 
 
@@ -150,24 +155,71 @@ export class profile extends Component {
 
   componentDidUpdate(prevProps) {
 
-
-    if (!this.props.data.noMore && this.props.data.backupdata !== prevProps.data.backupdata) {
-      let filtered = this.props.data.posts.filter(element => {
-        return element.userHandle === this.props.user.credentials.handle
-      })
-
-
-      if (filtered.length <= 5) {
-        console.log("przeszło")
-
-        this.loadMorePosts()
-      }
+    if (this.list) {
+      this.list.forceUpdateGrid();
+      this.list.recomputeRowHeights()
     }
+
+    if (this.props.user !== prevProps.user && this.props.user.credentials !== prevProps.user.credentials) {
+      this.props.getUserPosts(this.props.user.credentials.handle);
+    }
+
+
+
+
+    if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && prevProps.data.lastId !== this.props.data.lastId && this.props.user) {
+
+
+
+    }
+
+
   }
 
-  componentDidMount() {
-    if (!this.props.data.noMore) this.props.getPosts();
-    if (!this.props.data.noMore && this.props.data.posts.length !== this.props.data.backupdata.length) this.props.getPosts();
+
+
+
+  bindListRef = ref => {
+    this.list = ref;
+  };
+
+
+  isRowLoaded = ({ index }) => {
+    return !!this.props.data.posts[index];
+  }
+
+  loadMoreRows = ({ startIndex, stopIndex }) => {
+
+
+    this.loadMorePosts()
+  }
+
+
+
+
+  rowRenderer = ({ index, isScrolling, key, parent, style }) => {
+
+
+    return (
+
+      <CellMeasurer
+        cache={this._cache}
+        columnIndex={0}
+        key={key}
+        parent={parent}
+        rowIndex={index}
+      >
+        {({ measure }) => (
+          <div key={key} style={style} className="row" >
+            <Post key={this.props.data.posts[index].postId} post={this.props.data.posts[index]} onLoad={measure} />
+          </div>
+        )
+
+        }
+      </CellMeasurer>
+    )
+
+
 
   }
 
@@ -175,14 +227,7 @@ export class profile extends Component {
   render() {
     dayjs.extend(theTime);
 
-    let recentPostsMarkup = this.props.data.posts ? (
-      this.props.data.posts.map(post =>
-        (post.userHandle === this.props.user.credentials.handle) ?
-          <Post key={post.postId} post={post} /> : null
-      )
-    ) : (
-        null
-      );
+
 
     const {
       classes,
@@ -274,20 +319,20 @@ export class profile extends Component {
               {bio}{" "}
             </Typography>
 
-           
 
 
 
-            <div> 
-            {this.props.user.editRequests.length > 0 ? (
 
-              <Tooltip placement="right" title="Edit requests"> 
-                <FeedbackIcon color="primary" style={{backgroundColor: "transparent"}} onClick={this.toggleDrawer('right', true)} className="editIco"/>
+            <div>
+              {this.props.user.editRequests.length > 0 ? (
+
+                <Tooltip placement="right" title="Edit requests">
+                  <FeedbackIcon color="primary" style={{ backgroundColor: "transparent" }} onClick={this.toggleDrawer('right', true)} className="editIco" />
                 </Tooltip>
 
-            ) : null }
-              
-            <Dialog />
+              ) : null}
+
+              <Dialog />
             </div>
 
           </Paper>
@@ -296,24 +341,58 @@ export class profile extends Component {
             {sideList('right')}
           </Drawer>
 
-          <div className={classes.profilePosts}>
 
-            {recentPostsMarkup}
-            <div className="infinite-scroll-example__waypoint">
-              {!this.props.data.noMore ? <Waypoint
-                bottomOffset={0}
-                scrollableAncestor="window"
-                onEnter={
+          <div style={{ display: 'flex', marginTop: "20px" }}>
+            <div style={{ flex: '1 1 auto', height: '57vh' }}>
 
-                  this.loadMorePosts
 
-                }
-              /> : null}
-              {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
-                <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
+
+
+
+              <InfiniteLoader
+                isRowLoaded={this.isRowLoaded}
+                loadMoreRows={this.loadMorePosts}
+                rowCount={10000000}
+              >
+                {({ onRowsRendered, registerChild }) => (
+
+
+                  <AutoSizer >
+                    {({ width, height }) => (
+
+
+
+                      <div className="list">
+                        <ListR style={{ outline: "none" }}
+                          ref={this.bindListRef}
+                          width={width}
+                          height={height}
+                          deferredMeasurementCache={this._cache}
+                          rowHeight={this._cache.rowHeight}
+                          rowRenderer={this.rowRenderer}
+                          rowCount={this.props.data.posts.length}
+                          onRowsRendered={onRowsRendered}
+                        />
+                      </div>
+
+                    )}
+                  </AutoSizer>
+                )}
+              </InfiniteLoader>
+
+
             </div>
-
           </div>
+
+
+
+
+
+
+
+
+
+
         </div>
       ) : (
           <center> <p>You need to be logged in to see this page</p> </center>
@@ -337,7 +416,7 @@ const mapStateToProps = state => ({
   data: state.data
 });
 
-const mapActionsToProps = { logoutUser, uploadImage, getPosts, loadMorePosts, synchronizePosts }
+const mapActionsToProps = { logoutUser, uploadImage, getUserPosts, loadMoreUserPosts, synchronizePosts }
 
 profile.propTypes = {
   user: PropTypes.object.isRequired,
@@ -347,8 +426,8 @@ profile.propTypes = {
   synchronizePosts: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  getPosts: PropTypes.func.isRequired,
-  loadMorePosts: PropTypes.func.isRequired,
+  getUserPosts: PropTypes.func.isRequired,
+  loadMoreUserPosts: PropTypes.func.isRequired,
   onEnter: PropTypes.func,
   bottomOffset: PropTypes.oneOfType([
     PropTypes.string,
