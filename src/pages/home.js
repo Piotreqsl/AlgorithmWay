@@ -11,6 +11,12 @@ import { LinearProgress } from '@material-ui/core';
 import PropTypes from "prop-types";
 import { withSnackbar } from 'notistack';
 
+import {
+    List, AutoSizer, CellMeasurerCache,
+    CellMeasurer, InfiniteLoader
+} from "react-virtualized";
+import 'react-virtualized/styles.css'; // only needs to be imported once
+
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -34,10 +40,14 @@ import { getPosts, loadMorePosts, filterPosts } from '../redux/actions/dataActio
 
 export class home extends Component {
 
+    _cache = new CellMeasurerCache({ minHeight: 150, fixedWidth: true, defaultHeight: 190 });
 
     state = {
         data: [],
         backupdata: [],
+        approvedOnly: false,
+        categoryFilters: [],
+        codeFilters: [],
         active: false,
         categories: {
             string: true,
@@ -62,83 +72,10 @@ export class home extends Component {
 
 
 
-
     loadMorePosts = () => {
 
-        var approvedOnly = false;
 
-
-        if (this.state.all) approvedOnly = false;
-        if (this.state.appr) approvedOnly = true;
-
-
-
-
-        /// Filtry na kategorie
-        let arrayFilters = [];
-        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
-        } else {
-            if (this.state.categories.char) {
-                arrayFilters.push('char');
-            }
-
-            if (this.state.categories.int) {
-                arrayFilters.push('int');
-            }
-
-            if (this.state.categories.array) {
-                arrayFilters.push('array');
-            }
-
-            if (this.state.categories.string) {
-                arrayFilters.push('string');
-            }
-
-            if (this.state.categories.crypt) {
-                arrayFilters.push('crypt');
-            }
-
-            if (this.state.categories.AI) {
-                arrayFilters.push('AI');
-            }
-
-            if (this.state.categories.DS) {
-                arrayFilters.push('DS');
-            }
-
-            if (this.state.categories.graphs) {
-                arrayFilters.push('graphs');
-            }
-
-        }
-
-        /// Filtry na kod
-
-        let codeFilters = [];
-
-        if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
-
-        }
-        else {
-            if (this.state.code.java) {
-                codeFilters.push("java")
-            }
-
-            if (this.state.code.cpp) {
-                codeFilters.push("cpp")
-            }
-
-            if (this.state.code.python) {
-                codeFilters.push("python")
-            }
-        }
-
-
-
-
-
-
-        this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
+        if (!this.props.data.noMore) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
 
     }
 
@@ -172,7 +109,9 @@ export class home extends Component {
 
             });
 
-        } if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Edited immediately by owner") {
+        }
+
+        if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Edited immediately by owner") {
             this.props.enqueueSnackbar("Edited immediately by owner", {
                 variant: "success",
                 autoHideDuration: 3000,
@@ -180,6 +119,16 @@ export class home extends Component {
 
             });
         }
+
+        if (prevProps.UI.success !== this.props.UI.success && this.props.UI.success === "Edited immediately by admin") {
+            this.props.enqueueSnackbar("Edited immediately by admin", {
+                variant: "success",
+                autoHideDuration: 3000,
+                preventDuplicate: false,
+
+            });
+        }
+
 
         if (this.props.UI.success === "Deleted succesfully" && prevProps.UI.success !== this.props.UI.success) {
             this.props.enqueueSnackbar("Deleted successfully", {
@@ -190,136 +139,25 @@ export class home extends Component {
             });
         }
 
-        // zmienna pomocnicza, żeby nigdy dwa na raz się nie robuły
-        var did = false
-
-        /// Jeśli upcoming data nic nie wniosło to ładuje dalej
-        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && prevProps.data.posts.length - this.props.data.posts.length === 0 && this.props.data.noMore === false) {
 
 
-
-            var approvedOnly = false;
-            if (this.state.all) approvedOnly = false;
-            if (this.state.appr) approvedOnly = true;
-            let arrayFilters = [];
-            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
-            } else {
-                if (this.state.categories.char) {
-                    arrayFilters.push('char');
-                }
-
-                if (this.state.categories.int) {
-                    arrayFilters.push('int');
-                }
-
-                if (this.state.categories.array) {
-                    arrayFilters.push('array');
-                }
-
-                if (this.state.categories.string) {
-                    arrayFilters.push('string');
-                }
-
-                if (this.state.categories.crypt) {
-                    arrayFilters.push('crypt');
-                }
-
-                if (this.state.categories.AI) {
-                    arrayFilters.push('AI');
-                }
-
-                if (this.state.categories.DS) {
-                    arrayFilters.push('DS');
-                }
-
-                if (this.state.categories.graphs) {
-                    arrayFilters.push('graphs');
-                }
-
-            }
-            let codeFilters = [];
-            if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
-
-            }
-            else {
-                if (this.state.code.java) {
-                    codeFilters.push("java")
-                }
-
-                if (this.state.code.cpp) {
-                    codeFilters.push("cpp")
-                }
-
-                if (this.state.code.python) {
-                    codeFilters.push("python")
-                }
-            }
-            did = true
-            this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
-
+        //
+        if (this.list) {
+            this.list.forceUpdateGrid();
+            this.list.recomputeRowHeights()
         }
 
-        /// Jeśli aktualnych postów jest 5 lub mniej, to ładuje sie wiecej postów żeby zawsze trochę można było skrolować
-        if ((prevProps.data.posts !== this.props.data.posts) && this.props.data.posts !== undefined && this.props.data.posts.length <= 5 && this.props.data.noMore === false && did === false) {
 
 
-            var approvedOnly = false;
-            if (this.state.all) approvedOnly = false;
-            if (this.state.appr) approvedOnly = true;
-            let arrayFilters = [];
-            if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
-            } else {
-                if (this.state.categories.char) {
-                    arrayFilters.push('char');
-                }
 
-                if (this.state.categories.int) {
-                    arrayFilters.push('int');
-                }
 
-                if (this.state.categories.array) {
-                    arrayFilters.push('array');
-                }
 
-                if (this.state.categories.string) {
-                    arrayFilters.push('string');
-                }
 
-                if (this.state.categories.crypt) {
-                    arrayFilters.push('crypt');
-                }
 
-                if (this.state.categories.AI) {
-                    arrayFilters.push('AI');
-                }
+        if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore)) {
 
-                if (this.state.categories.DS) {
-                    arrayFilters.push('DS');
-                }
-
-                if (this.state.categories.graphs) {
-                    arrayFilters.push('graphs');
-                }
-
-            }
-            let codeFilters = [];
-            if (this.state.code.java && this.state.code.cpp && this.state.code.python) {
-
-            }
-            else {
-                if (this.state.code.java) {
-                    codeFilters.push("java")
-                }
-
-                if (this.state.code.cpp) {
-                    codeFilters.push("cpp")
-                }
-
-                if (this.state.code.python) {
-                    codeFilters.push("python")
-                }
-            }
-            this.props.loadMorePosts(arrayFilters, codeFilters, approvedOnly);
+            console.log("z ifa")
+            this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
         }
 
 
@@ -331,50 +169,7 @@ export class home extends Component {
 
 
     componentDidMount() {
-        if (this.props.data.posts === undefined || this.props.data.posts.length <= 1) this.props.getPosts();
-    }
-
-
-
-
-    advancedFiltering = (mainArray, filters) => {
-        let filtered = [];
-
-        for (var i = 0; i < mainArray.length; i++) {
-            if (mainArray[i].categories.some(r => filters.includes(r))) {
-                filtered.push(mainArray[i])
-            }
-        }
-
-        return filtered;
-
-    }
-
-
-    advancedFilteringCode = (mainArray, filters) => {
-
-        let filtered = [];
-
-
-
-        for (var i = 0; i < mainArray.length; i++) {
-            let existingCode = [];
-
-            if (mainArray[i].java !== undefined) existingCode.push("java")
-            if (mainArray[i].cpp !== undefined) existingCode.push("cpp")
-            if (mainArray[i].python !== undefined) existingCode.push("python")
-
-
-            if (existingCode.some(r => filters.includes(r))) {
-                filtered.push(mainArray[i]);
-            }
-
-
-        }
-
-        return filtered;
-
-
+        this.props.getPosts();
     }
 
 
@@ -426,6 +221,10 @@ export class home extends Component {
         if (this.state.all) approvedOnly = false;
         if (this.state.appr) approvedOnly = true;
 
+        this.setState({
+            approvedOnly: approvedOnly
+        })
+
 
         /// Filtry na kategorie
         let arrayFilters = [];
@@ -485,24 +284,71 @@ export class home extends Component {
             }
         }
 
-        this.props.filterPosts(arrayFilters, codeFilters, approvedOnly);
+
+
+
+        this.setState({
+            approvedOnly: approvedOnly,
+            codeFilters: codeFilters,
+            categoryFilters: arrayFilters
+
+        }, () => this.props.filterPosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly))
+
+
+
+
+    }
+
+    bindListRef = ref => {
+        this.list = ref;
+    };
+
+
+    isRowLoaded = ({ index }) => {
+        return !!this.props.data.posts[index];
+    }
+
+    loadMoreRows = ({ startIndex, stopIndex }) => {
+        this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
+    }
+
+
+
+
+    rowRenderer = ({ index, isScrolling, key, parent, style }) => {
+
+        return (
+
+            <CellMeasurer
+                cache={this._cache}
+                columnIndex={0}
+                key={key}
+                parent={parent}
+                rowIndex={index}
+            >
+                {({ measure }) => (
+                    <div key={key} style={style} className="row" >
+                        <Post key={this.props.data.posts[index].postId} post={this.props.data.posts[index]} onLoad={measure} />
+                    </div>
+                )
+
+                }
+            </CellMeasurer>
+        )
 
 
     }
 
 
+
     render() {
         const { loading } = this.props.data;
 
-        let recentPostsMarkup = (!loading && this.props.data.posts.length > 0) ? (
-            this.props.data.posts.map((post) => <Post key={post.postId} post={post} />)
 
-        ) : (<div className="post-margin"><center>
-            <CircularProgress color="primary" /> </center></div>);
 
-        if (!loading && this.props.data.posts.length === 0 && this.props.data.noMore === true) {
-            recentPostsMarkup = <p>No posts found</p>;
-        }
+
+
+
 
 
 
@@ -517,7 +363,7 @@ export class home extends Component {
 
                     <Grid item sm={9} xs={12}>
 
-                        <Button variant="contained" className="filtersButton" color="primary" disabled={this.props.user.loading ? true : false} onClick={this.toggleClass}>
+                        <Button variant="contained" id={"filters"} className="filtersButton" color="primary" disabled={this.props.user.loading ? true : false} onClick={this.toggleClass}>
                             Filters
                         </Button>
 
@@ -645,13 +491,47 @@ export class home extends Component {
 
 
                         <div className="feed" >
-                            {recentPostsMarkup}
-                            <div className="infinite-scroll-example__waypoint">
-                                {!this.props.data.noMore ? this.renderWaypoint() : null}
-                                {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
-                                    <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
 
-                            </div>
+
+
+                            {(!loading && this.props.data.posts.length > 0) ?
+
+                                <InfiniteLoader
+                                    isRowLoaded={this.isRowLoaded}
+                                    loadMoreRows={this.loadMorePosts}
+                                    rowCount={10000000}
+                                >
+                                    {({ onRowsRendered, registerChild }) => (
+
+
+                                        <AutoSizer >
+                                            {({ width, height }) => (
+                                                <div className="list">
+                                                    <List style={{ outline: "none" }}
+                                                        ref={this.bindListRef}
+                                                        width={width}
+                                                        height={height}
+                                                        deferredMeasurementCache={this._cache}
+                                                        rowHeight={this._cache.rowHeight}
+                                                        rowRenderer={this.rowRenderer}
+                                                        rowCount={this.props.data.posts.length}
+                                                        overscanRowCount={3}
+                                                        onRowsRendered={onRowsRendered}
+
+                                                    />
+                                                </div>
+                                            )}
+                                        </AutoSizer>
+                                    )}
+                                </InfiniteLoader>
+
+
+
+
+
+                                : <div className="post-margin"><center>
+                                    <CircularProgress color="primary" /> </center></div>}
+
                         </div>
 
 
