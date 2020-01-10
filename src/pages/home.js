@@ -156,7 +156,7 @@ export class home extends Component {
 
         if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore)) {
 
-            console.log("z ifa")
+
             this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
         }
 

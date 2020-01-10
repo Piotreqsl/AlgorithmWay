@@ -7,19 +7,21 @@ import NotFound from './notFound'
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import Icon from "@material-ui/core/Icon";
+
 import Post from "../components/post";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import axios from "axios";
-import { isAbsolute } from "path";
+
 import dayjs from "dayjs";
 import theTime from "dayjs/plugin/advancedFormat";
 
-import { Redirect } from 'react-router-dom';
-import { logoutUser, uploadImage } from '../redux/actions/userActions';
-import Snackbar from '../components/snackbar';
 
+
+
+import {
+  List, AutoSizer, CellMeasurerCache,
+  CellMeasurer, InfiniteLoader
+} from "react-virtualized";
+import 'react-virtualized/styles.css';
 
 //icons
 import Location from "@material-ui/icons/LocationOn";
@@ -50,9 +52,8 @@ const styles = {
     verticalAlign: "middle",
     lineHeight: 1.8
   },
-  profilePosts: {
-    marginTop: 20
-  },
+
+
   icoMargin: {
     marginRight: 5
   },
@@ -68,7 +69,7 @@ const styles = {
 
 export class users extends Component {
 
-
+  _cache = new CellMeasurerCache({ minHeight: 150, fixedWidth: true, defaultHeight: 190 });
 
 
 
@@ -85,8 +86,8 @@ export class users extends Component {
     let loc = arr[2];
     if (arr[1] === "users" && arr[2] !== "logo192.png") this.props.getForeignUser(loc);
 
-   
-   
+
+
 
     if (!this.props.data.noMore) this.props.getPosts();
 
@@ -96,16 +97,18 @@ export class users extends Component {
 
   componentDidUpdate(prevProps) {
 
-    
+    if (this.list) {
+      this.list.forceUpdateGrid();
+      this.list.recomputeRowHeights()
+    }
 
     let str = this.props.location.pathname;
     let arr = str.split("/");
     let loc = arr[2];
-    console.log(loc);
-    console.log(this.props.user.credentials.handle);
+
     if (loc === this.props.user.credentials.handle) {
       this.props.history.push('/user');
-      console.log("redi");
+
     }
 
 
@@ -114,13 +117,59 @@ export class users extends Component {
         return element.userHandle === this.props.data.user.handle
       })
       if (filtered.length <= 5) {
-        console.log("from updejt")
 
         this.loadMorePosts();
 
       }
     }
   }
+
+
+
+  bindListRef = ref => {
+    this.list = ref;
+  };
+
+
+  isRowLoaded = ({ index }) => {
+    return !!this.props.data.posts[index];
+  }
+
+  loadMoreRows = ({ startIndex, stopIndex }) => {
+    this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
+  }
+
+
+
+
+  rowRenderer = ({ index, isScrolling, key, parent, style }) => {
+
+    console.log(index)
+
+    return (
+
+      <CellMeasurer
+        cache={this._cache}
+        columnIndex={0}
+        key={key}
+        parent={parent}
+        rowIndex={index}
+      >
+        {({ measure }) => (
+          <div key={key} style={style} className="row" >
+            <Post key={this.props.data.posts[index].postId} post={this.props.data.posts[index]} onLoad={measure} />
+          </div>
+        )
+
+        }
+      </CellMeasurer>
+    )
+
+
+  }
+
+
+
 
   render() {
     dayjs.extend(theTime);
@@ -135,21 +184,8 @@ export class users extends Component {
 
 
 
-
-
-    let recentPostsMarkup = this.props.data.posts ? (
-      this.props.data.posts.map(post =>
-        (post.userHandle === loc) ?
-          <Post key={post.postId} post={post} /> : null
-      )
-    ) : (
-        null
-      );
-
     const {
       classes,
-
-      data: { user },
 
 
 
@@ -225,20 +261,49 @@ export class users extends Component {
 
         </Paper>
 
-        <div className={classes.profilePosts}>
 
-          {recentPostsMarkup}
-          <div className="infinite-scroll-example__waypoint">
-            {!this.props.data.noMore ? <Waypoint
-              bottomOffset={0}
-              scrollableAncestor="window"
-              onEnter={
-                this.loadMorePosts
-              }
-            /> : null}
-            {!loading ? this.props.data.noMore ? null : (<div className="post-margin"><center>
-              <LinearProgress color="primary" style={{ width: "100%" }} /></center></div>) : null}
+        <div style={{ display: 'flex', marginTop: "20px" }}>
+
+          <div style={{ flex: '1 1 auto', height: '100vh' }}>
+
+
+
+
+            <InfiniteLoader
+              isRowLoaded={this.isRowLoaded}
+              loadMoreRows={this.loadMorePosts}
+              rowCount={10000000}
+            >
+              {({ onRowsRendered, registerChild }) => (
+
+
+                <AutoSizer >
+                  {({ width, height }) => (
+
+
+
+                    <div className="list">
+                      <List style={{ outline: "none" }}
+                        ref={this.bindListRef}
+                        width={width}
+                        height={height}
+                        deferredMeasurementCache={this._cache}
+                        rowHeight={this._cache.rowHeight}
+                        rowRenderer={this.rowRenderer}
+                        rowCount={this.props.data.posts.length}
+                        overscanRowCount={3}
+                        onRowsRendered={onRowsRendered}
+                      />
+                    </div>
+
+                  )}
+                </AutoSizer>
+              )}
+            </InfiniteLoader>
+
+
           </div>
+
 
         </div>
       </div>

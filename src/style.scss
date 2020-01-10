@@ -852,6 +852,15 @@ html {
 
 }
 
+.profilePosts {
+    transition: 0.3 ease;
+    overflow-y: scroll;
+    position: relative;
+    scroll-behavior: initial;
+    height: auto;
+    margin-top: 20px
+}
+
 /* Make the image to responsive */
 
 
