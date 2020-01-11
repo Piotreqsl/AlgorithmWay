@@ -107,6 +107,15 @@ export class users extends Component {
       this.list.recomputeRowHeights()
     }
 
+    if (prevProps.data.posts.length > this.props.data.posts.length && !this.props.data.loading) {
+      console.log("fajers")
+      this.list.forceUpdateGrid();
+      this.list.recomputeRowHeights();
+      this._cache.clearAll();
+    }
+
+
+
     let str = this.props.location.pathname;
     let arr = str.split("/");
     let loc = arr[2];

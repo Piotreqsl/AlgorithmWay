@@ -176,10 +176,14 @@ export class profile extends Component {
       })
     }
 
-    if (prevProps.data.posts.length > this.props.data.posts.length && this.props.UI.success === "Deleted succesfully") {
+
+    if (prevProps.data.posts.length > this.props.data.posts.length && !this.props.data.loading) {
+      console.log("fajers")
       this.list.forceUpdateGrid();
-      this.list.recomputeRowHeights()
+      this.list.recomputeRowHeights();
+      this._cache.clearAll();
     }
+
 
 
 

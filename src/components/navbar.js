@@ -124,7 +124,7 @@ const useStyles = makeStyles(theme => ({
     color: 'inherit',
   },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
+    padding: theme.spacing(1, 7, 1, 1),
     transition: theme.transitions.create('width'),
     width: '100%',
 
@@ -431,9 +431,8 @@ function PrimarySearchAppBar() {
         <Toolbar>
           <Avatar className={classes.bigAvatar} src="https://i.ibb.co/86Jyr73/logo192.png" />
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
+
+
             <InputBase
               placeholder="Search…"
               classes={{
@@ -441,7 +440,12 @@ function PrimarySearchAppBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            />
+            /><IconButton>
+              <div className={classes.searchIcon}>
+
+                <SearchIcon />
+              </div>
+            </IconButton>
           </div>
 
 
@@ -559,12 +563,12 @@ function PrimarySearchAppBar() {
 
           <div className={classes.marginLeft}>
 
-           
-            {authenticated ? (<Notifications/>) : null}
-              
+
+            {authenticated ? (<Notifications />) : null}
 
 
-            
+
+
           </div>
 
 
