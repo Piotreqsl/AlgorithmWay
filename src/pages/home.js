@@ -148,6 +148,12 @@ export class home extends Component {
         }
 
 
+        if (prevProps.data.posts.length > this.props.data.posts.length && this.props.UI.success === "Deleted succesfully") {
+            this.list.forceUpdateGrid();
+            this.list.recomputeRowHeights()
+        }
+
+
 
 
 

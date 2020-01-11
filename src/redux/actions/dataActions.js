@@ -698,21 +698,23 @@ export const uploadPostImageEdit = (formData) => dispatch => {
 
 
 
-export const getForeignUser = (username) => (dispatch) => {
+export const getForeignUser = (username) => dispatch => {
+
 
   dispatch({
     type: LOADING_UI
   });
 
+  console.log("reducer")
+
   axios.get(`/users/${username}`)
     .then(res => {
+
       dispatch({
-
         type: SET_FOREIGN_USER,
-
         payload: res.data,
-
       });
+
       dispatch({
         type: CLEAR_ERRORS
       });

@@ -153,6 +153,12 @@ export class profile extends Component {
     this.setState({ [side]: open });
   };
 
+  componentDidMount() {
+    if (Object.keys(this.props.user.credentials).length > 0 && this.props.user.authenticated) {
+      this.props.getUserPosts(this.props.user.credentials.handle);
+    }
+  }
+
 
 
 
@@ -168,6 +174,11 @@ export class profile extends Component {
       this.setState({
         waiting: false
       })
+    }
+
+    if (prevProps.data.posts.length > this.props.data.posts.length && this.props.UI.success === "Deleted succesfully") {
+      this.list.forceUpdateGrid();
+      this.list.recomputeRowHeights()
     }
 
 
@@ -408,11 +419,6 @@ export class profile extends Component {
 
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
-  UI: state.ui,
-  data: state.data
-});
 
 const mapActionsToProps = { logoutUser, uploadImage, getUserPosts, loadMoreUserPosts, synchronizePosts }
 
@@ -429,5 +435,10 @@ profile.propTypes = {
 
 
 };
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+  data: state.data,
 
+});
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(withSnackbar(profile)));

@@ -79,7 +79,8 @@ export class users extends Component {
 
   loadMorePosts = () => {
 
-    if (!this.props.data.noMore && this.props.data.user) this.props.loadMoreUserPosts(this.props.data.user.handle);
+
+    if (!this.props.data.noMore && this.props.data.user && this.props.UI.processing === false) this.props.loadMoreUserPosts(this.props.data.user.handle);
   }
 
 
@@ -88,12 +89,12 @@ export class users extends Component {
     let str = this.props.location.pathname;
     let arr = str.split("/");
     let loc = arr[2];
-    if (arr[1] === "users" && arr[2] !== "logo192.png") this.props.getForeignUser(loc);
+    console.log("did mołnt " + loc)
 
 
 
-
-    if (!this.props.data.noMore) this.props.getUserPosts(loc);
+    this.props.getForeignUser(loc);
+    this.props.getUserPosts(loc);
 
 
   }
@@ -115,8 +116,10 @@ export class users extends Component {
     }
 
 
-    if (!this.props.data.noMore && this.props.data.backupdata !== prevProps.data.backupdata && prevProps.data.lastId !== this.props.data.lastId && this.props.data.user) {
-      console.log("if");
+    if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && this.props.data.posts.length <= 4 && prevProps.data.lastId !== this.props.data.lastId) {
+
+
+      console.log("updejt");
       this.loadMorePosts();
     }
   }
@@ -134,8 +137,8 @@ export class users extends Component {
 
   loadMoreRows = ({ startIndex, stopIndex }) => {
 
-    console.log("z loład")
-    this.loadMorePosts()
+    console.log('łej ' + this.props.data.posts.length)
+    if (!this.props.data.noMore && this.props.data.user && this.props.data.posts.length > 4 && !this.props.UI.processing) this.props.loadMoreUserPosts(this.props.data.user.handle);
   }
 
 
@@ -191,7 +194,7 @@ export class users extends Component {
 
 
 
-    const profileMarkup = !this.props.data.loading && !this.props.UI.errors ? (
+    const profileMarkup = !this.props.data.loading && !this.props.UI.errors && !this.props.UI.loading ? (
 
       <div class="main-content-squeezed">
         <Paper className={classes.paper}>
@@ -258,12 +261,13 @@ export class users extends Component {
         </Paper>
 
 
+
+
+
+
+
         <div style={{ display: 'flex', marginTop: "20px" }}>
-
           <div style={{ flex: '1 1 auto', height: '57vh' }}>
-
-
-
 
             <InfiniteLoader
               isRowLoaded={this.isRowLoaded}
@@ -275,8 +279,6 @@ export class users extends Component {
 
                 <AutoSizer >
                   {({ width, height }) => (
-
-
 
                     <div className="list">
                       <List style={{ outline: "none" }}
@@ -296,13 +298,17 @@ export class users extends Component {
                 </AutoSizer>
               )}
             </InfiniteLoader>
-
-
           </div>
-
 
         </div>
       </div>
+
+
+
+
+
+
+
 
 
     ) : (
