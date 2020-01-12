@@ -258,7 +258,7 @@ export class upload extends Component {
     event.preventDefault();
 
 
-
+    if(this.state.javaCode.length < 10000 && this.state.pythonCode.length < 10000 && this.state.cppCode.length < 10000 ) { 
 
     if (this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
       this.handlePostUpload();
@@ -285,7 +285,13 @@ export class upload extends Component {
 
     }
 
-
+  } else {
+    this.props.enqueueSnackbar(`Too much code! (Max. 10k char each)`, {
+      preventDuplicate: true,
+      variant: "error",
+      autoHideDuration: 2000
+    });
+  }
 
 
 

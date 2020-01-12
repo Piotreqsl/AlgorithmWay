@@ -154,6 +154,7 @@ export class notifications extends Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
           onEntered={this.onMenuOpened}
+          style={{marginTop: "45px",}}
         >
 
           {notificationsMarkup}

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 //Material-UI 
-
+import { connect } from 'react-redux';
 import Tooltip from "@material-ui/core/Tooltip";
 import { fade, makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -38,6 +38,9 @@ import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import Notifications from './notifications'
 import { logo } from "./logo.png"
+
+
+import {filterPosts} from '../redux/actions/dataActions'
 
 //of auth
 
@@ -151,7 +154,9 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function PrimarySearchAppBar() {
+
+
+function PrimarySearchAppBar(props) {
 
   let location = useLocation();
   // console.log(location.pathname);
@@ -207,13 +212,24 @@ function PrimarySearchAppBar() {
 
 
   }
+const handleSearch = () => {
 
+  let categories = props.data.filters ? props.data.filters.category : null;
+  let code = props.data.filters ? props.data.filters.code : null;
+  let approvedOnly =  props.data.filters ? props.data.filters.approvedOnly : null;
+
+
+props.filterPosts(categories, code,approvedOnly, document.getElementById("searchBAR").value);
+}
 
 
 
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
+
+    
+
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -425,7 +441,7 @@ function PrimarySearchAppBar() {
   //Wersja PC
   return (
 
-
+    
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Toolbar>
@@ -435,12 +451,17 @@ function PrimarySearchAppBar() {
 
             <InputBase
               placeholder="Search…"
+              id="searchBAR"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            /><IconButton>
+            /><IconButton 
+            
+            onClick={handleSearch} 
+            
+            >
               <div className={classes.searchIcon}>
 
                 <SearchIcon />
@@ -598,7 +619,17 @@ function PrimarySearchAppBar() {
   );
 }
 
-export default PrimarySearchAppBar;
+PrimarySearchAppBar.propTypes = {
+  filterPosts: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+}
+const mapStateToProps = (state) => ({
+ 
+  data: state.data,
+
+});
+
+export default connect(mapStateToProps, {filterPosts})(PrimarySearchAppBar);
 
 
 

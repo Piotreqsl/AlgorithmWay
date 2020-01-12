@@ -75,7 +75,7 @@ export class home extends Component {
     loadMorePosts = () => {
 
 
-        if (!this.props.data.noMore) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
+        if (!this.props.data.noMore) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search)
 
     }
 
@@ -285,9 +285,9 @@ export class home extends Component {
             codeFilters: codeFilters,
             categoryFilters: arrayFilters
 
-        }, () => this.props.filterPosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly))
+        }, () => this.props.filterPosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, document.getElementById("searchBAR").value))
 
-
+        
 
 
     }
@@ -295,7 +295,7 @@ export class home extends Component {
     bindListRef = ref => {
         this.list = ref;
     };
-
+    
 
     isRowLoaded = ({ index }) => {
         return !!this.props.data.posts[index];
@@ -334,11 +334,11 @@ export class home extends Component {
 
     }
 
-
+//TODO: Usunac searchbara gdziekolwiek indziej niz na "/", ogarnac coz z tym backupdata/posts
 
     render() {
         const { loading } = this.props.data;
-
+        
         return (
 
 

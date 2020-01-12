@@ -24,7 +24,8 @@ import {
   STOP_PROCESSING,
   SET_FOREIGN_USER,
   SYNC_POSTS,
-  REDUCE_EDIT_REQUEST_LIST
+  REDUCE_EDIT_REQUEST_LIST,
+  SAVE_FILTERS
 
 
 
@@ -152,7 +153,7 @@ export const loadMoreUserPosts = (handle) => dispatch => {
 
 }
 
-export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
+export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly, searchFilter) => dispatch => {
 
   dispatch({
     type: PROCESSING
@@ -178,16 +179,29 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dis
     }
 
     console.log(categoryFilters)
-
+/*
     if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
     if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
 
+*/
+
+
+if(searchFilter) { 
+  if(searchFilter.length > 0 ) filtered = advancedSearching(filtered, searchFilter);
+}
+if(categoryFilters) { 
+  if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
+}
+
+if(codeFilters) { 
+  if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
+}
 
 
 
 
     if (filtered.length === 0) {
-      loadMorePosts(categoryFilters, codeFilters, approvedOnly);
+      loadMorePosts(categoryFilters, codeFilters, approvedOnly, searchFilter);
       console.log("przeszedł" + "tersad")
     }
 
@@ -215,18 +229,47 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly) => dis
 
 }
 
+
+const advancedSearching = (mainArray, searchPhrase) => {
+  let filtered = [];
+
+
+ /*
+  for (var i = 0; i < mainArray.length; i++) {
+    if (mainArray[i].title.includes(searchPhrase)) {
+      filtered.push(mainArray[i])
+    }
+  }
+ */
+  
+
+
+  filtered = mainArray.filter(post => post.title.includes(searchPhrase) || post.shortDesc.includes(searchPhrase) || (post.desc ? post.desc.includes(searchPhrase) : null));
+    
+  
+
+
+  return filtered;
+
+}
+
 const advancedFiltering = (mainArray, filters) => {
   let filtered = [];
 
+  /*
   for (var i = 0; i < mainArray.length; i++) {
     if (mainArray[i].categories.some(r => filters.includes(r))) {
       filtered.push(mainArray[i])
     }
   }
+ */
+  filtered = mainArray.filter(post => post.categories.some(r => filters.includes(r)))
 
   return filtered;
 
 }
+
+
 
 
 const advancedFilteringCode = (mainArray, filters) => {
@@ -264,7 +307,7 @@ export const synchronizePosts = () => dispatch => {
 
 
 
-export const filterPosts = (categoryFilters, codeFilters, approvedOnly) => dispatch => {
+export const filterPosts = (categoryFilters, codeFilters, approvedOnly, searchFilter) => dispatch => {
 
   let filtered = [];
 
@@ -276,8 +319,18 @@ export const filterPosts = (categoryFilters, codeFilters, approvedOnly) => dispa
     }
   }
 
+
+if(searchFilter) { 
+  if(searchFilter.length > 0 ) filtered = advancedSearching(filtered, searchFilter);
+}
+if(categoryFilters) { 
   if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
+}
+
+if(codeFilters) { 
   if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
+}
+
 
   console.log(filtered);
 
@@ -285,6 +338,9 @@ export const filterPosts = (categoryFilters, codeFilters, approvedOnly) => dispa
     type: FILTER_POSTS,
     payload: filtered
   })
+  dispatch({type: SAVE_FILTERS,
+  payload: [categoryFilters, codeFilters, approvedOnly, searchFilter]
+})
 
 
 }
