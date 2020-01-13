@@ -452,13 +452,14 @@ props.filterPosts(categories, code,approvedOnly, document.getElementById("search
             <InputBase
               placeholder="Search…"
               id="searchBAR"
+              disabled={location.pathname === "/" ? false : true}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
             /><IconButton 
-            
+            disabled={location.pathname === "/" ? false : true}
             onClick={handleSearch} 
             
             >

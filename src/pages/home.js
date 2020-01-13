@@ -197,7 +197,7 @@ export class home extends Component {
 
         this.setState({
             all: false,
-            appr: false,
+            appr: true,
             unappr: false
         })
         this.setState({ [name]: event.target.checked });
@@ -210,7 +210,7 @@ export class home extends Component {
 
 
 
-        var approvedOnly = false;
+        var approvedOnly = true;
         if (this.state.all) approvedOnly = false;
         if (this.state.appr) approvedOnly = true;
 
