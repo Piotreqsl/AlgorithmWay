@@ -516,7 +516,9 @@ export class home extends Component {
                                         )}
                                     </InfiniteLoader>
 
-                                    : <h1>No posts found</h1>
+                                    : this.props.data.noMore ?
+                                        <h1>No posts found</h1> : <div className="post-margin"><center>
+                                            <CircularProgress color="primary" /> </center></div>
 
 
 

@@ -27,7 +27,7 @@ import profile from "./pages/profile";
 import admin from "./pages/admin";
 import posts from './pages/posts'
 import edit from './pages/edit'
-import {notFound} from './pages/notFound'
+import { notFound } from './pages/notFound'
 import getEdit from './pages/getEdit'
 
 
@@ -39,7 +39,7 @@ import axios from "axios";
 import { SnackbarProvider } from 'notistack';
 
 const font = "'Source Sans Pro', sans-serif";
-
+axios.defaults.baseURL = 'https://europe-west1-algorithmway-420.cloudfunctions.net/api';
 const theme = createMuiTheme({
   palette: {
     white: {
@@ -121,8 +121,8 @@ function App(props) {
                 <Route path="/editRequests/" component={getEdit} />
 
                 <Route exact path="/users/:handle" component={users} />
-                <Route  component={notFound} />
-               
+                <Route component={notFound} />
+
               </Switch>
             </Router>
           </div>
