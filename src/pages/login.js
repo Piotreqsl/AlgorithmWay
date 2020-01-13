@@ -131,7 +131,7 @@ export class login extends Component {
             Log in
           </Typography>
 
-          <img style={{ height: 75, width: 75, marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/icon_codelimes.png?alt=media&token=b000a872-6a50-422b-889a-2e79320a5cfd" alt="Icon" />
+          <img style={{ height: 50, width: 75, marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_black.png?alt=media&token=9fffc339-541b-4d8f-998d-f92d25655119" alt="Icon" />
           <Card className="formCard" >
             <form noValidate onSubmit={this.handleSubmit}>
               <TextField

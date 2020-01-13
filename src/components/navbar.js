@@ -450,7 +450,7 @@ function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Toolbar>
-          <Avatar className={classes.bigAvatar} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/icon_codelimes.png?alt=media&token=b000a872-6a50-422b-889a-2e79320a5cfd" />
+          <Avatar className={classes.bigAvatar} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_white.png?alt=media&token=a2127a0a-a305-460d-a27f-a03ab321f11f" />
           <div className={classes.search}>
 
 
