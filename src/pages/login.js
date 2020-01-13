@@ -123,15 +123,13 @@ export class login extends Component {
       <Grid container className={classes.form}>
         <Grid item xs></Grid>
         <Grid item>
-          <center>
-            <Avatar className={classes.bigAvatar} src="logo192.png"></Avatar>
-          </center>{" "}
+          <br />
           <br></br>
           <Typography variant="h5" className={classes.pageTitle}>
             Log in
           </Typography>
 
-          <img style={{ height: 50, width: 75, marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_black.png?alt=media&token=9fffc339-541b-4d8f-998d-f92d25655119" alt="Icon" />
+          <img style={{ height: 35, width: "auto", marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_black.png?alt=media&token=9fffc339-541b-4d8f-998d-f92d25655119" alt="Icon" />
           <Card className="formCard" >
             <form noValidate onSubmit={this.handleSubmit}>
               <TextField
