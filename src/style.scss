@@ -852,6 +852,11 @@ html {
 
 }
 
+.formCard {
+    padding: 20px 20px 20px 20px;
+    margin-bottom: 30px;
+    width: 440px
+}
 
 
 /* Make the image to responsive */
@@ -1016,8 +1021,20 @@ html {
 }
 
 @media only screen and (max-width: 599px) {
-    //Phone
 
+    //Phone
+    .main-content {
+        margin-left: 0;
+        margin-right: 0
+    }
+
+    .formCard {
+        width: 95%;
+    }
+
+    .searchoo {
+        display: none;
+    }
 
 
     .post-title {

@@ -19,8 +19,8 @@ import axios from "axios";
 
 //redux
 import { withSnackbar } from 'notistack';
-import {connect} from 'react-redux';
-import {signupUser} from '../redux/actions/userActions';
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
 import { width } from "@material-ui/system";
 
 const styles = {
@@ -48,11 +48,6 @@ const styles = {
     color: "red",
     fontSize: "0.9rem"
   },
-  formCard: {
-    padding: "20px 20px 20px 20px",
-    marginBottom: "30px",
-    width: "440px"
-  },
   crtAcc: {
     textDecoration: "none",
     color: "#4d4d62",
@@ -79,21 +74,21 @@ export class signup extends Component {
       password: "",
       confirmPassword: "",
       handle: "",
-    
+
       errors: {}
     };
     this.nick = React.createRef();
   }
 
   componentWillReceiveProps(nextProps) {
-  
-    if(nextProps.UI.errors) {
-      this.setState({errors: nextProps.UI.errors});
-  
+
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+
     }
 
     if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false) {
-     
+
       this.props.enqueueSnackbar('Verification email sent', {
         preventDuplicate: true,
         variant: "success",
@@ -102,7 +97,7 @@ export class signup extends Component {
       });
     }
 
-    
+
   }
 
   handleSubmit = event => {
@@ -117,8 +112,8 @@ export class signup extends Component {
       handle: this.state.handle
     };
 
-    
-this.props.signupUser(userData, this.props.history);
+
+    this.props.signupUser(userData, this.props.history);
 
   };
   handleChange = event => {
@@ -128,7 +123,7 @@ this.props.signupUser(userData, this.props.history);
   };
 
   render() {
-    const { classes, UI: {loading} } = this.props;
+    const { classes, UI: { loading } } = this.props;
     const { errors } = this.state;
     var handleHelper;
 
@@ -147,10 +142,10 @@ this.props.signupUser(userData, this.props.history);
           <Typography variant="h5" className={classes.pageTitle}>
             Sign up to AlgorithmWay
           </Typography>
-          <Card className={classes.formCard}>
+          <Card className={"formCard"}>
             <form noValidate onSubmit={this.handleSubmit}>
               <TextField
-              inputProps={{ maxLength: 25 }}
+                inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 ref={this.nick}
                 color="primary"
@@ -167,7 +162,7 @@ this.props.signupUser(userData, this.props.history);
               ></TextField>
 
               <TextField
-              inputProps={{ maxLength: 50 }}
+                inputProps={{ maxLength: 50 }}
                 variant="outlined"
                 color="primary"
                 type="text"
@@ -183,7 +178,7 @@ this.props.signupUser(userData, this.props.history);
               ></TextField>
 
               <TextField
-              inputProps={{ maxLength: 25 }}
+                inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 type="password"
                 id="password"
@@ -193,7 +188,7 @@ this.props.signupUser(userData, this.props.history);
                 value={this.state.password}
                 helperText={
                   (errors.password,
-                  "Your password should be between 8 and 25 characters long")
+                    "Your password should be between 8 and 25 characters long")
                 }
                 error={errors.password ? true : false}
                 onChange={this.handleChange}
@@ -201,7 +196,7 @@ this.props.signupUser(userData, this.props.history);
               ></TextField>
 
               <TextField
-              inputProps={{ maxLength: 25 }}
+                inputProps={{ maxLength: 25 }}
                 variant="outlined"
                 type="password"
                 id="confirmPassword"

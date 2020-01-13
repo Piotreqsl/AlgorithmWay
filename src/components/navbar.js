@@ -111,6 +111,9 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(3),
       width: 'auto',
     },
+    [theme.breakpoints.down('sm')]: {
+      display: "none"
+    }
   },
 
 
@@ -449,7 +452,7 @@ function PrimarySearchAppBar(props) {
           <div className={classes.search}>
 
 
-            <InputBase
+            <InputBase className="searchoo"
               placeholder="Search…"
               id="searchBAR"
               disabled={location.pathname === "/" ? false : true}

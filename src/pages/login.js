@@ -55,11 +55,6 @@ const styles = {
     color: "red",
     fontSize: "0.9rem"
   },
-  formCard: {
-    padding: "20px 20px 20px 20px",
-    marginBottom: "30px",
-    width: "440px"
-  },
   crtAcc: {
     textDecoration: "none",
     color: "#4d4d62",
@@ -135,7 +130,7 @@ export class login extends Component {
           <Typography variant="h5" className={classes.pageTitle}>
             Log in to AlgorithmWay
           </Typography>
-          <Card className={classes.formCard}>
+          <Card className="formCard" >
             <form noValidate onSubmit={this.handleSubmit}>
               <TextField
                 variant="outlined"
