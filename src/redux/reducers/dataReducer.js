@@ -33,6 +33,12 @@ const initialState = {
   noMore: false,
   admin: {
     unapprovedPosts: []
+  },
+  filters: {
+    category: [],
+    code: [],
+    approvedOnly: true,
+    search: ""
   }
 };
 
@@ -63,18 +69,18 @@ export default function (state = initialState, action) {
         posts: action.payload
       };
 
-      case SAVE_FILTERS:{
-        return {
-          ...state,
-          filters: {
-            category: action.payload[0],
-            code: action.payload[1],
-            approvedOnly: action.payload[2],
-            search: action.payload[3],
+    case SAVE_FILTERS: {
+      return {
+        ...state,
+        filters: {
+          category: action.payload[0],
+          code: action.payload[1],
+          approvedOnly: action.payload[2],
+          search: action.payload[3],
 
-          }
         }
       }
+    }
 
     case SET_NO_MORE:
       return {

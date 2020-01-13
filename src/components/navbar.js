@@ -40,7 +40,7 @@ import Notifications from './notifications'
 import { logo } from "./logo.png"
 
 
-import {filterPosts} from '../redux/actions/dataActions'
+import { filterPosts } from '../redux/actions/dataActions'
 
 //of auth
 
@@ -212,15 +212,15 @@ function PrimarySearchAppBar(props) {
 
 
   }
-const handleSearch = () => {
+  const handleSearch = () => {
 
-  let categories = props.data.filters ? props.data.filters.category : null;
-  let code = props.data.filters ? props.data.filters.code : null;
-  let approvedOnly =  props.data.filters ? props.data.filters.approvedOnly : null;
+    let categories = props.data.filters ? props.data.filters.category : null;
+    let code = props.data.filters ? props.data.filters.code : null;
+    let approvedOnly = props.data.filters ? props.data.filters.approvedOnly : null;
 
 
-props.filterPosts(categories, code,approvedOnly, document.getElementById("searchBAR").value);
-}
+    props.filterPosts(categories, code, approvedOnly, document.getElementById("searchBAR").value);
+  }
 
 
 
@@ -228,7 +228,7 @@ props.filterPosts(categories, code,approvedOnly, document.getElementById("search
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
 
-    
+
 
     <Menu
       anchorEl={anchorEl}
@@ -441,7 +441,7 @@ props.filterPosts(categories, code,approvedOnly, document.getElementById("search
   //Wersja PC
   return (
 
-    
+
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Toolbar>
@@ -458,10 +458,10 @@ props.filterPosts(categories, code,approvedOnly, document.getElementById("search
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            /><IconButton 
-            disabled={location.pathname === "/" ? false : true}
-            onClick={handleSearch} 
-            
+            /><IconButton
+              disabled={location.pathname === "/" ? false : true}
+              onClick={handleSearch}
+
             >
               <div className={classes.searchIcon}>
 
@@ -625,12 +625,12 @@ PrimarySearchAppBar.propTypes = {
   data: PropTypes.object.isRequired,
 }
 const mapStateToProps = (state) => ({
- 
+
   data: state.data,
 
 });
 
-export default connect(mapStateToProps, {filterPosts})(PrimarySearchAppBar);
+export default connect(mapStateToProps, { filterPosts })(PrimarySearchAppBar);
 
 
 

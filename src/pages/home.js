@@ -60,9 +60,7 @@ export class home extends Component {
             DS: true
         },
         noMore: false,
-        all: true,
-        appr: false,
-        unappr: false,
+        apprOnly: true,
         code: {
             java: true,
             cpp: true,
@@ -72,12 +70,6 @@ export class home extends Component {
 
 
 
-    loadMorePosts = () => {
-
-
-        if (!this.props.data.noMore) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search)
-
-    }
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -144,13 +136,20 @@ export class home extends Component {
         //
         if (this.list) {
             this.list.forceUpdateGrid();
-            this.list.recomputeRowHeights()
+            this.list.recomputeRowHeights();
         }
 
 
-        if (prevProps.data.posts.length > this.props.data.posts.length && this.props.UI.success === "Deleted succesfully") {
+        if (prevProps.data.posts.length !== this.props.data.posts.length && this.props.data.posts.length !== 0) {
             this.list.forceUpdateGrid();
             this.list.recomputeRowHeights()
+            this._cache.clearAll();
+        }
+
+
+
+        if (this.props.data.filters.search.length > 0 && this.props.data.posts !== prevProps.data.posts && !this.props.data.noMore && this.props.data.posts.length <= 5) {
+            this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search);
         }
 
 
@@ -163,7 +162,7 @@ export class home extends Component {
         if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore && !this.props.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore && !this.props.noMore)) {
 
             console.log("udpejt");
-            this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly);
+            this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search);
         }
 
 
@@ -182,6 +181,7 @@ export class home extends Component {
     toggleClass = () => {
         var currentState = this.state.active;
         this.setState({ ...this.state, active: !currentState });
+        console.log(this.state)
     };
 
     handleChange = name => event => {
@@ -195,12 +195,15 @@ export class home extends Component {
 
     handleChangeGlobal = name => event => {
 
-        this.setState({
-            all: false,
-            appr: true,
-            unappr: false
-        })
-        this.setState({ [name]: event.target.checked });
+
+        if (name === "appr") {
+            this.setState({ apprOnly: true })
+        }
+        else this.setState({ apprOnly: false })
+
+
+
+
     };
 
     handleSubmitFilters = (event) => {
@@ -211,8 +214,8 @@ export class home extends Component {
 
 
         var approvedOnly = true;
-        if (this.state.all) approvedOnly = false;
-        if (this.state.appr) approvedOnly = true;
+
+        if (!this.state.apprOnly) approvedOnly = false;
 
         this.setState({
             approvedOnly: approvedOnly
@@ -287,7 +290,7 @@ export class home extends Component {
 
         }, () => this.props.filterPosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, document.getElementById("searchBAR").value))
 
-        
+
 
 
     }
@@ -295,7 +298,7 @@ export class home extends Component {
     bindListRef = ref => {
         this.list = ref;
     };
-    
+
 
     isRowLoaded = ({ index }) => {
         return !!this.props.data.posts[index];
@@ -304,7 +307,7 @@ export class home extends Component {
     loadMoreRows = ({ startIndex, stopIndex }) => {
 
         console.log("łejpojnt " + startIndex + stopIndex);
-        if (!this.props.UI.processing && !this.props.data.noMore) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly)
+        if (!this.props.UI.processing && !this.props.data.noMore && this.props.data.posts.length > 5) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search)
     }
 
 
@@ -334,11 +337,11 @@ export class home extends Component {
 
     }
 
-//TODO: Usunac searchbara gdziekolwiek indziej niz na "/", ogarnac coz z tym backupdata/posts
+    //TODO: Usunac searchbara gdziekolwiek indziej niz na "/", ogarnac coz z tym backupdata/posts
 
     render() {
         const { loading } = this.props.data;
-        
+
         return (
 
 
@@ -425,8 +428,8 @@ export class home extends Component {
 
                                     <RadioGroup className="formGroup" style={{ float: "left", }} aria-label="Post status" name="postStatus">
                                         <Typography color="primary" variant="button"> Posts status </Typography>
-                                        <FormControlLabel value="all" control={<Radio checked={this.state.all ? true : false} onChange={this.handleChangeGlobal("all")} />} label="All" />
-                                        <FormControlLabel value="appr" control={<Radio checked={this.state.appr ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved" />
+                                        <FormControlLabel value="appr" control={<Radio checked={this.state.apprOnly ? true : false} onChange={this.handleChangeGlobal("appr")} />} label="Approved only" />
+                                        <FormControlLabel value="all" control={<Radio checked={this.state.apprOnly ? false : true} onChange={this.handleChangeGlobal("all")} />} label="All" />
                                     </RadioGroup>
 
                                     <FormGroup column className="formGroup" style={{ float: "left" }}>
@@ -479,37 +482,41 @@ export class home extends Component {
 
 
 
-                            {(!loading && this.props.data.posts.length > 0) ?
-
-                                <InfiniteLoader
-                                    isRowLoaded={this.isRowLoaded}
-                                    loadMoreRows={this.loadMoreRows}
-                                    rowCount={10000000}
-                                >
-                                    {({ onRowsRendered, registerChild }) => (
+                            {(!loading) ?
 
 
-                                        <AutoSizer >
-                                            {({ width, height }) => (
-                                                <div className="list">
-                                                    <List style={{ outline: "none" }}
-                                                        ref={this.bindListRef}
-                                                        width={width}
-                                                        height={height}
-                                                        deferredMeasurementCache={this._cache}
-                                                        rowHeight={this._cache.rowHeight}
-                                                        rowRenderer={this.rowRenderer}
-                                                        rowCount={this.props.data.posts.length}
-                                                        overscanRowCount={3}
-                                                        onRowsRendered={onRowsRendered}
+                                this.props.data.posts.length > 0 ?
 
-                                                    />
-                                                </div>
-                                            )}
-                                        </AutoSizer>
-                                    )}
-                                </InfiniteLoader>
+                                    <InfiniteLoader
+                                        isRowLoaded={this.isRowLoaded}
+                                        loadMoreRows={this.loadMoreRows}
+                                        rowCount={10000000}
+                                    >
+                                        {({ onRowsRendered, registerChild }) => (
 
+
+                                            <AutoSizer >
+                                                {({ width, height }) => (
+                                                    <div className="list">
+                                                        <List style={{ outline: "none" }}
+                                                            ref={this.bindListRef}
+                                                            width={width}
+                                                            height={height}
+                                                            deferredMeasurementCache={this._cache}
+                                                            rowHeight={this._cache.rowHeight}
+                                                            rowRenderer={this.rowRenderer}
+                                                            rowCount={this.props.data.posts.length}
+                                                            overscanRowCount={3}
+                                                            onRowsRendered={onRowsRendered}
+
+                                                        />
+                                                    </div>
+                                                )}
+                                            </AutoSizer>
+                                        )}
+                                    </InfiniteLoader>
+
+                                    : <h1>No posts found</h1>
 
 
 

@@ -34,7 +34,7 @@ import {
 import store from '../store';
 
 import axios from "axios";
-import delete_post from "../../components/delete_post";
+
 
 export const getPosts = () => dispatch => {
   dispatch({
@@ -50,13 +50,19 @@ export const getPosts = () => dispatch => {
   axios
     .get("/posts")
     .then(res => {
+
+      let filteredu = res.data.filter(element => {
+        return element.verified === true
+      });
+
       if (res.data.length < 15) dispatch({
         type: SET_NO_MORE
       });
 
+
       dispatch({
         type: SET_POSTS,
-        payload: res.data,
+        payload: filteredu,
         backupdata: res.data
       });
     })
@@ -178,24 +184,19 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly, search
       }
     }
 
-    console.log(categoryFilters)
-/*
-    if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
-    if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
-
-*/
 
 
-if(searchFilter) { 
-  if(searchFilter.length > 0 ) filtered = advancedSearching(filtered, searchFilter);
-}
-if(categoryFilters) { 
-  if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
-}
 
-if(codeFilters) { 
-  if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
-}
+    if (searchFilter) {
+      if (searchFilter.length > 0) filtered = advancedSearching(filtered, searchFilter);
+    }
+    if (categoryFilters) {
+      if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
+    }
+
+    if (codeFilters) {
+      if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
+    }
 
 
 
@@ -234,21 +235,8 @@ const advancedSearching = (mainArray, searchPhrase) => {
   let filtered = [];
 
 
- /*
-  for (var i = 0; i < mainArray.length; i++) {
-    if (mainArray[i].title.includes(searchPhrase)) {
-      filtered.push(mainArray[i])
-    }
-  }
- */
-  
 
-
-  filtered = mainArray.filter(post => post.title.includes(searchPhrase) || post.shortDesc.includes(searchPhrase) || (post.desc ? post.desc.includes(searchPhrase) : null));
-    
-  
-
-
+  filtered = mainArray.filter(post => post.title.toLowerCase().includes(searchPhrase.toLowerCase()) || post.shortDesc.toLowerCase().includes(searchPhrase.toLowerCase()) || (post.desc ? post.desc.toLowerCase().includes(searchPhrase.toLowerCase()) : null));
   return filtered;
 
 }
@@ -268,7 +256,6 @@ const advancedFiltering = (mainArray, filters) => {
   return filtered;
 
 }
-
 
 
 
@@ -311,25 +298,26 @@ export const filterPosts = (categoryFilters, codeFilters, approvedOnly, searchFi
 
   let filtered = [];
 
-  for (var i = 0; i < store.getState().data.backupdata.length; i++) {
-    if (approvedOnly === true && store.getState().data.backupdata[i].verified === true) {
-      filtered.push(store.getState().data.backupdata[i])
-    } else {
-      filtered = store.getState().data.backupdata
-    }
+
+
+  if (approvedOnly) filtered = [...store.getState().data.backupdata.filter(element => {
+    return element.verified === true
+  })]
+  if (!approvedOnly) filtered = store.getState().data.backupdata
+
+
+
+
+  if (searchFilter) {
+    if (searchFilter.length > 0) filtered = advancedSearching(filtered, searchFilter);
+  }
+  if (categoryFilters) {
+    if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
   }
 
-
-if(searchFilter) { 
-  if(searchFilter.length > 0 ) filtered = advancedSearching(filtered, searchFilter);
-}
-if(categoryFilters) { 
-  if (categoryFilters.length > 0) filtered = advancedFiltering(filtered, categoryFilters);
-}
-
-if(codeFilters) { 
-  if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
-}
+  if (codeFilters) {
+    if (codeFilters.length > 0) filtered = advancedFilteringCode(filtered, codeFilters);
+  }
 
 
   console.log(filtered);
@@ -338,9 +326,10 @@ if(codeFilters) {
     type: FILTER_POSTS,
     payload: filtered
   })
-  dispatch({type: SAVE_FILTERS,
-  payload: [categoryFilters, codeFilters, approvedOnly, searchFilter]
-})
+  dispatch({
+    type: SAVE_FILTERS,
+    payload: [categoryFilters, codeFilters, approvedOnly, searchFilter]
+  })
 
 
 }
