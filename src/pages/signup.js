@@ -132,16 +132,16 @@ export class signup extends Component {
     if (errors.handle) handleHelper = errors.handle;
 
     return (
-      <Grid container className={classes.form}>
+      <Grid container style={{position: "absolute",
+      top: "45%",
+      left: "50%",
+      transform: "translate(-50%,-50%)",}} className={classes.form}>
         <Grid item xs></Grid>
         <Grid item>
-          <center>
-            <Avatar className={classes.bigAvatar} src="logo192.png"></Avatar>
-          </center>{" "}
-          <br></br>
-          <Typography variant="h5" className={classes.pageTitle}>
-            Sign up to AlgorithmWay
-          </Typography>
+          <div>
+        <Typography variant="body2" > sign up to </Typography>
+          <img draggable="false" style={{ height: 35, width: "auto", marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_black.png?alt=media&token=9fffc339-541b-4d8f-998d-f92d25655119" alt="Icon" />
+          </div>
           <Card className={"formCard"}>
             <form noValidate onSubmit={this.handleSubmit}>
               <TextField

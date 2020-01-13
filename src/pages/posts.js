@@ -490,7 +490,7 @@ export class posts extends Component {
 
             <div id="commentWaypoint" > </div>
             <CommentInput postId={postId} />
-            <Comments comments={comments} currentUserHandle={this.props.user.credentials.handle} />
+            <Comments comments={comments} currentUserHandle={this.props.user.credentials.handle} adminPrivileges={this.props.user.adminPrivileges} />
           </div>
 
         ) : (

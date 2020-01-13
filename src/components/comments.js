@@ -18,7 +18,7 @@ export class comments extends Component {
   
   render() {
     dayjs.extend(relativeTime);
-    const { comments, currentUserHandle } = this.props;
+    const { comments, currentUserHandle, adminPrivileges } = this.props;
     return (
       <div>
         {comments ? (
@@ -85,7 +85,7 @@ export class comments extends Component {
                         </Typography>
                       </Tooltip>
 
-                      {currentUserHandle === userHandle ? (
+                      {currentUserHandle === userHandle || adminPrivileges ? (
 
                              <DeleteComment comId={id} />              
 

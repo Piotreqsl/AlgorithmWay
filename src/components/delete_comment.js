@@ -11,7 +11,7 @@ export class delete_comment extends Component {
 
     handleCommentDelete = () => {
         this.props.deleteComment(this.props.comId);
-        //console.log(comId);
+        //console.log(this.props.comId);
 
     };
 
