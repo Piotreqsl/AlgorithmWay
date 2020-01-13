@@ -89,6 +89,8 @@ const useStyles = makeStyles(theme => ({
     margin: 10,
     width: 60,
     height: 60,
+    borderRadius: 0,
+    backgroundColor: 'transparent !important'
   },
 
   title: {
@@ -448,7 +450,7 @@ function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Toolbar>
-          <Avatar className={classes.bigAvatar} src="https://i.ibb.co/86Jyr73/logo192.png" />
+          <Avatar className={classes.bigAvatar} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/icon_codelimes.png?alt=media&token=b000a872-6a50-422b-889a-2e79320a5cfd" />
           <div className={classes.search}>
 
 

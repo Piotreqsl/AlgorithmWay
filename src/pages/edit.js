@@ -122,7 +122,7 @@ export class edit extends Component {
     };
 
     handleImageDelete = event => {
-        //console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
+       
 
         var arrForms = [...this.state.formdatas];
         var arrUrls = [...this.state.urls];
@@ -132,7 +132,7 @@ export class edit extends Component {
             arrUrls.splice(index, 1);
             this.setState({ urls: arrUrls });
             this.setState({ formdatas: arrForms });
-            //console.log(this.state.urls);console.log(this.state.formdatas);
+        
         }
 
 
@@ -155,12 +155,10 @@ export class edit extends Component {
             if (image.size < 5000000) {
 
 
-                // console.log(formData);
                 this.setState({
                     formdatas: [...this.state.formdatas, { formData }]
                 });
-                // console.log(this.state.formdatas);
-
+               
                 const objUrl = window.URL.createObjectURL(image);
                 this.setState({
                     urls: [...this.state.urls, objUrl],
@@ -191,26 +189,26 @@ export class edit extends Component {
         });
 
 
-        console.log(document.getElementById("codeBoxing").value)
+  
 
 
 
         if (event.currentTarget.value == "js") {
             document.getElementById("codeBoxing").value = this.state.javaCode;
 
-            //console.log(this.state.javaCode);
+       
         }
 
         if (event.currentTarget.value == "py") {
             document.getElementById("codeBoxing").value = this.state.pythonCode;
 
-            // console.log(this.state.pythonCode);
+            
         }
 
         if (event.currentTarget.value == "cpp") {
             document.getElementById("codeBoxing").value = this.state.cppCode;
 
-            // console.log(this.state.cppCode);
+        
         }
     };
 
@@ -219,7 +217,7 @@ export class edit extends Component {
         if (event.currentTarget.value === "py") this.setState({ currentCode: "python" })
         if (event.currentTarget.value === "cpp") this.setState({ currentCode: "cpp" })
 
-        console.log(this.state)
+       
     }
 
     handleChange = event => {
@@ -238,13 +236,12 @@ export class edit extends Component {
             });
         }
 
-        console.log(this.state)
 
         if (
             event.target.checked == false &&
             this.state.categories.includes(event.target.value)
         ) {
-            //console.log("need to delete " + event.target.value);
+        
             var arr = [...this.state.categories];
             var index = arr.indexOf(event.target.value);
             if (index !== -1) {
@@ -277,7 +274,7 @@ export class edit extends Component {
                 this.setState({ cppCode: this.props.post.cpp })
             }
 
-            console.log(this.props.post.images);
+        
 
             this.setState({ images: this.props.post.images })
 
@@ -321,7 +318,7 @@ export class edit extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        //console.log(nextProps);
+   
         if (nextProps.UI.errors && !nextProps.UI.loading) {
 
             if (nextProps.UI.errors === "Internal Server Error") {
@@ -358,7 +355,7 @@ export class edit extends Component {
                 });
             }
 
-            //console.log(nextProps.UI.success.url);
+          
 
             if (this.state.urls.length === this.state.images.length && this.state.sent === false && this.state.urls.length !== 0) {
                 this.setState({
@@ -392,7 +389,7 @@ export class edit extends Component {
                 for (let i = 0; i < arr.length; i++) {
                     const formData = this.state.formdatas[i].formData;
                     this.props.uploadPostImageEdit(formData);
-                    //console.log(i);  
+                    
                 }
             }
 
@@ -456,7 +453,7 @@ export class edit extends Component {
     };
 
     handleExpand = () => {
-        //console.log(this.state.expanded);
+     
         if (this.state.expanded == false) {
             document.getElementById("codeBoxing").classList.add("blackBoxExpanded");
             document.getElementById("codeBoxing1").classList.add("blackBoxExpanded");
@@ -490,7 +487,7 @@ export class edit extends Component {
 
 
         const handleRadioChange = (event) => {
-            console.log("ze jkas");
+          
             this.setState({
                 imgOptions: event.target.value
             })

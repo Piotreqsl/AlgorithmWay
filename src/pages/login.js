@@ -86,7 +86,7 @@ export class login extends Component {
 
   componentWillReceiveProps(nextProps) {
 
-    console.log(nextProps);
+
 
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
@@ -128,8 +128,10 @@ export class login extends Component {
           </center>{" "}
           <br></br>
           <Typography variant="h5" className={classes.pageTitle}>
-            Log in to AlgorithmWay
+            Log in
           </Typography>
+
+          <img style={{ height: 75, width: 75, marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/icon_codelimes.png?alt=media&token=b000a872-6a50-422b-889a-2e79320a5cfd" alt="Icon" />
           <Card className="formCard" >
             <form noValidate onSubmit={this.handleSubmit}>
               <TextField

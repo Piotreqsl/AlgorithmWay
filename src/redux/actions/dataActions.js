@@ -119,7 +119,7 @@ export const loadMoreUserPosts = (handle) => dispatch => {
 
 
   var link = "/posts/next/" + store.getState().data.lastId;
-  console.log(link + " redux");
+
 
   dispatch({
     type: PROCESSING
@@ -168,7 +168,7 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly, search
 
 
   var link = "/posts/next/" + store.getState().data.lastId;
-  console.log(link + " redux");
+
 
   axios.get(link).then((res) => {
 
@@ -203,7 +203,7 @@ export const loadMorePosts = (categoryFilters, codeFilters, approvedOnly, search
 
     if (filtered.length === 0) {
       loadMorePosts(categoryFilters, codeFilters, approvedOnly, searchFilter);
-      console.log("przeszedł" + "tersad")
+
     }
 
 
@@ -320,7 +320,7 @@ export const filterPosts = (categoryFilters, codeFilters, approvedOnly, searchFi
   }
 
 
-  console.log(filtered);
+
 
   dispatch({
     type: FILTER_POSTS,
@@ -432,7 +432,7 @@ export const createEditRequest = (newPost, history) => dispatch => {
 
   axios.post(link, newPost)
     .then(res => {
-      console.log(res)
+
 
       dispatch({
         type: CLEAR_ERRORS
@@ -462,7 +462,7 @@ export const getEditRequest = editID => dispatch => {
   axios.get(`/post/${editID}/editRequest`)
     .then(res => {
 
-      console.log(res.data);
+
 
       dispatch({
         type: GET_EDIT_REQUEST,
@@ -750,7 +750,7 @@ export const getForeignUser = (username) => dispatch => {
     type: LOADING_UI
   });
 
-  console.log("reducer")
+
 
   axios.get(`/users/${username}`)
     .then(res => {

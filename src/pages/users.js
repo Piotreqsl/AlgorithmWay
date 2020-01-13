@@ -89,7 +89,7 @@ export class users extends Component {
     let str = this.props.location.pathname;
     let arr = str.split("/");
     let loc = arr[2];
-    console.log("did mołnt " + loc)
+
 
 
 
@@ -108,7 +108,7 @@ export class users extends Component {
     }
 
     if (prevProps.data.posts.length > this.props.data.posts.length && !this.props.data.loading) {
-      console.log("fajers")
+
       this.list.forceUpdateGrid();
       this.list.recomputeRowHeights();
       this._cache.clearAll();
@@ -128,7 +128,7 @@ export class users extends Component {
     if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && this.props.data.posts.length <= 4 && prevProps.data.lastId !== this.props.data.lastId) {
 
 
-      console.log("updejt");
+
       this.loadMorePosts();
     }
   }
@@ -146,7 +146,6 @@ export class users extends Component {
 
   loadMoreRows = ({ startIndex, stopIndex }) => {
 
-    console.log('łej ' + this.props.data.posts.length)
     if (!this.props.data.noMore && this.props.data.user && this.props.data.posts.length > 4 && !this.props.UI.processing) this.props.loadMoreUserPosts(this.props.data.user.handle);
   }
 

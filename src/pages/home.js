@@ -161,7 +161,7 @@ export class home extends Component {
 
         if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore && !this.props.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore && !this.props.noMore)) {
 
-            console.log("udpejt");
+
             this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search);
         }
 
@@ -181,7 +181,7 @@ export class home extends Component {
     toggleClass = () => {
         var currentState = this.state.active;
         this.setState({ ...this.state, active: !currentState });
-        console.log(this.state)
+
     };
 
     handleChange = name => event => {
@@ -306,7 +306,7 @@ export class home extends Component {
 
     loadMoreRows = ({ startIndex, stopIndex }) => {
 
-        console.log("łejpojnt " + startIndex + stopIndex);
+
         if (!this.props.UI.processing && !this.props.data.noMore && this.props.data.posts.length > 5) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search)
     }
 

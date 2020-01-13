@@ -136,19 +136,19 @@ export class getEdit extends Component {
         if (event.currentTarget.value == "js") {
             document.getElementById("codeBoxing").value = this.props.editPost.java;
 
-            //console.log(this.state.javaCode);
+          
         }
 
         if (event.currentTarget.value == "py") {
             document.getElementById("codeBoxing").value = this.props.editPost.python;
 
-            // console.log(this.state.pythonCode);
+            
         }
 
         if (event.currentTarget.value == "cpp") {
             document.getElementById("codeBoxing").value = this.props.editPost.cpp;
 
-            // console.log(this.state.cppCode);
+           
         }
     };
 
@@ -157,7 +157,7 @@ export class getEdit extends Component {
         if (event.currentTarget.value === "py") this.setState({ currentCode: "python" })
         if (event.currentTarget.value === "cpp") this.setState({ currentCode: "cpp" })
 
-        console.log(this.state)
+     
     }
 
  
@@ -198,7 +198,7 @@ export class getEdit extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        //console.log(nextProps);
+   
         if (nextProps.UI.errors && !nextProps.UI.loading) {
 
             if (nextProps.UI.errors === "Internal Server Error") {
@@ -235,7 +235,7 @@ export class getEdit extends Component {
                 });
             }
 
-            //console.log(nextProps.UI.success.url);
+       
 
             if (this.state.urls.length === this.state.images.length && this.state.sent === false && this.state.urls.length !== 0) {
                 this.setState({
@@ -264,7 +264,7 @@ export class getEdit extends Component {
 
 
     handleExpand = () => {
-        //console.log(this.state.expanded);
+       
         if (this.state.expanded == false) {
             document.getElementById("codeBoxing").classList.add("blackBoxExpanded");
             document.getElementById("codeBoxing1").classList.add("blackBoxExpanded");

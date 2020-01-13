@@ -178,7 +178,7 @@ export class profile extends Component {
 
 
     if (prevProps.data.posts.length > this.props.data.posts.length && !this.props.data.loading) {
-      console.log("fajers")
+
       this.list.forceUpdateGrid();
       this.list.recomputeRowHeights();
       this._cache.clearAll();
@@ -191,7 +191,7 @@ export class profile extends Component {
     if (!this.props.data.noMore && this.props.data.backupdata.length !== prevProps.data.backupdata.length && this.props.data.posts.length <= 4 && prevProps.data.lastId !== this.props.data.lastId && this.props.user) {
 
 
-      console.log("updejt");
+
       this.loadMorePosts();
     }
 
@@ -212,7 +212,7 @@ export class profile extends Component {
 
   loadMoreRows = ({ startIndex, stopIndex }) => {
 
-    console.log('łej ' + this.props.data.posts.length)
+
     if (this.props.data.posts.length > 4 && !this.props.data.noMore) this.props.loadMoreUserPosts(this.props.user.credentials.handle)
   }
 

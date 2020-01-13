@@ -68,11 +68,11 @@ class admin extends Component {
     this.props.getUnapprovedPosts();
 
     axios.get("/getEditRequests").then(res => {
-      console.log(res.data);
+
       this.setState({
         editReq: res.data
       })
-    }).catch(err => { console.log(err) })
+    }).catch(err => { })
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -112,7 +112,7 @@ class admin extends Component {
       errors: {},
       success: ""
     });
-    console.log(this.state.email);
+
 
     const userData = {
       body: this.state.email
@@ -127,10 +127,10 @@ class admin extends Component {
           success: "Privileges added successfully!"
         });
 
-        console.log(this.state.success);
+
       })
       .catch(err => {
-        console.log(err.response.data);
+
         this.setState({
           errors: err.response.data,
           loadingLocal: false

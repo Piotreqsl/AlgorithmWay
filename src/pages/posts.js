@@ -71,7 +71,7 @@ export class posts extends Component {
 
     if (event.currentTarget.value == "js") {
       //document.getElementById("codeBoxing").innerHTML = this.props.post.java;
-      //console.log(this.state.javaCode);
+
       this.setState({
         currentCode: "java"
       });
@@ -79,7 +79,7 @@ export class posts extends Component {
 
     if (event.currentTarget.value == "py") {
       //document.getElementById("codeBoxing").innerHTML = this.props.post.python;
-      // console.log(this.state.pythonCode);
+
 
       this.setState({
         currentCode: "python"
@@ -87,8 +87,7 @@ export class posts extends Component {
     }
 
     if (event.currentTarget.value == "cpp") {
-      //document.getElementById("codeBoxing").innerHTML = this.props.post.cpp;
-      // console.log(this.state.cppCode);
+
       this.setState({
         currentCode: "cpp"
       });
@@ -142,7 +141,7 @@ export class posts extends Component {
 
   componentDidUpdate(prevprops) {
     if (prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404) {
-      console.log("Post not found, redirecting...");
+
     }
 
     if (prevprops.UI.success !== this.props.UI.success && this.props.UI.success === "Deleted succesfully") {
@@ -448,7 +447,7 @@ export class posts extends Component {
                           ? this.props.post.images
                           : null;
 
-                      //  console.log(arr);
+
 
                       const imgs = [];
 

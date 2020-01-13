@@ -51,12 +51,12 @@ class FormDialog extends Component {
     this.handleClose();
 
 
-    console.log(this.state.email);
+
   }
 
   componentWillReceiveProps(nextProps) {
 
-    console.log(nextProps);
+
     if (nextProps.UI.loading === false && nextProps.UI.success && !nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.success !== 'Git majonezizk') {
 
 
@@ -70,7 +70,7 @@ class FormDialog extends Component {
     }
     if (nextProps.UI.errors != null) {
       const err = nextProps.UI.errors;
-      console.log(err + "err.error: " + err.error);
+
       if (err.error === "Email not found" && !nextProps.UI.success) {
 
         this.props.enqueueSnackbar('Invalid email', {
