@@ -129,6 +129,12 @@ export class home extends Component {
                 preventDuplicate: false,
 
             });
+
+            this._cache.clearAll();
+            this.list.recomputeRowHeights();
+            this.list.forceUpdateGrid();
+
+
         }
 
 
@@ -140,11 +146,10 @@ export class home extends Component {
         }
 
 
-        if (prevProps.data.posts.length !== this.props.data.posts.length && this.props.data.posts.length !== 0) {
-            this.list.forceUpdateGrid();
-            this.list.recomputeRowHeights()
-            this._cache.clearAll();
-        }
+
+
+
+
 
 
 
@@ -159,9 +164,7 @@ export class home extends Component {
 
 
 
-        if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore && !this.props.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore && !this.props.noMore)) {
-
-
+        if ((prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts.length <= 5 && !this.props.data.noMore && !this.props.data.noMore) || (prevProps.data.backupdata !== this.props.data.backupdata && this.props.data.posts === prevProps.data.posts && !this.props.data.noMore)) {
             this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search);
         }
 
@@ -306,11 +309,8 @@ export class home extends Component {
 
     loadMoreRows = ({ startIndex, stopIndex }) => {
 
-
-        if (!this.props.UI.processing && !this.props.data.noMore && this.props.data.posts.length > 5) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search)
+        if (!this.props.UI.processing && !this.props.data.noMore) this.props.loadMorePosts(this.state.categoryFilters, this.state.codeFilters, this.state.approvedOnly, this.props.data.filters.search)
     }
-
-
 
 
     rowRenderer = ({ index, isScrolling, key, parent, style }) => {
@@ -506,7 +506,7 @@ export class home extends Component {
                                                             rowHeight={this._cache.rowHeight}
                                                             rowRenderer={this.rowRenderer}
                                                             rowCount={this.props.data.posts.length}
-                                                            overscanRowCount={3}
+                                                            overscanRowCount={30}
                                                             onRowsRendered={onRowsRendered}
 
                                                         />
