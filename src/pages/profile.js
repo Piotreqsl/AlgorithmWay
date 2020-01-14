@@ -392,6 +392,7 @@ export class profile extends Component {
                           deferredMeasurementCache={this._cache}
                           rowHeight={this._cache.rowHeight}
                           rowRenderer={this.rowRenderer}
+                          overscanRowCount={30}
                           rowCount={this.props.data.posts.length}
                           onRowsRendered={onRowsRendered}
                         />

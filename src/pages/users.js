@@ -297,7 +297,7 @@ export class users extends Component {
                         rowHeight={this._cache.rowHeight}
                         rowRenderer={this.rowRenderer}
                         rowCount={this.props.data.posts.length}
-                        overscanRowCount={3}
+                        overscanRowCount={30}
                         onRowsRendered={onRowsRendered}
                       />
                     </div>
