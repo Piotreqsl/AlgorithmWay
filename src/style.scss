@@ -1026,9 +1026,17 @@ html {
 @media only screen and (max-width: 599px) {
 
     //Phone
+
+
+.profile-ainfo {
+    width: 100%;
+    margin-left: 10px;
+}
+
     .main-content {
         margin-left: 0;
-        margin-right: 0
+        margin-right: 0;
+        margin-top: 70px;
     }
 
     .formCard {
@@ -1037,6 +1045,7 @@ html {
 
     .main-content-squeezed {
         width: auto;
+        margin-top: 50px;
     }
 
     .searchoo {
@@ -1105,5 +1114,15 @@ html {
     //avatar non-react
 
 
+
+}
+@media only screen and (max-width: 360px) {
+
+    //Phone
+
+
+.profile-ainfo {
+   display: none;
+} 
 
 }

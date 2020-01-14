@@ -140,6 +140,7 @@ export class posts extends Component {
   }
 
   componentDidUpdate(prevprops) {
+   
     if (prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404) {
 
     }
