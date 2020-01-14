@@ -129,7 +129,7 @@ export class login extends Component {
           <br />
           <br></br>
           <div> 
-<Typography variant="body2" > login to </Typography>
+<Typography variant="body2" > log in to </Typography>
           <img draggable="false" style={{ height: 35, width: "auto", marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_black.png?alt=media&token=9fffc339-541b-4d8f-998d-f92d25655119" alt="Icon" />
           </div>
           <Card className="formCard" >
