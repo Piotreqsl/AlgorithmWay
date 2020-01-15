@@ -323,6 +323,7 @@ export class profile extends Component {
                   <Tooltip title="Account created" placement="left">
                     <EventIcon color="primary"></EventIcon>
                   </Tooltip>
+                  <div className={classes.icoMargin} /> {dayjs(createdAt).format('DD.MM.YYYY')}{" "}
                 </Typography>
                 <br></br>
 

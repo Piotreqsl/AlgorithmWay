@@ -246,6 +246,7 @@ export class users extends Component {
                 <Tooltip title="Account created" placement="left">
                   <EventIcon color="primary"></EventIcon>
                 </Tooltip>
+                <div className={classes.icoMargin} /> {dayjs(this.props.data.user.createdAt).format('DD.MM.YYYY')}{" "}
               </Typography>
               <br></br>
 
