@@ -41,6 +41,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { withSnackbar } from "notistack";
 import { uploadPostImage } from "../redux/actions/dataActions";
 import { width } from "@material-ui/system";
+import $ from "jquery";
 
 const styles = theme => ({
   paper: {
@@ -246,8 +247,29 @@ export class upload extends Component {
 
 
 
+  componentDidMount() {
+    $("textarea").keydown(function (e) {
+      if (e.keyCode === 9) {
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
 
+        var $this = $(this);
+        var value = $this.val();
 
+        // set textarea value to: text before caret + tab + text after caret
+        $this.val(value.substring(0, start)
+          + "\t"
+          + value.substring(end));
+
+        // put caret at right position again (add one for the tab)
+        this.selectionStart = this.selectionEnd = start + 1;
+
+        // prevent the focus lose
+        e.preventDefault();
+      }
+    });
+
+  }
 
 
 
@@ -258,40 +280,40 @@ export class upload extends Component {
     event.preventDefault();
 
 
-    if(this.state.javaCode.length < 10000 && this.state.pythonCode.length < 10000 && this.state.cppCode.length < 10000 ) { 
+    if (this.state.javaCode.length < 10000 && this.state.pythonCode.length < 10000 && this.state.cppCode.length < 10000) {
 
-    if (this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
-      this.handlePostUpload();
-    } else {
+      if (this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
+        this.handlePostUpload();
+      } else {
 
 
-      if (document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
+        if (document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
 
-        const arr = this.state.formdatas;
-        for (let i = 0; i < arr.length; i++) {
+          const arr = this.state.formdatas;
+          for (let i = 0; i < arr.length; i++) {
 
-          const formData = this.state.formdatas[i].formData;
-          this.props.uploadPostImage(formData);
-          //console.log(i);  
+            const formData = this.state.formdatas[i].formData;
+            this.props.uploadPostImage(formData);
+            //console.log(i);  
+          }
+
+        } else {
+          this.props.enqueueSnackbar(`"Title" and "Short description" cannot be empty`, {
+            preventDuplicate: true,
+            variant: "error",
+            autoHideDuration: 2000
+          });
         }
 
-      } else {
-        this.props.enqueueSnackbar(`"Title" and "Short description" cannot be empty`, {
-          preventDuplicate: true,
-          variant: "error",
-          autoHideDuration: 2000
-        });
       }
 
+    } else {
+      this.props.enqueueSnackbar(`Too much code! (Max. 10k char each)`, {
+        preventDuplicate: true,
+        variant: "error",
+        autoHideDuration: 2000
+      });
     }
-
-  } else {
-    this.props.enqueueSnackbar(`Too much code! (Max. 10k char each)`, {
-      preventDuplicate: true,
-      variant: "error",
-      autoHideDuration: 2000
-    });
-  }
 
 
 
@@ -386,6 +408,7 @@ export class upload extends Component {
             inputProps={{ maxLength: 50 }}
             className={classes.input}
             id="postTitle"
+
           />
 
           <TextField
@@ -400,6 +423,7 @@ export class upload extends Component {
             inputProps={{ maxLength: 250 }}
             className={classes.input}
             multiline="true"
+
             rows="3"
             rowsMax="4"
             id="shortDesc"
@@ -412,6 +436,7 @@ export class upload extends Component {
             error={errors.body ? true : false}
             fullWidth
             helperText="0/750"
+
             onChange={this.handleChange}
             inputProps={{ maxLength: 750 }}
             className={classes.input}
@@ -424,6 +449,7 @@ export class upload extends Component {
             <FormGroup
               className="formGroup"
               column
+
               style={{ marginLeft: 10, marginTop: 5 }}
             >
               <FormControlLabel

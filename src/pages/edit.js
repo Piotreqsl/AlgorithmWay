@@ -56,6 +56,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import { getPost } from "../redux/actions/dataActions";
 import Avatar from "@material-ui/core/Avatar";
+import $ from "jquery";
 
 
 const styles = theme => ({
@@ -100,7 +101,8 @@ export class edit extends Component {
         sent: false,
         currentCode: "js",
         active: false,
-        imgOptions: "keep"
+        imgOptions: "keep",
+        once: false
 
     };
 
@@ -111,6 +113,10 @@ export class edit extends Component {
         let loc = arr[2];
         this.setState({ originalID: loc })
         this.props.getPost(loc);
+
+         
+      
+
 
 
 
@@ -255,6 +261,8 @@ export class edit extends Component {
 
     componentDidUpdate(prevProps) {
 
+        
+
 
         /// Ustawianie domyślnyhc tych
         if (this.props.post !== null && this.props.post !== undefined && prevProps.post !== this.props.post) {
@@ -274,14 +282,9 @@ export class edit extends Component {
                 this.setState({ cppCode: this.props.post.cpp })
             }
 
-        
+    
 
             this.setState({ images: this.props.post.images })
-
-
-
-
-
 
             this.setState({
                 categories: this.props.post.categories
@@ -479,6 +482,20 @@ export class edit extends Component {
 
     renderEdit = () => {
 
+       
+        $("textarea").keydown(function (e) {
+            if (e.keyCode === 9) {
+             
+      
+           
+              e.preventDefault();
+            }
+          });
+
+
+
+        
+
         const { errors } = this.state;
         const {
             classes,
@@ -656,6 +673,8 @@ export class edit extends Component {
                         />
                     </FormGroup>
                 </div>
+
+              
 
                 <Grid container spacing={1}>
                     <Grid item sm={12} md={12}>
@@ -875,9 +894,14 @@ export class edit extends Component {
                 </Tooltip>
                 <div style={{ clear: "both" }}></div>
 
+                            
             </Paper>
             </div>
         )
+
+        
+
+
     }
 
     renderPost = () => {
@@ -1157,12 +1181,17 @@ export class edit extends Component {
             UI: { loading, processing }
         } = this.props;
 
+        
+
+
         dayjs.extend(relativeTime);
         return (
 
 
             <div className="main-content-edit">
                 {!loading && !this.props.user.loading ? (this.props.UI.errors === "Post not found" ? (<p>Post not found</p>) : (this.props.user.authenticated ? (this.props.user.credentials.isEmailVerified ?
+                      
+                    
                     /// Tutaj po sprawdzeniu można se renderować
                     (
                         <Grid container spacing={3}>

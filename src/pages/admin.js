@@ -55,9 +55,13 @@ class admin extends Component {
     super();
     this.state = {
       email: "",
+      emailBan: "",
       loadingLocal: false,
+      loadingLocalBan: false,
       errors: {},
+      errorsBan: {},
       success: "",
+      successBan: "",
       posts: null,
       editReq: null
     };
@@ -105,6 +109,15 @@ class admin extends Component {
     });
   };
 
+  handleChangeBan = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+
+
+
   handleSubmit = event => {
     event.preventDefault();
     this.setState({
@@ -138,12 +151,50 @@ class admin extends Component {
       });
   };
 
+
+  handleSubmitBan = event => {
+    event.preventDefault();
+    this.setState({
+      loadingLocalBan: true,
+      errorsBan: {},
+      successBan: ""
+    });
+
+
+    const userData = {
+      body: this.state.emailBan
+    };
+
+    axios
+      .post("/admin/ban", userData)
+      .then(res => {
+        this.setState({
+          loadingLocalBan: false,
+          errorsBan: {},
+          successBan: "User banned successfully!"
+        });
+
+
+      })
+      .catch(err => {
+
+        this.setState({
+          errorsBan: err.response.data,
+          loadingLocalBan: false
+        });
+      });
+  };
+
+
+
+
+
   render() {
     const {
       classes,
       user: { adminPrivileges, loading }
     } = this.props;
-    const { errors, loadingLocal, success } = this.state;
+    const { errors, loadingLocal, success, successBan, errorsBan, loadingLocalBan } = this.state;
 
 
     let recentPostsMarkup = this.props.data.admin.unapprovedPosts ? (
@@ -209,6 +260,40 @@ class admin extends Component {
                   {success.length > 0 && (
                     <Typography className={classes.custError}>
                       {this.state.success}
+                    </Typography>
+                  )}
+                </form>
+                <h3> Ban user: </h3>
+
+                <form noValidate autoComplete="off" onSubmit={this.handleSubmitBan}>
+                  <TextField
+                    id="emailBan"
+                    name="emailBan"
+                    type="email"
+                    label="Email"
+                    helperText={errorsBan.general}
+                    error={errorsBan.general ? true : false}
+                    className={classes.TextField}
+                    value={this.state.emailBan}
+                    onChange={this.handleChangeBan}
+                    fullWidth
+                  />
+
+                  <Button
+                    type="submit"
+                    disabled={loadingLocalBan}
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                  >
+                    Submit
+                  {loadingLocalBan && (
+                      <CircularProgress size={30} className={classes.progress} />
+                    )}
+                  </Button>
+                  {successBan.length > 0 && (
+                    <Typography className={classes.custError}>
+                      {this.state.successBan}
                     </Typography>
                   )}
                 </form>

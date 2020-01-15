@@ -134,7 +134,6 @@ export class home extends Component {
             this.list.recomputeRowHeights();
             this.list.forceUpdateGrid();
 
-
         }
 
 
@@ -148,6 +147,13 @@ export class home extends Component {
 
 
 
+        if (prevProps.data.posts.length !== this.props.data.posts.length && this.props.data.backupdata === prevProps.data.backupdata && this.props.data.backupdata.length > 0) {
+            console.log("test")
+
+            this._cache.clearAll();
+            this.list.recomputeRowHeights();
+            this.list.forceUpdateGrid();
+        }
 
 
 
