@@ -129,10 +129,10 @@ export class home extends Component {
                 preventDuplicate: false,
 
             });
-
             this._cache.clearAll();
             this.list.recomputeRowHeights();
             this.list.forceUpdateGrid();
+
 
         }
 
@@ -147,9 +147,7 @@ export class home extends Component {
 
 
 
-        if (prevProps.data.posts.length !== this.props.data.posts.length && this.props.data.backupdata === prevProps.data.backupdata && this.props.data.backupdata.length > 0) {
-            console.log("test")
-
+        if (prevProps.data.posts.length !== this.props.data.posts.length && this.props.data.backupdata.length > 0) {
             this._cache.clearAll();
             this.list.recomputeRowHeights();
             this.list.forceUpdateGrid();

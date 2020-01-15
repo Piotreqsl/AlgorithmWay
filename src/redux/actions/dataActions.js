@@ -655,6 +655,7 @@ export const deletePost = postId => dispatch => {
     type: CLEAR_SUCCESS
   });
 
+
   axios
     .delete(`/post/${postId}`)
     .then(() => {

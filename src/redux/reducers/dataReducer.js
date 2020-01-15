@@ -28,7 +28,6 @@ const initialState = {
   post: {},
   editPost: {},
   user: {},
-
   loading: false,
   noMore: false,
   admin: {
@@ -44,6 +43,36 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+
+    case DELETE_POST:
+      let index1 = state.posts.findIndex(
+        post => post.postId === action.payload
+      );
+      if (index1 >= 0) state.posts.splice(index1, 1);
+
+
+
+      let secondindex1 = state.backupdata.findIndex(
+        post => post.postId === action.payload
+      );
+      if (secondindex1 >= 0) state.backupdata.splice(secondindex1, 1);
+
+
+      let thirdindex1 = state.admin.unapprovedPosts.findIndex(
+        post => post.postId === action.payload
+      );
+      if (thirdindex1 >= 0) state.admin.unapprovedPosts.splice(thirdindex1, 1);
+
+
+      return {
+        ...state
+      };
+
+
+
+
+
+
     case LOADING_DATA:
       return {
         ...state,
@@ -162,25 +191,7 @@ export default function (state = initialState, action) {
           ...state
         };
 
-      case DELETE_POST:
-        let index1 = state.posts.findIndex(
-          post => post.postId === action.payload
-        );
-        state.posts.splice(index1, 1);
 
-        let secondindex1 = state.backupdata.findIndex(
-          post => post.postId === action.payload
-        );
-        state.backupdata.splice(secondindex1, 1);
-
-        let thirdindex1 = state.admin.unapprovedPosts.findIndex(
-          post => post.postId === action.payload
-        );
-        if (thirdindex1 >= 0) state.admin.unapprovedPosts.splice(thirdindex1, 1);
-
-        return {
-          ...state
-        };
 
       case UPLOAD_POST:
         return {
