@@ -533,7 +533,7 @@ export class home extends Component {
                     </Grid>
 
                     <Grid className="ndgrid" item sm={3} xs={12}>
-                        <p>HISZPAN</p>
+                        <p> </p>
                     </Grid>
 
                 </Grid>
