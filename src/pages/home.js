@@ -177,9 +177,6 @@ export class home extends Component {
     }
 
 
-
-
-
     componentDidMount() {
         this.props.getPosts();
     }

@@ -48,20 +48,26 @@ export default function (state = initialState, action) {
       let index1 = state.posts.findIndex(
         post => post.postId === action.payload
       );
-      if (index1 >= 0) state.posts.splice(index1, 1);
+      if (index1 >= 0) {
+        state.posts.splice(index1, 1);
+      }
 
 
 
       let secondindex1 = state.backupdata.findIndex(
         post => post.postId === action.payload
       );
-      if (secondindex1 >= 0) state.backupdata.splice(secondindex1, 1);
+      if (secondindex1 >= 0) {
+        state.backupdata.splice(secondindex1, 1);
+      }
 
 
       let thirdindex1 = state.admin.unapprovedPosts.findIndex(
         post => post.postId === action.payload
       );
-      if (thirdindex1 >= 0) state.admin.unapprovedPosts.splice(thirdindex1, 1);
+      if (thirdindex1 >= 0) {
+        state.admin.unapprovedPosts.splice(thirdindex1, 1);
+      }
 
 
       return {
