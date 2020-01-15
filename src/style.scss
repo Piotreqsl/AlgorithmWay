@@ -862,6 +862,16 @@ html {
 }
 
 
+.signupFORM {
+    position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+
+    
+}
+
 /* Make the image to responsive */
 
 
@@ -1109,7 +1119,13 @@ html {
 
     }
 
-
+    .signupFORM {
+        top: 55%;
+      
+    }
+    .formCard {
+        margin-bottom: 5px;
+    }
 
     //avatar non-react
 
@@ -1125,5 +1141,7 @@ html {
     .profile-ainfo {
         display: none;
     }
+
+    
 
 }

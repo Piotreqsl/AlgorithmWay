@@ -132,10 +132,7 @@ export class signup extends Component {
     if (errors.handle) handleHelper = errors.handle;
 
     return (
-      <Grid container style={{position: "absolute",
-      top: "45%",
-      left: "50%",
-      transform: "translate(-50%,-50%)",}} className={classes.form}>
+      <Grid className="signupFORM" container  >
         <Grid item xs></Grid>
         <Grid item>
           <div>
