@@ -12,7 +12,9 @@ import {
 
 } from "../types";
 import axios from "axios";
-import { useSnackbar } from 'notistack';
+import {
+  useSnackbar
+} from 'notistack';
 
 
 
@@ -104,12 +106,12 @@ export const getUserData = () => dispatch => {
   axios
     .get("/user")
     .then(res => {
-      
+
       dispatch({
         type: SET_USER,
         payload: res.data
       });
-      
+
     })
     .catch(err => console.log(err));
 };
@@ -123,12 +125,16 @@ export const signupUser = (newUserData, history) => dispatch => {
   axios
     .post("/signup", newUserData)
     .then(res => {
-     // setAuthorizationHeader(res.data.token);
 
-     // dispatch(getUserData());
       dispatch({
         type: CLEAR_ERRORS
       });
+
+      dispatch({
+        type: SET_SUCCESS,
+        payload: "Verification email sent"
+      })
+
       history.push("/login");
     })
     .catch(err => {
@@ -136,7 +142,7 @@ export const signupUser = (newUserData, history) => dispatch => {
         type: SET_ERRORS,
         payload: err.response.data
       });
-      
+
     });
 };
 
@@ -149,7 +155,7 @@ export const editUserDetails = (userDetails) => (dispatch) => {
   axios.post('/user', userDetails)
     .then(() => {
       dispatch(getUserData());
-      
+
 
     })
     .catch(err => console.log(err));
@@ -157,25 +163,27 @@ export const editUserDetails = (userDetails) => (dispatch) => {
 
 
 export const uploadImage = (formData) => (dispatch) => {
-  dispatch({type: LOADING_USER});
+  dispatch({
+    type: LOADING_USER
+  });
   axios.post('/user/image', formData)
-  .then(res => {
-    dispatch(getUserData());
+    .then(res => {
+      dispatch(getUserData());
 
-  })
-  .catch(err=>console.log(err));
+    })
+    .catch(err => console.log(err));
 }
 
 
 
 export const markNotificationsRead = (notificationIds) => (dispatch) => {
   axios.post('/notifications', notificationIds)
-  .then(res => {
-    dispatch({
-      type: MARK_NOTIFICATIONS_READ,
+    .then(res => {
+      dispatch({
+        type: MARK_NOTIFICATIONS_READ,
 
-    })
-  }).catch(err => console.log(err));
+      })
+    }).catch(err => console.log(err));
 }
 
 
