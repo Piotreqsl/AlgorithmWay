@@ -89,8 +89,15 @@ export class signup extends Component {
       this.setState({ errors: nextProps.UI.errors });
 
     }
-console.log(nextProps)
-    if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false && this.props.success === "Verification email sent") {
+
+
+
+
+  }
+
+
+  componentDidUpdate(prevProps) {
+    if (this.props.UI.success === "Verification email sent" && this.props.UI.success !== prevProps.UI.success) {
 
       this.props.enqueueSnackbar('Verification email sent', {
         preventDuplicate: true,
@@ -99,9 +106,8 @@ console.log(nextProps)
 
       });
     }
-
-
   }
+
 
   handleSubmit = event => {
     event.preventDefault();
@@ -121,12 +127,12 @@ console.log(nextProps)
   };
   handleChange = event => {
     this.setState({
-      [event.target.name] : event.target.value
+      [event.target.name]: event.target.value
     });
   };
 
   handleBoxChange = event => {
-    
+
 
     this.setState({
       checked: !this.state.checked,
@@ -147,8 +153,8 @@ console.log(nextProps)
         <Grid item xs></Grid>
         <Grid item>
           <div>
-        <Typography variant="body2" > sign up to </Typography>
-          <img draggable="false" style={{ height: 35, width: "auto", marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_black.png?alt=media&token=9fffc339-541b-4d8f-998d-f92d25655119" alt="Icon" />
+            <Typography variant="body2" > sign up to </Typography>
+            <img draggable="false" style={{ height: 35, width: "auto", marginBottom: 8 }} src="https://firebasestorage.googleapis.com/v0/b/algorithmway-420.appspot.com/o/codelimes_logo_black.png?alt=media&token=9fffc339-541b-4d8f-998d-f92d25655119" alt="Icon" />
           </div>
           <Card className={"formCard"}>
             <form noValidate onSubmit={this.handleSubmit}>
@@ -217,30 +223,30 @@ console.log(nextProps)
                 onChange={this.handleChange}
                 fullWidth
               ></TextField>
-<div style={{
+              <div style={{
 
-display: "flex",
-alignItems: "center",
+                display: "flex",
+                alignItems: "center",
 
 
-}
-}> 
+              }
+              }>
 
-<Checkbox
-        checked={this.state.checked}
-        onChange={this.handleBoxChange}
-        value="primary"
-        inputProps={{ 'aria-label': 'primary checkbox' }}
-      />            <Typography variant="body2"> I have read and agree to the  </Typography>   <TermsDialog /> 
-</div>
+                <Checkbox
+                  checked={this.state.checked}
+                  onChange={this.handleBoxChange}
+                  value="primary"
+                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                />            <Typography variant="body2"> I have read and agree to the  </Typography>   <TermsDialog />
+              </div>
 
-<div style={{clear: "both"}}></div>
+              <div style={{ clear: "both" }}></div>
               {errors.general && ( //if <= this then print => html
                 <Typography variant="body2" className={classes.custError}>
                   {errors.general}
                 </Typography>
               )}
-              
+
               <Button
                 disabled={loading, !this.state.checked}
                 type="submit"
