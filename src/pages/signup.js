@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
-
+import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from "react-router-dom";
 
 //mui
@@ -22,6 +22,8 @@ import { withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 import { signupUser } from '../redux/actions/userActions';
 import { width } from "@material-ui/system";
+import TermsDialog from '../components/termsDialog'
+
 
 const styles = {
   form: {
@@ -74,6 +76,7 @@ export class signup extends Component {
       password: "",
       confirmPassword: "",
       handle: "",
+      checked: false,
 
       errors: {}
     };
@@ -86,8 +89,8 @@ export class signup extends Component {
       this.setState({ errors: nextProps.UI.errors });
 
     }
-
-    if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false) {
+console.log(nextProps)
+    if (!nextProps.UI.errors && !nextProps.UI.general && nextProps.UI.loading === false && this.props.success === "Verification email sent") {
 
       this.props.enqueueSnackbar('Verification email sent', {
         preventDuplicate: true,
@@ -118,7 +121,15 @@ export class signup extends Component {
   };
   handleChange = event => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name] : event.target.value
+    });
+  };
+
+  handleBoxChange = event => {
+    
+
+    this.setState({
+      checked: !this.state.checked,
     });
   };
 
@@ -206,15 +217,32 @@ export class signup extends Component {
                 onChange={this.handleChange}
                 fullWidth
               ></TextField>
+<div style={{
 
+display: "flex",
+alignItems: "center",
+
+
+}
+}> 
+
+<Checkbox
+        checked={this.state.checked}
+        onChange={this.handleBoxChange}
+        value="primary"
+        inputProps={{ 'aria-label': 'primary checkbox' }}
+      />            <Typography variant="body2"> I have read and agree to the  </Typography>   <TermsDialog /> 
+</div>
+
+<div style={{clear: "both"}}></div>
               {errors.general && ( //if <= this then print => html
                 <Typography variant="body2" className={classes.custError}>
                   {errors.general}
                 </Typography>
               )}
-
+              
               <Button
-                disabled={loading}
+                disabled={loading, !this.state.checked}
                 type="submit"
                 variant="contained"
                 color="secondary"

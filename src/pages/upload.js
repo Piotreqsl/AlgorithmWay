@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 
 import { postPost } from "../redux/actions/dataActions";
-
+import ReCAPTCHA from "react-google-recaptcha";
 //mui
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -78,6 +78,7 @@ export class upload extends Component {
     urls: [],
     formdatas: [],
     sent: false,
+    reCaptched: false,
 
   };
 
@@ -381,6 +382,12 @@ export class upload extends Component {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
   };
+captchaChange = event => { 
+  this.setState({
+    reCaptched: true,
+  })
+}
+  
 
   render() {
     const { errors } = this.state;
@@ -700,7 +707,14 @@ export class upload extends Component {
                 </div>
               )}
           </div>
-
+         <center> 
+         
+         <ReCAPTCHA
+    sitekey="6LdSCdAUAAAAAOLYBA6ToCp4LyiCh_d9RaD3jnE0"
+    onChange={this.captchaChange}
+  />
+     </center>
+         
           <Tooltip placement="left" title="Upload">
             <IconButton
               onClick={this.handleSubmit}
@@ -710,9 +724,9 @@ export class upload extends Component {
                 float: "right",
                 marginTop: "5px"
               }}
-              disabled={loading}
+              disabled={loading, !this.state.reCaptched}
             >
-              <PublishIcon color="primary" />
+              <PublishIcon  color="primary" />
               {loading && (
                 <CircularProgress size={50} className={classes.progress} />
               )}
