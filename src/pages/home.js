@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
 import PropTypes from "prop-types";
 import { withSnackbar } from 'notistack';
-
+import {Link} from 'react-router-dom';
 import {
     List, AutoSizer, CellMeasurerCache,
     CellMeasurer, InfiniteLoader
@@ -28,15 +28,16 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import SaveIcon from '@material-ui/icons/Save';
-
+import Paper from '@material-ui/core/Paper'
 import Tooltip from '@material-ui/core/Tooltip';
-
+import FireplaceIcon from "@material-ui/icons/Fireplace";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-
+import Avatar from '@material-ui/core/Avatar'
 
 import { Waypoint } from 'react-waypoint';
-import { getPosts, loadMorePosts, filterPosts, synchronizePosts } from '../redux/actions/dataActions'
+import { getPosts, loadMorePosts, filterPosts, synchronizePosts, getUsersByRep } from '../redux/actions/dataActions'
+import { flexbox } from '@material-ui/system';
 
 export class home extends Component {
 
@@ -179,6 +180,7 @@ export class home extends Component {
 
     componentDidMount() {
         this.props.getPosts();
+        this.props.getUsersByRep();
     }
 
 
@@ -533,7 +535,52 @@ export class home extends Component {
                     </Grid>
 
                     <Grid className="ndgrid" item sm={3} xs={12}>
-                        <p> </p>
+                       <div>
+{this.props.data.userByREP ? (
+
+
+<Paper>
+    <div className="mostReputableUsers-header" > <Typography variant="button">Most Reputable Users</Typography> </div>
+    <Grid container> 
+    {this.props.data.userByREP.map(user => {
+        const {handle, imageUrl, reputation} = user;
+        return (
+            <div className="userByREP-singular">
+               
+             <div style={{display: "flex", alignItems: "center"}}> 
+             <Avatar src={imageUrl}
+             component={Link}
+             to={
+               handle === this.props.user.credentials.handle
+                 ? `/user`
+                 : `/users/${handle}`
+             }
+             
+             style={{ width: "30px", height: "30px", marginRight: "5px" }} /> <Typography style={{textDecoration: "none", color: "#6F6F8C"}} variant="body2" component={Link}
+             to={
+               handle === this.props.user.credentials.handle
+                 ? `/user`
+                 : `/users/${handle}`
+             } > {handle} </Typography>  
+                 </div> 
+                 <div style={{display: "flex", alignItems: "center"}}> 
+            <FireplaceIcon /> <Typography style={{marginLeft: "7px"}} variant="body2"> {reputation} </Typography> 
+                 </div>    
+
+            
+            </div>
+        )
+
+    })}
+    </Grid>
+</Paper>
+
+
+) : null}
+
+
+
+                       </div>
                     </Grid>
 
                 </Grid>
@@ -555,6 +602,7 @@ home.PropTypes = {
     UI: PropTypes.object.isRequired,
     onEnter: PropTypes.func, // function called when waypoint enters viewport
     onLeave: PropTypes.func, // function called when waypoint leaves viewport
+    getUsersByRep: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -565,4 +613,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getPosts, loadMorePosts, filterPosts, synchronizePosts })(withSnackbar(home));
+export default connect(mapStateToProps, { getPosts, loadMorePosts, filterPosts, synchronizePosts, getUsersByRep })(withSnackbar(home));

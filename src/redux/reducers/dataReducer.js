@@ -18,6 +18,7 @@ import {
   GET_EDIT_REQUEST,
   SYNC_POSTS,
   SAVE_FILTERS,
+  USER_BY_REP,
 
 
 } from "../types";
@@ -197,7 +198,12 @@ export default function (state = initialState, action) {
           ...state
         };
 
-
+        case USER_BY_REP: 
+          return {
+            ...state,
+            userByREP: action.payload,
+          }
+        
 
       case UPLOAD_POST:
         return {

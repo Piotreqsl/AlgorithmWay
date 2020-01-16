@@ -25,7 +25,8 @@ import {
   SET_FOREIGN_USER,
   SYNC_POSTS,
   REDUCE_EDIT_REQUEST_LIST,
-  SAVE_FILTERS
+  SAVE_FILTERS,
+  USER_BY_REP
 
 
 
@@ -648,6 +649,15 @@ export const deleteComment = (commentId) => dispatch => {
 }
 
 
+export const getUsersByRep = () => dispatch => {
+  axios.get('/getUsersByRep')
+  .then(res => {
+    dispatch({
+      type: USER_BY_REP,
+      payload: res.data,
+    })
+  })
+}
 
 
 export const deletePost = postId => dispatch => {
