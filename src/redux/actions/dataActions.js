@@ -266,12 +266,20 @@ const advancedFilteringCode = (mainArray, filters) => {
 
 
 
+
+
   for (var i = 0; i < mainArray.length; i++) {
     let existingCode = [];
 
-    if (mainArray[i].java !== undefined) existingCode.push("java")
-    if (mainArray[i].cpp !== undefined) existingCode.push("cpp")
-    if (mainArray[i].python !== undefined) existingCode.push("python")
+    if (mainArray[i].java !== undefined) {
+      if (mainArray[i].java.trim().length !== 0) existingCode.push("java")
+    }
+    if (mainArray[i].cpp !== undefined) {
+      if (mainArray[i].cpp.trim().length !== 0) existingCode.push("cpp")
+    }
+    if (mainArray[i].python !== undefined) {
+      if (mainArray[i].python.trim().length !== 0) existingCode.push("python")
+    }
 
 
     if (existingCode.some(r => filters.includes(r))) {
@@ -361,7 +369,7 @@ export const getPost = postId => dispatch => {
           type: SET_ERRORS,
           payload: err.response
         });
-        console.log(err)
+
       });
   }
 }
@@ -651,12 +659,12 @@ export const deleteComment = (commentId) => dispatch => {
 
 export const getUsersByRep = () => dispatch => {
   axios.get('/getUsersByRep')
-  .then(res => {
-    dispatch({
-      type: USER_BY_REP,
-      payload: res.data,
+    .then(res => {
+      dispatch({
+        type: USER_BY_REP,
+        payload: res.data,
+      })
     })
-  })
 }
 
 
@@ -679,7 +687,7 @@ export const deletePost = postId => dispatch => {
         payload: "Deleted succesfully"
       })
     })
-    .catch(err => console.log(err));
+    .catch(err => {});
 };
 
 export const uploadPostImage = (formData) => dispatch => {
@@ -777,7 +785,7 @@ export const getForeignUser = (username) => dispatch => {
 
 
     }).catch(err => {
-        console.log(err);
+
         dispatch({
           type: SET_ERRORS,
           payload: err.response,

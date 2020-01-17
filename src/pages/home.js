@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
 import PropTypes from "prop-types";
 import { withSnackbar } from 'notistack';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     List, AutoSizer, CellMeasurerCache,
     CellMeasurer, InfiniteLoader
@@ -148,7 +148,7 @@ export class home extends Component {
 
 
 
-        if (prevProps.data.posts.length !== this.props.data.posts.length && this.props.data.backupdata.length > 0) {
+        if (prevProps.data.posts.length !== this.props.data.posts.length && this.props.data.backupdata.length > 0 && this.props.data.posts.length > 0) {
             this._cache.clearAll();
             this.list.recomputeRowHeights();
             this.list.forceUpdateGrid();
@@ -285,6 +285,8 @@ export class home extends Component {
                 codeFilters.push("python")
             }
         }
+
+        console.log(this.state)
 
 
 
@@ -520,7 +522,7 @@ export class home extends Component {
                                     </InfiniteLoader>
 
                                     : this.props.data.noMore ?
-                                        <h1>No posts found</h1> : <div className="post-margin"><center>
+                                        <Typography variant="body2">No posts found...</Typography> : <div className="post-margin"><center>
                                             <CircularProgress color="primary" /> </center></div>
 
 
@@ -535,52 +537,52 @@ export class home extends Component {
                     </Grid>
 
                     <Grid className="ndgrid" item sm={3} xs={12}>
-                       <div>
-{this.props.data.userByREP ? (
+                        <div>
+                            {this.props.data.userByREP ? (
 
 
-<Paper>
-    <div className="mostReputableUsers-header" > <Typography variant="button">Most Reputable Users</Typography> </div>
-    <Grid container> 
-    {this.props.data.userByREP.map(user => {
-        const {handle, imageUrl, reputation} = user;
-        return (
-            <div className="userByREP-singular">
-               
-             <div style={{display: "flex", alignItems: "center"}}> 
-             <Avatar src={imageUrl}
-             component={Link}
-             to={
-               handle === this.props.user.credentials.handle
-                 ? `/user`
-                 : `/users/${handle}`
-             }
-             
-             style={{ width: "30px", height: "30px", marginRight: "5px" }} /> <Typography style={{textDecoration: "none", color: "#6F6F8C"}} variant="body2" component={Link}
-             to={
-               handle === this.props.user.credentials.handle
-                 ? `/user`
-                 : `/users/${handle}`
-             } > {handle} </Typography>  
-                 </div> 
-                 <div style={{display: "flex", alignItems: "center"}}> 
-            <FireplaceIcon /> <Typography style={{marginLeft: "7px"}} variant="body2"> {reputation} </Typography> 
-                 </div>    
+                                <Paper>
+                                    <div className="mostReputableUsers-header" > <Typography variant="button">Most Reputable Users</Typography> </div>
+                                    <Grid container>
+                                        {this.props.data.userByREP.map(user => {
+                                            const { handle, imageUrl, reputation } = user;
+                                            return (
+                                                <div className="userByREP-singular">
 
-            
-            </div>
-        )
+                                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                                        <Avatar src={imageUrl}
+                                                            component={Link}
+                                                            to={
+                                                                handle === this.props.user.credentials.handle
+                                                                    ? `/user`
+                                                                    : `/users/${handle}`
+                                                            }
 
-    })}
-    </Grid>
-</Paper>
+                                                            style={{ width: "30px", height: "30px", marginRight: "5px" }} /> <Typography style={{ textDecoration: "none", color: "#6F6F8C" }} variant="body2" component={Link}
+                                                                to={
+                                                                    handle === this.props.user.credentials.handle
+                                                                        ? `/user`
+                                                                        : `/users/${handle}`
+                                                                } > {handle} </Typography>
+                                                    </div>
+                                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                                        <FireplaceIcon /> <Typography style={{ marginLeft: "7px" }} variant="body2"> {reputation} </Typography>
+                                                    </div>
 
 
-) : null}
+                                                </div>
+                                            )
+
+                                        })}
+                                    </Grid>
+                                </Paper>
+
+
+                            ) : null}
 
 
 
-                       </div>
+                        </div>
                     </Grid>
 
                 </Grid>
