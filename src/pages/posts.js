@@ -15,6 +15,7 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Tooltip from "@material-ui/core/Tooltip";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { withSnackbar } from 'notistack';
+import Linkify from 'react-linkify';
 
 import Grid from "@material-ui/core/Grid";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -140,7 +141,7 @@ export class posts extends Component {
   }
 
   componentDidUpdate(prevprops) {
-   
+
     if (prevprops.UI.errors !== this.props.UI.errors && this.props.UI.errors.status === 404) {
 
     }
@@ -343,14 +344,15 @@ export class posts extends Component {
 
 
               <div style={{ clear: "both" }}></div>
+              <Linkify>
+                <Typography
+                  style={{ marginTop: "15px", marginBottom: "25px" }}
+                  variant="body2"
 
-              <Typography
-                style={{ marginTop: "15px", marginBottom: "25px" }}
-                variant="body2"
-              >
-                {desc}
-              </Typography>
-
+                >
+                  {desc}
+                </Typography>
+              </Linkify>
               {this.props.post.java ||
                 this.props.post.cpp ||
                 this.props.post.python ? (

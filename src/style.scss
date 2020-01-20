@@ -33,6 +33,13 @@ html {
 
 }
 
+.MuiTypography-body2>a {
+    text-decoration: none;
+    color: $primaryLight;
+}
+
+
+
 ///highlighter CSS
 .MuiAvatar-img {
     background-color: rgba(0, 0, 0, 0) !important;
@@ -158,6 +165,7 @@ html {
 .termsContainer {
     max-height: 400px;
 }
+
 //text selection override
 ::selection {
     background: #2e2e3a33;
@@ -445,11 +453,11 @@ html {
     transition: 0.2s;
 }
 
-.userByREP-singular { 
+.userByREP-singular {
     padding-left: 7px;
     padding-right: 7px;
     height: 45px;
-   // background-color: aqua;
+    // background-color: aqua;
     margin-bottom: 3px;
     margin-top: 3px;
     width: 100%;
@@ -896,12 +904,12 @@ html {
 
 .signupFORM {
     position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 
-    
+
 }
 
 /* Make the image to responsive */
@@ -1070,6 +1078,8 @@ html {
     //Phone
 
 
+
+
     .profile-ainfo {
         width: 100%;
         margin-left: 10px;
@@ -1153,8 +1163,9 @@ html {
 
     .signupFORM {
         top: 55%;
-      
+
     }
+
     .formCard {
         margin-bottom: 5px;
     }
@@ -1174,6 +1185,6 @@ html {
         display: none;
     }
 
-    
+
 
 }
