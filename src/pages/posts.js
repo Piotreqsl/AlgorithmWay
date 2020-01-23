@@ -194,7 +194,7 @@ export class posts extends Component {
 
     const editButton = (authenticated) ? (
       <Tooltip title={userHandle === handle || this.props.user.adminPrivileges ? "Edit post" : "Create edit request"} placement="top">
-        <IconButton onClick={this.handleEdit}
+        <IconButton style={{background: "transparent"}} onClick={this.handleEdit}
         >
 
           <EditIcon color="primary" />

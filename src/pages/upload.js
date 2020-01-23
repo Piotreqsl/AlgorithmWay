@@ -288,7 +288,10 @@ export class upload extends Component {
       } else {
 
 
-        if (document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
+        if (document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0 && document.getElementById("longDesc").value.length <= 750
+        
+        && document.getElementById("postTitle").value.length <= 50 && document.getElementById("shortDesc").value.length <= 250
+        ) {
 
           const arr = this.state.formdatas;
           for (let i = 0; i < arr.length; i++) {
@@ -440,6 +443,7 @@ captchaChange = event => {
             type="text"
             label="Description"
             variant="outlined"
+            id="longDesc"
             error={errors.body ? true : false}
             fullWidth
             helperText="0/750"
