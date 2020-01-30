@@ -382,12 +382,12 @@ export class upload extends Component {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
   };
-captchaChange = event => { 
-  this.setState({
-    reCaptched: true,
-  })
-}
-  
+  captchaChange = event => {
+    this.setState({
+      reCaptched: true,
+    })
+  }
+
 
   render() {
     const { errors } = this.state;
@@ -415,6 +415,7 @@ captchaChange = event => {
             inputProps={{ maxLength: 50 }}
             className={classes.input}
             id="postTitle"
+            spellCheck="false"
 
           />
 
@@ -430,6 +431,7 @@ captchaChange = event => {
             inputProps={{ maxLength: 250 }}
             className={classes.input}
             multiline="true"
+            spellCheck="false"
 
             rows="3"
             rowsMax="4"
@@ -443,6 +445,7 @@ captchaChange = event => {
             error={errors.body ? true : false}
             fullWidth
             helperText="0/750"
+            spellCheck="false"
 
             onChange={this.handleChange}
             inputProps={{ maxLength: 750 }}
@@ -707,14 +710,14 @@ captchaChange = event => {
                 </div>
               )}
           </div>
-         <center> 
-         
-         <ReCAPTCHA
-    sitekey="6LdSCdAUAAAAAOLYBA6ToCp4LyiCh_d9RaD3jnE0"
-    onChange={this.captchaChange}
-  />
-     </center>
-         
+          <center>
+
+            <ReCAPTCHA
+              sitekey="6LdSCdAUAAAAAOLYBA6ToCp4LyiCh_d9RaD3jnE0"
+              onChange={this.captchaChange}
+            />
+          </center>
+
           <Tooltip placement="left" title="Upload">
             <IconButton
               onClick={this.handleSubmit}
@@ -726,7 +729,7 @@ captchaChange = event => {
               }}
               disabled={loading, !this.state.reCaptched}
             >
-              <PublishIcon  color="primary" />
+              <PublishIcon color="primary" />
               {loading && (
                 <CircularProgress size={50} className={classes.progress} />
               )}
