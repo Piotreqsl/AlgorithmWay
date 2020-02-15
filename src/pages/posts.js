@@ -126,9 +126,11 @@ export class posts extends Component {
 
   likePost = () => {
     this.props.likePost(this.props.post.postId);
+
   }
   unlikePost = () => {
     this.props.unlikePost(this.props.post.postId);
+
   }
 
   componentDidMount() {
@@ -349,9 +351,11 @@ export class posts extends Component {
                 <Typography
                   style={{ marginTop: "15px", marginBottom: "25px" }}
                   variant="body2"
+                  style={{ whiteSpace: 'pre-line', textAlign: "justify" }}
 
                 >
                   {desc}
+
                 </Typography>
               </Linkify>
               {this.props.post.java ||

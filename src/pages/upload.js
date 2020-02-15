@@ -83,6 +83,8 @@ export class upload extends Component {
   };
 
 
+
+
   handleImageDelete = event => {
     //console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
 
@@ -173,6 +175,15 @@ export class upload extends Component {
     event.target.parentElement.parentElement.querySelector("p").innerHTML =
       event.target.value.toString().length + "/" + event.target.maxLength;
   };
+
+  handleDescChange = event => {
+
+
+    event.target.parentElement.parentElement.querySelector("p").innerHTML =
+      event.target.value.toString().length + "/" + event.target.maxLength;
+  };
+
+
 
   handleFormChange = name => event => {
     if (event.target.checked == true) {
@@ -281,6 +292,7 @@ export class upload extends Component {
     event.preventDefault();
 
 
+
     if (this.state.javaCode.length < 10000 && this.state.pythonCode.length < 10000 && this.state.cppCode.length < 10000) {
 
       if (this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
@@ -325,7 +337,7 @@ export class upload extends Component {
     const postStruct = {
       title: this.state.title,
       shortDesc: this.state.shortDesc,
-      desc: this.state.desc,
+      desc: document.getElementById("descrp").value,
       java: this.state.javaCode,
       python: this.state.pythonCode,
       cpp: this.state.cppCode,
@@ -363,7 +375,10 @@ export class upload extends Component {
     }
   };
 
+
   handleExpand = () => {
+
+
     //console.log(this.state.expanded);
     if (this.state.expanded == false) {
       document.getElementById("codeBoxing").classList.add("blackBoxExpanded");
@@ -444,11 +459,12 @@ export class upload extends Component {
             variant="outlined"
             error={errors.body ? true : false}
             fullWidth
-            helperText="0/750"
+            helperText="0/1250"
             spellCheck="false"
-
-            onChange={this.handleChange}
-            inputProps={{ maxLength: 750 }}
+            id="descrp"
+            ref="descrp"
+            onChange={this.handleDescChange}
+            inputProps={{ maxLength: 1250 }}
             className={classes.input}
             multiline="true"
             rows="7"
