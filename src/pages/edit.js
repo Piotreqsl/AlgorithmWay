@@ -576,7 +576,6 @@ export class edit extends Component {
                     className={classes.input}
                     multiline="true"
                     rows="7"
-                    id="desc"
                     defaultValue={this.props.post !== null && this.props.post !== undefined ? this.props.post.desc : null}
                 />
                 <div>

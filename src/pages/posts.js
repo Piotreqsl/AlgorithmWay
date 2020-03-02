@@ -38,6 +38,7 @@ import NotFound from './notFound'
 import Button from '@material-ui/core/Button';
 import DeletePost from '../components/delete_post'
 import EditIcon from '@material-ui/icons/Edit';
+import { Helmet } from 'react-helmet'
 
 
 
@@ -243,10 +244,18 @@ export class posts extends Component {
     return (
 
 
+
+
       <div className="main-content-squeezed">
+
+
 
         {!loading && !this.props.UI.errors ? (
           <div>
+
+            <Helmet>
+              <title>{"CodeLimes - " + title}</title>
+            </Helmet>
             <Paper className={classes.paper}>
               <ExpansionPanel
                 className={classes.expansion}
