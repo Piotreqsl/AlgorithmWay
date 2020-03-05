@@ -17,6 +17,7 @@ import {
 } from "react-virtualized";
 import EmailIcon from '@material-ui/icons/Email';
 import 'react-virtualized/styles.css'; // only needs to be imported once
+import GavelIcon from '@material-ui/icons/Gavel';
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -592,23 +593,22 @@ export class home extends Component {
 
                                 <div className="headerInfo" style={{ paddingBottom: "5px" }} >
 
-
-
-                                    <div className="headear" style={{ display: "flex", alignItems: "center" }}>
-
+                                    <div className="mostReputableUsers-header" style={{ display: "flex", flexDirection: "row", justifyContent: "center", }} >
                                         <Avatar src={"https://i.ibb.co/ZJ7QSYp/onionlogotp.png"}
                                             draggable={false}
-                                            style={{ width: "45px", height: "45px", marginLeft: "5px" }} >
+                                            style={{ width: "30px", height: "30px" }} >
                                         </Avatar>
 
-                                        <Typography style={{ marginLeft: "7px", color: "rgb(111, 111, 140);", fontSize: "24px" }} variant="body2"> Onion mobile </Typography>
+                                        <Typography variant="button">OnionMobile</Typography>
                                     </div>
 
-                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "57px", marginBottom: "10px" }}>
+
+
+                                    <div className="headear" style={{ marginTop: "10px", display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
                                         <a href="https://play.google.com/store/apps/developer?id=Onion+Mobile">
                                             <Avatar src={"https://i.ibb.co/HF8ZqkY/google-play.png"}
                                                 draggable={false}
-                                                style={{ width: "15px", height: "15px", marginLeft: "5px" }} >
+                                                style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} >
                                             </Avatar>
                                         </a>
 
@@ -618,11 +618,11 @@ export class home extends Component {
 
 
 
-                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "57px", marginBottom: "10px" }}>
+                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
 
                                         <EmailIcon
                                             draggable={false}
-                                            style={{ width: "15px", height: "15px", marginLeft: "5px" }} />
+                                            style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} />
 
 
 
@@ -632,18 +632,29 @@ export class home extends Component {
 
 
 
-                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "57px", marginBottom: "10px" }}>
+                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
 
                                         <SecurityIcon
                                             draggable={false}
 
-                                            style={{ width: "15px", height: "15px", marginLeft: "5px" }} />
+                                            style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} />
 
 
 
                                         <Typography component={Link} to={"/privacyPolicy"} style={{ color: "black ", textDecoration: "none", marginLeft: "7px", }} variant="body2" >Privacy policy</Typography>
                                     </div>
 
+                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
+
+                                        <GavelIcon
+                                            draggable={false}
+
+                                            style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} />
+
+
+
+                                        <Typography component={Link} to={"/termsnConditions"} style={{ color: "black ", textDecoration: "none", marginLeft: "7px", }} variant="body2" >Terms and Conditions</Typography>
+                                    </div>
 
 
 

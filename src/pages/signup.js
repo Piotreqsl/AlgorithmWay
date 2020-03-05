@@ -237,7 +237,8 @@ export class signup extends Component {
                   onChange={this.handleBoxChange}
                   value="primary"
                   inputProps={{ 'aria-label': 'primary checkbox' }}
-                />            <Typography variant="body2"> I have read and agree to the  </Typography>   <TermsDialog />
+                />            <Typography variant="body2"> I agree to <Link to="/privacyPolicy" style={{ fontSize: "1rem", color: "#4d4d62" }}>Privacy Policy</Link> and to  </Typography> <TermsDialog />
+
               </div>
 
               <div style={{ clear: "both" }}></div>

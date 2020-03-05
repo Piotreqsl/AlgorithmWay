@@ -30,6 +30,7 @@ import edit from './pages/edit'
 import { notFound } from './pages/notFound'
 import getEdit from './pages/getEdit'
 import privacyPolicy from './pages/privacyPolicy'
+import termsnconditions from "./pages/termsnconditions"
 
 
 import users from './pages/users'
@@ -121,6 +122,7 @@ function App(props) {
                 <Route path="/editPost/" component={edit} />
                 <Route path="/editRequests/" component={getEdit} />
                 <Route exact path="/privacyPolicy/" component={privacyPolicy} />
+                <Route exact path="/termsnConditions/" component={termsnconditions} />
 
                 <Route exact path="/users/:handle" component={users} />
                 <Route component={notFound} />
