@@ -85,6 +85,11 @@ html {
     color: #da4939
 }
 
+.ainfo {
+    color: #000;
+    font-size: 24px !important;
+}
+
 .hljs-symbol,
 .hljs-bullet,
 .hljs-built_in,
@@ -960,7 +965,13 @@ html {
 //tooltip
 .MuiTooltip-popper {
     margin: -10px;
+}
 
+
+@media only screen and (min-width: 1141px) {
+    .DialogIMG-img {
+        max-width: 1140px;
+    }
 
 }
 

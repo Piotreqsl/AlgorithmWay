@@ -15,7 +15,9 @@ import {
     List, AutoSizer, CellMeasurerCache,
     CellMeasurer, InfiniteLoader
 } from "react-virtualized";
+import EmailIcon from '@material-ui/icons/Email';
 import 'react-virtualized/styles.css'; // only needs to be imported once
+import GavelIcon from '@material-ui/icons/Gavel';
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -34,10 +36,12 @@ import FireplaceIcon from "@material-ui/icons/Fireplace";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Avatar from '@material-ui/core/Avatar'
+import SecurityIcon from '@material-ui/icons/Security';
 
 import { Waypoint } from 'react-waypoint';
 import { getPosts, loadMorePosts, filterPosts, synchronizePosts, getUsersByRep } from '../redux/actions/dataActions'
 import { flexbox } from '@material-ui/system';
+import { Helmet } from 'react-helmet'
 
 export class home extends Component {
 
@@ -353,6 +357,10 @@ export class home extends Component {
             <div className="main-content" >
                 <Grid container spacing={16}>
 
+                    <Helmet>
+                        <title>{"CodeLimes"}</title>
+                    </Helmet>
+
 
                     <Grid item sm={9} xs={12}>
 
@@ -579,6 +587,85 @@ export class home extends Component {
 
 
                             ) : null}
+
+
+                            <Paper style={{ marginTop: "20px" }}>
+
+                                <div className="headerInfo" style={{ paddingBottom: "5px" }} >
+
+                                    <div className="mostReputableUsers-header" style={{ display: "flex", flexDirection: "row", justifyContent: "center", }} >
+                                        <Avatar src={"https://i.ibb.co/ZJ7QSYp/onionlogotp.png"}
+                                            draggable={false}
+                                            style={{ width: "30px", height: "30px" }} >
+                                        </Avatar>
+
+                                        <Typography variant="button">OnionMobile</Typography>
+                                    </div>
+
+
+
+                                    <div className="headear" style={{ marginTop: "10px", display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
+                                        <a href="https://play.google.com/store/apps/developer?id=Onion+Mobile">
+                                            <Avatar src={"https://i.ibb.co/HF8ZqkY/google-play.png"}
+                                                draggable={false}
+                                                style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} >
+                                            </Avatar>
+                                        </a>
+
+                                        <a className="ainfo" href="https://play.google.com/store/apps/developer?id=Onion+Mobile" style={{ textDecoration: 'none' }}>
+                                            <Typography style={{ marginLeft: "7px", color: "rgb(111, 111, 140);", fontSize: "14px" }} variant="body2"> Google Play </Typography> </a>
+                                    </div>
+
+
+
+                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
+
+                                        <EmailIcon
+                                            draggable={false}
+                                            style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} />
+
+
+
+                                        <Typography style={{ marginLeft: "7px", color: "rgb(111, 111, 140);" }} variant="body2">onionapps.info@gmail.com</Typography>
+                                    </div>
+
+
+
+
+                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
+
+                                        <SecurityIcon
+                                            draggable={false}
+
+                                            style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} />
+
+
+
+                                        <Typography component={Link} to={"/privacyPolicy"} style={{ color: "black ", textDecoration: "none", marginLeft: "7px", }} variant="body2" >Privacy policy</Typography>
+                                    </div>
+
+                                    <div className="headear" style={{ display: "flex", alignItems: "center", marginLeft: "15px", marginBottom: "10px" }}>
+
+                                        <GavelIcon
+                                            draggable={false}
+
+                                            style={{ width: "15px", height: "15px", marginLeft: "5px", color: "#2E2E3A" }} />
+
+
+
+                                        <Typography component={Link} to={"/termsnConditions"} style={{ color: "black ", textDecoration: "none", marginLeft: "7px", }} variant="body2" >Terms and Conditions</Typography>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+
+                            </Paper>
 
 
 

@@ -25,6 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Highlight from "react-highlight.js";
 import DialogIMG from "../components/dialog_img";
 
+
 import Avatar from "@material-ui/core/Avatar";
 import LikedIcon from '@material-ui/icons/Favorite';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
@@ -37,6 +38,7 @@ import NotFound from './notFound'
 import Button from '@material-ui/core/Button';
 import DeletePost from '../components/delete_post'
 import EditIcon from '@material-ui/icons/Edit';
+import { Helmet } from 'react-helmet'
 
 
 
@@ -125,9 +127,11 @@ export class posts extends Component {
 
   likePost = () => {
     this.props.likePost(this.props.post.postId);
+
   }
   unlikePost = () => {
     this.props.unlikePost(this.props.post.postId);
+
   }
 
   componentDidMount() {
@@ -240,10 +244,18 @@ export class posts extends Component {
     return (
 
 
+
+
       <div className="main-content-squeezed">
+
+
 
         {!loading && !this.props.UI.errors ? (
           <div>
+
+            <Helmet>
+              <title>{"CodeLimes - " + title}</title>
+            </Helmet>
             <Paper className={classes.paper}>
               <ExpansionPanel
                 className={classes.expansion}
@@ -348,9 +360,11 @@ export class posts extends Component {
                 <Typography
                   style={{ marginTop: "15px", marginBottom: "25px" }}
                   variant="body2"
+                  style={{ whiteSpace: 'pre-line', textAlign: "justify" }}
 
                 >
                   {desc}
+
                 </Typography>
               </Linkify>
               {this.props.post.java ||

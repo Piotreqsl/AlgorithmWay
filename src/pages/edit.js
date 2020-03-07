@@ -235,6 +235,13 @@ export class edit extends Component {
             event.target.value.toString().length + "/" + event.target.maxLength;
     };
 
+    handleDescChange = event => {
+
+
+        event.target.parentElement.parentElement.querySelector("p").innerHTML =
+          event.target.value.toString().length + "/" + event.target.maxLength;
+      };
+
     handleFormChange = name => event => {
         if (event.target.checked == true) {
             this.setState({
@@ -420,7 +427,7 @@ export class edit extends Component {
         const postStruct = {
             title: this.state.title,
             shortDesc: this.state.shortDesc,
-            desc: this.state.desc,
+            desc: document.getElementById("descrpE").value,
             java: this.state.javaCode,
             python: this.state.pythonCode,
             cpp: this.state.cppCode,
@@ -558,17 +565,17 @@ export class edit extends Component {
                 <TextField
                     name="desc"
                     type="text"
+                    id="descrpE"
                     label="Description"
                     variant="outlined"
                     error={errors.body ? true : false}
                     fullWidth
-                    helperText="0/750"
-                    onChange={this.handleChange}
-                    inputProps={{ maxLength: 750 }}
+                    helperText="0/1250"
+                    onChange={this.handleDescChange}
+                    inputProps={{ maxLength: 1250 }}
                     className={classes.input}
                     multiline="true"
                     rows="7"
-                    id="desc"
                     defaultValue={this.props.post !== null && this.props.post !== undefined ? this.props.post.desc : null}
                 />
                 <div>

@@ -83,6 +83,8 @@ export class upload extends Component {
   };
 
 
+
+
   handleImageDelete = event => {
     //console.log(event.currentTarget.parentElement.parentElement.querySelector('img').src);
 
@@ -173,6 +175,15 @@ export class upload extends Component {
     event.target.parentElement.parentElement.querySelector("p").innerHTML =
       event.target.value.toString().length + "/" + event.target.maxLength;
   };
+
+  handleDescChange = event => {
+
+
+    event.target.parentElement.parentElement.querySelector("p").innerHTML =
+      event.target.value.toString().length + "/" + event.target.maxLength;
+  };
+
+
 
   handleFormChange = name => event => {
     if (event.target.checked == true) {
@@ -281,6 +292,7 @@ export class upload extends Component {
     event.preventDefault();
 
 
+
     if (this.state.javaCode.length < 10000 && this.state.pythonCode.length < 10000 && this.state.cppCode.length < 10000) {
 
       if (this.state.formdatas.length === 0 && document.getElementById("postTitle").value.length !== 0 && document.getElementById("shortDesc").value.length !== 0) {
@@ -328,7 +340,7 @@ export class upload extends Component {
     const postStruct = {
       title: this.state.title,
       shortDesc: this.state.shortDesc,
-      desc: this.state.desc,
+      desc: document.getElementById("descrp").value,
       java: this.state.javaCode,
       python: this.state.pythonCode,
       cpp: this.state.cppCode,
@@ -366,7 +378,10 @@ export class upload extends Component {
     }
   };
 
+
   handleExpand = () => {
+
+
     //console.log(this.state.expanded);
     if (this.state.expanded == false) {
       document.getElementById("codeBoxing").classList.add("blackBoxExpanded");
@@ -385,12 +400,12 @@ export class upload extends Component {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
   };
-captchaChange = event => { 
-  this.setState({
-    reCaptched: true,
-  })
-}
-  
+  captchaChange = event => {
+    this.setState({
+      reCaptched: true,
+    })
+  }
+
 
   render() {
     const { errors } = this.state;
@@ -418,6 +433,7 @@ captchaChange = event => {
             inputProps={{ maxLength: 50 }}
             className={classes.input}
             id="postTitle"
+            spellCheck="false"
 
           />
 
@@ -433,6 +449,7 @@ captchaChange = event => {
             inputProps={{ maxLength: 250 }}
             className={classes.input}
             multiline="true"
+            spellCheck="false"
 
             rows="3"
             rowsMax="4"
@@ -446,10 +463,12 @@ captchaChange = event => {
             id="longDesc"
             error={errors.body ? true : false}
             fullWidth
-            helperText="0/750"
-
-            onChange={this.handleChange}
-            inputProps={{ maxLength: 750 }}
+            helperText="0/1250"
+            spellCheck="false"
+            id="descrp"
+            ref="descrp"
+            onChange={this.handleDescChange}
+            inputProps={{ maxLength: 1250 }}
             className={classes.input}
             multiline="true"
             rows="7"
@@ -711,14 +730,14 @@ captchaChange = event => {
                 </div>
               )}
           </div>
-         <center> 
-         
-         <ReCAPTCHA
-    sitekey="6LdSCdAUAAAAAOLYBA6ToCp4LyiCh_d9RaD3jnE0"
-    onChange={this.captchaChange}
-  />
-     </center>
-         
+          <center>
+
+            <ReCAPTCHA
+              sitekey="6LdSCdAUAAAAAOLYBA6ToCp4LyiCh_d9RaD3jnE0"
+              onChange={this.captchaChange}
+            />
+          </center>
+
           <Tooltip placement="left" title="Upload">
             <IconButton
               onClick={this.handleSubmit}
@@ -730,7 +749,7 @@ captchaChange = event => {
               }}
               disabled={loading, !this.state.reCaptched}
             >
-              <PublishIcon  color="primary" />
+              <PublishIcon color="primary" />
               {loading && (
                 <CircularProgress size={50} className={classes.progress} />
               )}
