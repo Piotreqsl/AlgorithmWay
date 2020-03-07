@@ -527,12 +527,12 @@ captchaChange = event => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.state.categories.graphs}
-                    onChange={this.handleFormChange("graphs")}
-                    value="graphs"
+                    checked={this.state.categories.compression}
+                    onChange={this.handleFormChange("compression")}
+                    value="compression"
                   />
                 }
-                label="Graphs"
+                label="Compression"
               />
               <FormControlLabel
                 control={

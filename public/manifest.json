@@ -18,6 +18,7 @@
     }
   ],
   "start_url": ".",
+  "description": "CodeLimes is a website with implementation and explanation of various algorithms",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

@@ -639,16 +639,16 @@ export class edit extends Component {
                             }
                             label="Cryptography"
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={this.state.categories.graphs}
-                                    onChange={this.handleFormChange("graphs")}
-                                    value="graphs"
-                                />
-                            }
-                            label="Graphs"
-                        />
+                         <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.categories.compression}
+                    onChange={this.handleFormChange("compression")}
+                    value="compression"
+                  />
+                }
+                label="Compression"
+              />
                         <FormControlLabel
                             control={
                                 <Checkbox

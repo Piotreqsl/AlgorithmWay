@@ -56,7 +56,7 @@ export class home extends Component {
             array: true,
             char: true,
             crypt: true,
-            graphs: true,
+            compression: true,
             AI: true,
             DS: true
         },
@@ -230,7 +230,7 @@ export class home extends Component {
 
         /// Filtry na kategorie
         let arrayFilters = [];
-        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.graphs) {
+        if (this.state.categories.char && this.state.categories.string && this.state.categories.int && this.state.categories.array && this.state.categories.DS && this.state.categories.AI && this.state.categories.crypt && this.state.categories.compression) {
 
         } else {
             if (this.state.categories.char) {
@@ -261,8 +261,8 @@ export class home extends Component {
                 arrayFilters.push('DS');
             }
 
-            if (this.state.categories.graphs) {
-                arrayFilters.push('graphs');
+            if (this.state.categories.compression) {
+                arrayFilters.push('compression');
             }
 
         }
@@ -407,9 +407,9 @@ export class home extends Component {
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={this.state.categories.graphs} onChange={this.handleChange('graphs')} value="graphs" />
+                                                <Checkbox checked={this.state.categories.compression} onChange={this.handleChange('compression')} value="compression" />
                                             }
-                                            label="Graphs"
+                                            label="Compression"
                                         />
                                         <FormControlLabel
                                             control={
