@@ -668,6 +668,14 @@ export class home extends Component {
                             </Paper>
 
 
+                                            
+                            <ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-9541882283543234"
+     data-ad-slot="5693780506"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+
 
                         </div>
                     </Grid>
