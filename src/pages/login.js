@@ -95,6 +95,29 @@ export class login extends Component {
 
   }
 
+
+
+  componentDidMount(){
+    var uri = window.location.href;
+    console.log(uri)
+    if(uri.includes('#')){
+      console.log('y')
+      var s = uri.split('#')[1];
+      
+      if(s=='success'){
+
+        this.props.enqueueSnackbar('Email has been verified', {
+          preventDuplicate: true,
+          variant: "success",
+          autoHideDuration: 3000,
+
+      });
+    }
+  }
+}
+
+
+
   handleSubmit = event => {
     event.preventDefault();
 

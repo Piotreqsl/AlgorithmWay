@@ -96,6 +96,7 @@ export class signup extends Component {
   }
 
 
+
   componentDidUpdate(prevProps) {
     if (this.props.UI.success === "Verification email sent" && this.props.UI.success !== prevProps.UI.success) {
 
@@ -106,6 +107,20 @@ export class signup extends Component {
 
       });
     }
+
+
+    /*
+    if(this.state.errors.emailUsed && this.props.UI.success !== prevProps.UI.success) {
+      
+      this.props.enqueueSnackbar('Email already in use', {
+        preventDuplicate: true,
+        variant: "error",
+        autoHideDuration: 3000,
+
+      });
+    } */
+
+
   }
 
 
@@ -120,6 +135,7 @@ export class signup extends Component {
       confirmPassword: this.state.confirmPassword,
       handle: this.state.handle
     };
+
 
 
     this.props.signupUser(userData, this.props.history);
@@ -143,10 +159,13 @@ export class signup extends Component {
     const { classes, UI: { loading } } = this.props;
     const { errors } = this.state;
     var handleHelper;
+    var emailUsedHelper;
 
     if (!errors.handle)
       handleHelper = "Your nickname should be max 25 characters long";
     if (errors.handle) handleHelper = errors.handle;
+
+    emailUsedHelper = errors.emailUsed ? "Email is already in use" : "";
 
     return (
       <Grid className="signupFORM" container  >
@@ -183,10 +202,11 @@ export class signup extends Component {
                 id="email"
                 name="email"
                 label="Email"
+                helperText={emailUsedHelper}
                 className={classes.textField}
                 value={this.state.email}
-                helperText={errors.email}
-                error={errors.email ? true : false}
+                helperText={emailUsedHelper}
+                error={errors.emailUsed ? true : false}
                 onChange={this.handleChange}
                 fullWidth
               ></TextField>
