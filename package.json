@@ -11,7 +11,7 @@
     "jquery": "^3.4.1",
     "jwt-decode": "^2.2.0",
     "material-ui": "^1.0.0-beta.47",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "notistack": "^0.9.7",
     "prismjs": "^1.17.1",
     "react": "^16.11.0",
